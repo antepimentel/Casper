@@ -1,0 +1,26 @@
+plugins {
+    id'java'
+    id'application'
+    id'com.github.johnrengelman.shadow' version '2.0.1'
+}
+
+mainClassName = 'Core.Core'
+
+//noinspection GroovyAssignabilityCheck
+version '1.0'
+def jdaVersion = '3.6.0_355'
+
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile "net.dv8tion:JDA:$jdaVersion"
+    compile group: 'org.reflections', name: 'reflections', version: '0.9.10'
+    compile 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.google.code.gson:gson:2.8.4'
+}
+
+compileJava.options.encoding = 'UTF-8'
