@@ -3,10 +3,7 @@ package Core.EventHandlers;
 import Core.Bot;
 import Core.PropertyKeys;
 import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.react.GenericMessageReactionEvent;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
@@ -20,8 +17,8 @@ public class AutoAssignmentEventHandler implements net.dv8tion.jda.core.hooks.Ev
 
     private static String ROLE_DELIMITER = "%";
     private static String SERVER_NAME = Bot.props.getProperty(PropertyKeys.SERVER_NAME_KEY);
-    private static String ASSIGNMENT_CHANNEL = "role-assignment";
-    private static String MONITORED_REACTION = "\uD83E\uDD86"; //Unicode
+    private static String ASSIGNMENT_CHANNEL = Bot.props.getProperty(PropertyKeys.ROLE_ASSIGNMENT_CHANNEL_KEY);
+    private static String MONITORED_REACTION = Bot.props.getProperty(PropertyKeys.MONITORED_REACTION_KEY); //Unicode, this may not work after the props file has been re-saved
     private static List<String> ROLES = new ArrayList<String>();
     private static Map<String, String> MSG_KEYS = new HashMap<String, String>(); // Maps MSG ID to Role String
 
@@ -73,9 +70,10 @@ public class AutoAssignmentEventHandler implements net.dv8tion.jda.core.hooks.Ev
         }
 
         // Add base reactions to messages
+        Emote reaction = getEmote(bot);
         List<Message> messages = channel.getHistory().retrievePast(ROLES.size()).complete();
         for(int i = 0; i < messages.size(); i++){
-            messages.get(i).addReaction(MONITORED_REACTION).queue();
+            messages.get(i).addReaction(reaction).queue();
             MSG_KEYS.put(messages.get(i).getId(), ROLES.get(ROLES.size()-1-i));
         }
 
@@ -125,6 +123,13 @@ public class AutoAssignmentEventHandler implements net.dv8tion.jda.core.hooks.Ev
 
     public static List<String> getRoles(){
         return ROLES;
+    }
+
+    public static Emote getEmote(JDA bot){
+        //TODO
+        Guild server = bot.getGuildsByName(Bot.props.getProperty(PropertyKeys.SERVER_NAME_KEY), false).get(0);
+        Emote emote = server.getEmotesByName(Bot.props.getProperty(PropertyKeys.MONITORED_REACTION_KEY), true).get(0);
+        return emote;
     }
 
 }
