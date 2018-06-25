@@ -11,4 +11,8 @@ public class PropertyKeys {
     public static String ROLE_ASSIGNMENT_CHANNEL_KEY = "ROLE_ASSIGNMENT_CHANNEL";
     public static String AUTO_ROLES_KEY = "AUTO_ROLES";
     public static String SERVER_NAME_KEY = "SERVER_NAME";
+
+    public static String JDBC_USER_KEY = "JDBC_USER";
+    public static String JDBC_PASS_KEY = "JDBC_PASS";
+    public static String JDBC_DB_NAME_KEY = "JDBC_DB_NAME";
 }

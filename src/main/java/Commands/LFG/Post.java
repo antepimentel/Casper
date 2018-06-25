@@ -4,6 +4,7 @@ import Core.Bot;
 import Core.PropertyKeys;
 import Commands.AbstractCommand;
 import Exceptions.NoArgumentsGivenException;
+import JDBC.GroupSQL;
 import LFG.Group;
 import LFG.LFGHandler;
 import net.dv8tion.jda.core.entities.Message;
@@ -69,7 +70,10 @@ public class Post extends AbstractCommand {
                 args = super.getInputArgs(msg);
             }
 
-            Group g = LFGHandler.post(args[0], args[1], args[2], args[3], msg.getMember());
+            Group g = LFGHandler.post(msg.getGuild().getId(), args[0], args[1], args[2], args[3], msg.getMember());
+
+            GroupSQL.save(g);
+
             response = g.toString();
         } catch (ParseException e){
             e.printStackTrace();

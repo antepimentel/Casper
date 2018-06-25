@@ -4,6 +4,7 @@ import Core.PermissionHandler;
 import Commands.AbstractCommand;
 import Commands.CommandCategory;
 import Exceptions.CustomAbstractException;
+import JDBC.GroupSQL;
 import LFG.Group;
 import LFG.LFGHandler;
 import net.dv8tion.jda.core.entities.Message;
@@ -40,7 +41,7 @@ public class ChangeName extends AbstractCommand {
         String response = "";
         int ID = Integer.parseInt(args[0]);
 
-        Group g = LFGHandler.findGroupByID(ID);
+        Group g = LFGHandler.findGroupByID(msg.getGuild().getId(), ID);
 
         // Build name
         for(int i = 1; i < args.length; i++){
@@ -49,6 +50,7 @@ public class ChangeName extends AbstractCommand {
 
         if(PermissionHandler.isLeaderOrMod(msg.getMember(), g)){
             g.setName(name);
+            GroupSQL.updateName(g);
             response = response + g.toString();
         }
 

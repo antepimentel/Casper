@@ -38,14 +38,14 @@ public class JoinGroup extends AbstractCommand {
         String response = "";
 
         try {
-            LFGHandler.join(Integer.parseInt(args[0]), msg.getMember());
+            LFGHandler.join(msg.getGuild().getId(), Integer.parseInt(args[0]), msg.getMember());
             response = msg.getMember().getAsMention()+" added to group: " + args[0];
 
         } catch (NoAvailableSpotsException e) {
             e.printStackTrace();
 
             try {
-                LFGHandler.joinAsSub(Integer.parseInt(args[0]), msg.getMember());
+                LFGHandler.joinAsSub(msg.getGuild().getId(), Integer.parseInt(args[0]), msg.getMember());
                 response = msg.getMember().getAsMention()+" Group: " + args[0] + " is full. Adding as a substitute";
 
             } catch (NoAvailableSpotsException e1) {

@@ -37,7 +37,7 @@ public class RollCall extends AbstractCommand {
         String[] args = getInputArgs(msg);
         String response = "";
 
-        Group g = LFGHandler.findGroupByID(Integer.parseInt(args[0]));
+        Group g = LFGHandler.findGroupByID(msg.getGuild().getId(), Integer.parseInt(args[0]));
 
         for(int i = 0; i < g.getPlayers().size(); i++){
             response = response + g.getPlayers().get(i).getAsMention();

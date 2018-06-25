@@ -4,6 +4,7 @@ import Core.PermissionHandler;
 import Commands.AbstractCommand;
 import Commands.CommandCategory;
 import Exceptions.*;
+import JDBC.GroupSQL;
 import LFG.Group;
 import LFG.LFGHandler;
 import net.dv8tion.jda.core.entities.Member;
@@ -45,18 +46,19 @@ public class RemoveFromGroup extends AbstractCommand {
 
         try {
             PermissionHandler.checkModPermissions(msg.getMember());
-            g = LFGHandler.findGroupByID(ID);
+            g = LFGHandler.findGroupByID(msg.getGuild().getId(), ID);
             List<Member> mentions = msg.getMentionedMembers();
             response = "Removing from group " + g.getID() + ": ";
 
             for(int i = 0; i < mentions.size(); i++){
                 response = response + mentions.get(i).getEffectiveName() + " ";
-                g.removePlayer(mentions.get(i));
+                //g.removePlayer(mentions.get(i));
+                LFGHandler.leave(g.getServerID(), g.getID(), mentions.get(i));
             }
 
         } catch (GroupIsEmptyException e) {
             e.printStackTrace();
-            LFGHandler.getGroups().remove(g);
+            GroupSQL.delete(g);
             response = e.getMessage();
         }
         msg.getChannel().sendMessage(response).queue();

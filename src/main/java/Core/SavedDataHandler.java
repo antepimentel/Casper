@@ -33,18 +33,18 @@ public class SavedDataHandler {
     }
 
     public static void saveData() throws FileNotFoundException {
-        File dst = new File(PropertyKeys.SAVED_DATA_PATH+LFG_GROUPS);
-        PrintStream writer = new PrintStream(dst);
-
-        LFG.Group temp = LFGHandler.getGroups().get(0);
-        //String xml = xstream.toXML(temp.getName());
-
-        Gson gson = new Gson();
-        String json = gson.toJson(LFGHandler.getGroups());
-
-        writer.print(json);
-        System.out.println("Saved to: " + dst.getAbsoluteFile());
-        writer.close();
+//        File dst = new File(PropertyKeys.SAVED_DATA_PATH+LFG_GROUPS);
+//        PrintStream writer = new PrintStream(dst);
+//
+//        LFG.Group temp = LFGHandler.getGroups().get(0);
+//        //String xml = xstream.toXML(temp.getName());
+//
+//        Gson gson = new Gson();
+//        String json = gson.toJson(LFGHandler.getGroups());
+//
+//        writer.print(json);
+//        System.out.println("Saved to: " + dst.getAbsoluteFile());
+//        writer.close();
     }
 
     public static void loadData() throws FileNotFoundException {

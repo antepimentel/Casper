@@ -5,6 +5,7 @@ import Exceptions.GroupIsEmptyException;
 import Exceptions.GroupNotFoundException;
 import Exceptions.MemberNotFoundException;
 import Exceptions.NoAvailableSpotsException;
+import JDBC.GroupSQL;
 import net.dv8tion.jda.core.entities.Member;
 
 import java.io.FileNotFoundException;
@@ -20,49 +21,49 @@ import java.util.concurrent.TimeUnit;
  */
 public class LFGHandler {
 
-    private static ArrayList<Group> groups = new ArrayList<Group>();
+    //private static ArrayList<Group> groups = new ArrayList<Group>();
 
-    public static Group post(String name, String date, String time, String timezone, Member poster) throws ParseException {
+    public static Group post(String serverID, String name, String date, String time, String timezone, Member poster) throws ParseException {
         Group g = new Group(
-          getFreeGroupID(),
+                serverID,
+          getFreeGroupID(serverID),
                 name,
                 date,
                 time,
                 timezone,
                 poster
         );
-        groups.add(g);
-        sortGroupsByID();
+        //groups.add(g);
+       // sortGroupsByID(get);
 
-        save();
+        //save();
         return g;
     }
 
-    public static void join(int ID, Member m) throws GroupNotFoundException, NoAvailableSpotsException {
-        Group g = findGroupByID(ID);
+    public static void join(String serverID, int ID, Member m) throws GroupNotFoundException, NoAvailableSpotsException {
+        Group g = findGroupByID(serverID, ID);
         g.join(m);
+        GroupSQL.updatePlayers(g);
     }
 
-    public static void joinAsSub(int ID, Member m) throws GroupNotFoundException, NoAvailableSpotsException {
-        Group g = findGroupByID(ID);
+    public static void joinAsSub(String serverID, int ID, Member m) throws GroupNotFoundException, NoAvailableSpotsException {
+        Group g = findGroupByID(serverID, ID);
         g.joinAsSub(m);
+        GroupSQL.updatePlayers(g);
     }
 
-    public static void leave(int ID, Member m) throws GroupNotFoundException, MemberNotFoundException, GroupIsEmptyException {
-        Group g = findGroupByID(ID);
+    public static void leave(String serverID, int ID, Member m) throws GroupNotFoundException, MemberNotFoundException, GroupIsEmptyException {
+        Group g = findGroupByID(serverID, ID);
         g.removePlayer(m);
+        GroupSQL.updatePlayers(g);
     }
 
-    public static ArrayList<Group> getGroups() {
-        return groups;
-    }
+//    public static ArrayList<Group> getGroups() {
+//        return null;
+//    }
 
-    public static void setGroups(ArrayList newGroups){
-        groups = newGroups;
-    }
-
-    private static void sortGroupsByID(){
-        Collections.sort(groups, new GroupComparator());
+    private static void sortGroupsByID(ArrayList<Group> groupsToSort){
+        Collections.sort(groupsToSort, new GroupComparator());
     }
 
     /**
@@ -71,10 +72,11 @@ public class LFGHandler {
      * @return
      * @throws GroupNotFoundException
      */
-    public static Group findGroupByID(int ID) throws GroupNotFoundException {
+    public static Group findGroupByID(String serverID, int ID) throws GroupNotFoundException {
         Group ans = null;
+        ArrayList<Group> groups = GroupSQL.getGroupsByServer(serverID);
         for(int i = 0; i < groups.size(); i++){
-            if(groups.get(i).getID() == ID){
+            if(groups.get(i).getID() == ID && groups.get(i).getServerID().equals(serverID)){
                 ans = groups.get(i);
             }
         }
@@ -90,15 +92,15 @@ public class LFGHandler {
      * @param ID
      * @return
      */
-    public static Group getGroupByID(int ID) {
-        Group ans = null;
-        for(int i = 0; i < groups.size(); i++){
-            if(groups.get(i).getID() == ID){
-                ans = groups.get(i);
-            }
-        }
-        return ans;
-    }
+//    public static Group getGroupByID(int ID) {
+//        Group ans = null;
+//        for(int i = 0; i < groups.size(); i++){
+//            if(groups.get(i).getID() == ID){
+//                ans = groups.get(i);
+//            }
+//        }
+//        return ans;
+//    }
 
     public static String parseDiff(long totalMinutes){
 
@@ -159,12 +161,24 @@ public class LFGHandler {
         return result;
     }
 
+    public static ArrayList<Group> getGroupsByServer(String serverID){
+//        ArrayList<Group> result = new ArrayList<Group>();
+//        for(int i = 0; i < groups.size(); i++){
+//            if(groups.get(i).getServerID().equals(serverID)){
+//                result.add(groups.get(i));
+//            }
+//        }
+//        return result;
+        return GroupSQL.getGroupsByServer(serverID);
+    }
+
     public static ArrayList<Group> getGroupsByMember(Member m) throws GroupNotFoundException {
         ArrayList<Group> result = new ArrayList<Group>();
-        for(int i = 0; i < groups.size(); i++){
-            if(groups.get(i).getPlayers().contains(m)
-                    || groups.get(i).getSubs().contains(m)){
-                result.add(groups.get(i));
+        ArrayList<Group> serverGroups = getGroupsByServer(m.getGuild().getId());
+        for(int i = 0; i < serverGroups.size(); i++){
+            if(serverGroups.get(i).getPlayers().contains(m)
+                    || serverGroups.get(i).getSubs().contains(m)){
+                result.add(serverGroups.get(i));
             }
         }
 
@@ -174,28 +188,23 @@ public class LFGHandler {
         return result;
     }
 
-    private static int getFreeGroupID(){
+    private static int getFreeGroupID(String serverID){
         int ans = -1;
-        sortGroupsByID();
 
-        for(int i = 0; i < groups.size(); i++){
-            if(i+1 < groups.get(i).getID()){
+        ArrayList<Group> serverGroups = getGroupsByServer(serverID);
+        sortGroupsByID(serverGroups);
+
+        for(int i = 0; i < serverGroups.size(); i++){
+            if(i+1 < serverGroups.get(i).getID()){
                 ans = i+1;
                 return ans;
             }
         }
 
         if(ans == -1){
-            ans = groups.size()+1;
+            ans = serverGroups.size()+1;
         }
         return ans;
     }
 
-    private static void save(){
-        try {
-            SavedDataHandler.saveData();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
 }

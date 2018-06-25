@@ -1,6 +1,7 @@
 package Commands.General;
 
 import Commands.AbstractCommand;
+import JDBC.MainSQLHandler;
 import net.dv8tion.jda.core.entities.Message;
 
 public class Ping extends AbstractCommand {
@@ -32,5 +33,10 @@ public class Ping extends AbstractCommand {
     @Override
     public void run(Message msg) {
         msg.getChannel().sendMessage("This works?").queue();
+        msg.getChannel().sendMessage(msg.getMember().getUser().getId()).queue();
+
+//        msg.getGuild().getId();
+//        msg.getGuild().getName();
+        MainSQLHandler.addServer(msg.getGuild().getId(), msg.getGuild().getName());
     }
 }

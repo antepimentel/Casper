@@ -4,6 +4,7 @@ import Core.PermissionHandler;
 import Commands.AbstractCommand;
 import Commands.CommandCategory;
 import Exceptions.InvalidPermissionsException;
+import JDBC.GroupSQL;
 import LFG.Group;
 import LFG.LFGHandler;
 import net.dv8tion.jda.core.entities.Message;
@@ -44,10 +45,11 @@ public class RemoveOldGroups extends AbstractCommand {
 
         String response = "";
 
+        ArrayList<Group> groups = LFGHandler.getGroupsByServer(msg.getGuild().getId());
         ArrayList<Group> toRemove = new ArrayList<Group>();
 
-        for(int i = 0; i < LFGHandler.getGroups().size(); i++){
-            Group g = LFGHandler.getGroups().get(i);
+        for(int i = 0; i < groups.size(); i++){
+            Group g = groups.get(i);
             long diff = LFGHandler.getDateDiff(new Date(), g.getDate(), TimeUnit.MINUTES);
             if(diff <= 0){
                 response = response + g.getID() + " ";
@@ -57,7 +59,7 @@ public class RemoveOldGroups extends AbstractCommand {
 
         // For safe removal
         for(int i = 0; i < toRemove.size(); i++){
-            LFGHandler.getGroups().remove(toRemove.get(i));
+            GroupSQL.delete(toRemove.get(i));
         }
 
         if(response.equals("")){

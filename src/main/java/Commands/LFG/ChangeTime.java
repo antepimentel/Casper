@@ -4,6 +4,7 @@ import Core.PermissionHandler;
 import Commands.AbstractCommand;
 import Commands.CommandCategory;
 import Exceptions.CustomAbstractException;
+import JDBC.GroupSQL;
 import LFG.Group;
 import LFG.LFGHandler;
 import net.dv8tion.jda.core.entities.Message;
@@ -45,10 +46,11 @@ public class ChangeTime extends AbstractCommand {
         String timezone = args[3];
 
         try {
-            Group g = LFGHandler.findGroupByID(ID);
+            Group g = LFGHandler.findGroupByID(msg.getGuild().getId(), ID);
 
             if(PermissionHandler.isLeaderOrMod(msg.getMember(), g)){
                 g.setDate(date, time, timezone);
+                GroupSQL.updateTime(g);
                 response = response + g.toString();
             }
         } catch (ParseException e) {

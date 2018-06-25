@@ -18,7 +18,7 @@ public class AutoAssignmentEventHandler implements net.dv8tion.jda.core.hooks.Ev
     private static String ROLE_DELIMITER = "%";
     private static String SERVER_NAME = Bot.props.getProperty(PropertyKeys.SERVER_NAME_KEY);
     private static String ASSIGNMENT_CHANNEL = Bot.props.getProperty(PropertyKeys.ROLE_ASSIGNMENT_CHANNEL_KEY);
-    private static String MONITORED_REACTION = Bot.props.getProperty(PropertyKeys.MONITORED_REACTION_KEY); //Unicode, this may not work after the props file has been re-saved
+    private static String MONITORED_REACTION = "\uD83E\uDD86";//Bot.props.getProperty(PropertyKeys.MONITORED_REACTION_KEY); //Unicode, this may not work after the props file has been re-saved
     private static List<String> ROLES = new ArrayList<String>();
     private static Map<String, String> MSG_KEYS = new HashMap<String, String>(); // Maps MSG ID to Role String
 
@@ -70,10 +70,10 @@ public class AutoAssignmentEventHandler implements net.dv8tion.jda.core.hooks.Ev
         }
 
         // Add base reactions to messages
-        Emote reaction = getEmote(bot);
+        //Emote reaction = getEmote(bot);
         List<Message> messages = channel.getHistory().retrievePast(ROLES.size()).complete();
         for(int i = 0; i < messages.size(); i++){
-            messages.get(i).addReaction(reaction).queue();
+            messages.get(i).addReaction(MONITORED_REACTION).queue();
             MSG_KEYS.put(messages.get(i).getId(), ROLES.get(ROLES.size()-1-i));
         }
 

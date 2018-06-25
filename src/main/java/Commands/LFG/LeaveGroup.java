@@ -2,6 +2,7 @@ package Commands.LFG;
 
 import Commands.AbstractCommand;
 import Exceptions.*;
+import JDBC.GroupSQL;
 import LFG.Group;
 import LFG.LFGHandler;
 import net.dv8tion.jda.core.entities.Message;
@@ -39,12 +40,12 @@ public class LeaveGroup extends AbstractCommand {
         Group g = null;
 
         try {
-            g = LFGHandler.findGroupByID(Integer.parseInt(args[0]));
-            LFGHandler.leave(g.getID(), msg.getMember());
+            g = LFGHandler.findGroupByID(msg.getGuild().getId(), Integer.parseInt(args[0]));
+            LFGHandler.leave(msg.getGuild().getId(), g.getID(), msg.getMember());
             response = msg.getMember().getAsMention() + " removed from group: " + g.getID();
         } catch (GroupIsEmptyException e) {
             e.printStackTrace();
-            LFGHandler.getGroups().remove(g);
+            GroupSQL.delete(g);
             response = e.getMessage();
         }
         msg.getChannel().sendMessage(response).queue();

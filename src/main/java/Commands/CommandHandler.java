@@ -3,7 +3,12 @@ package Commands;
 import Core.Bot;
 import Core.PropertyKeys;
 import Exceptions.CustomAbstractException;
+import JDBC.MainSQLHandler;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.MessageType;
+import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.lang.reflect.InvocationTargetException;
@@ -19,6 +24,11 @@ public class CommandHandler extends ListenerAdapter {
 
     public void onMessageReceived(MessageReceivedEvent e){
 
+        // Ignore Private Messages
+        if(e.getMessage().getGuild() == null){
+            return;
+        }
+
         String delim = Bot.props.getProperty(PropertyKeys.DELIMITER_KEY);
         if(e.getMessage().getContentRaw().startsWith(delim)){
             String[] args = e.getMessage().getContentRaw().substring(delim.length()).split(" ");
@@ -26,7 +36,8 @@ public class CommandHandler extends ListenerAdapter {
             if(commands.containsKey(args[0])){
                 AbstractCommand com = commands.get(args[0]);
                 try {
-                    if(com.isEnabled()){
+                    boolean checkDisabled = MainSQLHandler.checkDisabledCommand(e.getGuild().getId(), com.getCommand());
+                    if(!checkDisabled){
                         com.run(e.getMessage());
                     } else {
                         System.out.println("DISABLED");

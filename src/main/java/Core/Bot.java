@@ -3,7 +3,9 @@ package Core;
 import Core.EventHandlers.AutoAssignmentEventHandler;
 import Core.EventHandlers.GuildUpdateEventHandler;
 import Commands.CommandHandler;
+import JDBC.MainSQLHandler;
 import net.dv8tion.jda.core.AccountType;
+import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.ReadyEvent;
@@ -18,38 +20,40 @@ public class Bot extends ListenerAdapter {
 
     public static Properties props = new Properties();
     public static String SELF_USER_ID = "";
+    public static JDA jda;
 
     public static void main(String[] args) {
-        JDABuilder jda = new JDABuilder(AccountType.BOT);
+        JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT);
 
         // Initialize
         loadProperties();
-        jda.setToken(props.getProperty(PropertyKeys.BOT_TOKEN_KEY));
-        jda.setAudioEnabled(false);
+        jdaBuilder.setToken(props.getProperty(PropertyKeys.BOT_TOKEN_KEY));
+        jdaBuilder.setAudioEnabled(false);
         CommandHandler ch = new CommandHandler();
         ch.init();
 
-        // Load Saved Data
+        // Load Saved Data, Load data from DB
         // TODO
-        //SavedDataHandler.init();
+        MainSQLHandler.init();
 
         // Add listeners
-        jda.addEventListener(new Bot());
-        jda.addEventListener(ch);
-        jda.addEventListener(new GuildUpdateEventHandler());
-        jda.addEventListener(new AutoAssignmentEventHandler());
-        jda.addEventListener(new EventListener() {
+        jdaBuilder.addEventListener(new Bot());
+        jdaBuilder.addEventListener(ch);
+        jdaBuilder.addEventListener(new GuildUpdateEventHandler());
+        jdaBuilder.addEventListener(new AutoAssignmentEventHandler());
+        jdaBuilder.addEventListener(new EventListener() {
             @Override
             public void onEvent(Event event) {
                 if(event instanceof ReadyEvent){
-                    AutoAssignmentEventHandler.load(event.getJDA());
+                    jda = event.getJDA();
+                    AutoAssignmentEventHandler.load(jda);
                     SELF_USER_ID = event.getJDA().getSelfUser().getId();
                 }
             }
         });
 
         try{
-            jda.buildAsync();
+            jdaBuilder.buildAsync();
         } catch (Exception e){
             System.out.println("Core.Core Exception: " + e.getLocalizedMessage());
         }

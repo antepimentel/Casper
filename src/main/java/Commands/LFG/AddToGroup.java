@@ -4,6 +4,7 @@ import Core.PermissionHandler;
 import Commands.AbstractCommand;
 import Commands.CommandCategory;
 import Exceptions.*;
+import JDBC.GroupSQL;
 import LFG.Group;
 import LFG.LFGHandler;
 import net.dv8tion.jda.core.entities.Member;
@@ -43,14 +44,14 @@ public class AddToGroup extends AbstractCommand {
         int ID = Integer.parseInt(args[0]);
 
         PermissionHandler.checkModPermissions(msg.getMember());
-        Group g = LFGHandler.findGroupByID(ID);
+        Group g = LFGHandler.findGroupByID(msg.getGuild().getId(), ID);
         List<Member> mentions = msg.getMentionedMembers();
         response = "Adding to group " + g.getID() + ": ";
         for(int i = 0; i < mentions.size(); i++){
             response = response + mentions.get(i).getEffectiveName() + " ";
             g.join(mentions.get(i));
         }
-
+        GroupSQL.updatePlayers(g);
         msg.getChannel().sendMessage(response).queue();
     }
 }

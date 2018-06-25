@@ -6,6 +6,7 @@ import Commands.CommandCategory;
 import Commands.CommandHandler;
 import Exceptions.InvalidPermissionsException;
 import Exceptions.NoArgumentsGivenException;
+import JDBC.MainSQLHandler;
 import net.dv8tion.jda.core.entities.Message;
 
 public class Enable extends AbstractCommand {
@@ -40,7 +41,9 @@ public class Enable extends AbstractCommand {
 
         PermissionHandler.checkModPermissions(msg.getMember());
         AbstractCommand c = CommandHandler.getCommands().get(args[0]);
-        c.setEnabled(true);
+
+        MainSQLHandler.dropDisabledCommand(msg.getGuild().getId(), c.getCommand());
+        //c.setEnabled(true);
         response = "Enabled " + c.getCommand();
 
         msg.getChannel().sendMessage(response).queue();

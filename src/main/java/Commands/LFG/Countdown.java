@@ -41,7 +41,7 @@ public class Countdown extends AbstractCommand {
         String response = "";
         int id = Integer.parseInt(args[0]);
 
-        Group g = LFGHandler.findGroupByID(id);
+        Group g = LFGHandler.findGroupByID(msg.getGuild().getId(), id);
         long diff = LFGHandler.getDateDiff(new Date(), g.getDate(), TimeUnit.MINUTES);
         response = "Time remaining: " + LFGHandler.parseDiff(diff);
 

@@ -40,7 +40,7 @@ public class ViewAllGroups extends AbstractCommand {
         ArrayList<String> responses = new ArrayList<String>();
         int numGroupsPerMessage = 5;
 
-        ArrayList<Group> groups = LFGHandler.getGroups();
+        ArrayList<Group> groups = LFGHandler.getGroupsByServer(msg.getGuild().getId());
         int i = 0;
         while(i < groups.size()){
             String response = "";

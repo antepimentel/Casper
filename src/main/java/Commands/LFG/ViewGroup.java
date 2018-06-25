@@ -37,7 +37,7 @@ public class ViewGroup extends AbstractCommand {
         String response = "";
 
         String[] args = getInputArgs(msg);
-        Group g = LFGHandler.findGroupByID(Integer.parseInt(args[0]));
+        Group g = LFGHandler.findGroupByID(msg.getGuild().getId(), Integer.parseInt(args[0]));
         response = g.toStringFull();
 
         msg.getChannel().sendMessage(response).queue();
