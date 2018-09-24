@@ -130,6 +130,7 @@ public class GroupSQL {
 
     private static Group getGroupFromSQLResult(ResultSet rs) throws SQLException {
         try {
+            // TODO: Use SQLSchema here
             String serverID = rs.getString("serverid");
             int groupID = Integer.parseInt(rs.getString("groupid"));
             String name = rs.getString("name");
@@ -156,5 +157,19 @@ public class GroupSQL {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void deleteAllGroupsForServer(String serverID){
+
+        String query = "delete from " + SQLSchema.TABLE_POST + " where " + SQLSchema.POST_COL_SERVERID + " = ?";
+        try{
+            PreparedStatement stmtObj = connObj.prepareStatement(query);
+            stmtObj.setString(1, serverID);
+            stmtObj.executeUpdate();
+            connObj.commit();
+            connObj.rollback();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }

@@ -32,8 +32,6 @@ public class Bot extends ListenerAdapter {
         CommandHandler ch = new CommandHandler();
         ch.init();
 
-        // Load Saved Data, Load data from DB
-        // TODO
         MainSQLHandler.init();
 
         // Add listeners
@@ -46,7 +44,6 @@ public class Bot extends ListenerAdapter {
             public void onEvent(Event event) {
                 if(event instanceof ReadyEvent){
                     jda = event.getJDA();
-                    AutoAssignmentEventHandler.load(jda);
                     SELF_USER_ID = event.getJDA().getSelfUser().getId();
                 }
             }

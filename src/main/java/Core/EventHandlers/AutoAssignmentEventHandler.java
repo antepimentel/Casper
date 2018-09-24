@@ -13,12 +13,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * The addition on AutoAssignmentSQL makes most of this class obsolete.
+ * TODO: Gut this class
+ */
+
 public class AutoAssignmentEventHandler implements net.dv8tion.jda.core.hooks.EventListener {
 
     private static String ROLE_DELIMITER = "%";
     private static String SERVER_NAME = Bot.props.getProperty(PropertyKeys.SERVER_NAME_KEY);
     private static String ASSIGNMENT_CHANNEL = Bot.props.getProperty(PropertyKeys.ROLE_ASSIGNMENT_CHANNEL_KEY);
-    private static String MONITORED_REACTION = "\uD83E\uDD86";//Bot.props.getProperty(PropertyKeys.MONITORED_REACTION_KEY); //Unicode, this may not work after the props file has been re-saved
+    public static String MONITORED_REACTION = "\uD83E\uDD86";//Bot.props.getProperty(PropertyKeys.MONITORED_REACTION_KEY); //Unicode, this may not work after the props file has been re-saved
     private static List<String> ROLES = new ArrayList<String>();
     private static Map<String, String> MSG_KEYS = new HashMap<String, String>(); // Maps MSG ID to Role String
 
@@ -79,11 +84,8 @@ public class AutoAssignmentEventHandler implements net.dv8tion.jda.core.hooks.Ev
 
     }
 
+    // OLD
     public static void loadRoles(){
-//        ROLES.add("Escalation Protocol");
-//        ROLES.add("PS4-Raider");
-//        ROLES.add("PC-Raider");
-
         ROLES = new ArrayList<String>();
 
         String[] temp = Bot.props.getProperty(PropertyKeys.AUTO_ROLES_KEY).split(ROLE_DELIMITER);
@@ -93,25 +95,7 @@ public class AutoAssignmentEventHandler implements net.dv8tion.jda.core.hooks.Ev
         }
     }
 
-    public static void saveRoles(JDA bot){
-        String result = "";
 
-        for(int i = 0; i < ROLES.size(); i++){
-            result = result + ROLES.get(i);
-
-            if(i+1 < ROLES.size()){
-                result = result + ROLE_DELIMITER;
-            }
-        }
-        Bot.props.setProperty(PropertyKeys.AUTO_ROLES_KEY, result);
-
-        try {
-            Bot.props.store(new FileOutputStream("bot.properties"), null);
-            load(bot);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     private static void clearChannel(TextChannel channel){
         List<Message> messages = channel.getHistory().retrievePast(50).complete();
@@ -125,11 +109,5 @@ public class AutoAssignmentEventHandler implements net.dv8tion.jda.core.hooks.Ev
         return ROLES;
     }
 
-    public static Emote getEmote(JDA bot){
-        //TODO
-        Guild server = bot.getGuildsByName(Bot.props.getProperty(PropertyKeys.SERVER_NAME_KEY), false).get(0);
-        Emote emote = server.getEmotesByName(Bot.props.getProperty(PropertyKeys.MONITORED_REACTION_KEY), true).get(0);
-        return emote;
-    }
 
 }

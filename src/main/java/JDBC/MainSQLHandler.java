@@ -28,6 +28,7 @@ public class MainSQLHandler {
             connObj.setAutoCommit(false);
 
             GroupSQL.init();
+            AutoAssignmentSQL.init();
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -35,7 +36,7 @@ public class MainSQLHandler {
 
     public static void addServer(String serverID, String name){
 
-        String query = "insert into " + SQLSchema.TABLE_SEVRER + " values (?,?)";
+        String query = "insert into " + SQLSchema.TABLE_SERVER + " values (?,?)";
         try {
             PreparedStatement stmtObj = connObj.prepareStatement(query);
 
@@ -48,17 +49,13 @@ public class MainSQLHandler {
         }
     }
 
-    public static void dropServer(String serverID){
+    public static void deleteAllServerData(String serverID){
 
-        String query = "delete from " + SQLSchema.TABLE_SEVRER + " where " + SQLSchema.SERVER_COL_ID + " = ?";
-        try {
-            PreparedStatement stmtObj = connObj.prepareStatement(query);
-            stmtObj.setString(1, serverID);
-
-            executeUpdate(stmtObj);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        AutoAssignmentSQL.deleteAllServerData(serverID);
+        GroupSQL.deleteAllGroupsForServer(serverID);
+        deleteCustomCommandsForServer(serverID);
+        deleteDisabledCommandsForServer(serverID);
+        dropServer(serverID);
     }
 
     public static boolean checkDisabledCommand(String serverID, String name){
@@ -122,6 +119,42 @@ public class MainSQLHandler {
             connObj.commit();
             connObj.rollback();
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void dropServer(String serverID){
+        String query = "delete from " + SQLSchema.TABLE_SERVER + " where " + SQLSchema.SERVER_COL_ID + " = ?";
+        try {
+            PreparedStatement stmtObj = connObj.prepareStatement(query);
+            stmtObj.setString(1, serverID);
+
+            executeUpdate(stmtObj);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteCustomCommandsForServer(String serverID){
+        String query = "delete from " + SQLSchema.TABLE_CUSTOMCOMMAND + " where " + SQLSchema.CC_COL_SERVERID + " = ?";
+        try {
+            PreparedStatement stmtObj = connObj.prepareStatement(query);
+            stmtObj.setString(1, serverID);
+
+            executeUpdate(stmtObj);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteDisabledCommandsForServer(String serverID){
+        String query = "delete from " + SQLSchema.TABLE_DISABLEDCOMMAND + " where " + SQLSchema.DC_COL_SERVERID + " = ?";
+        try {
+            PreparedStatement stmtObj = connObj.prepareStatement(query);
+            stmtObj.setString(1, serverID);
+
+            executeUpdate(stmtObj);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

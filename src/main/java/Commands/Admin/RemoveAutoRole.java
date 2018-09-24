@@ -1,9 +1,8 @@
 package Commands.Admin;
 
+import Core.PermissionHandler;
 import Commands.AbstractCommand;
 import Commands.CommandCategory;
-import Core.EventHandlers.AutoAssignmentEventHandler;
-import Core.PermissionHandler;
 import Exceptions.InvalidPermissionsException;
 import Exceptions.NoArgumentsGivenException;
 import JDBC.AutoAssignmentSQL;
@@ -12,11 +11,11 @@ import net.dv8tion.jda.core.entities.Role;
 
 import java.util.List;
 
-public class AddAutoRole extends AbstractCommand {
+public class RemoveAutoRole extends AbstractCommand {
 
-    private static String command = "addautorole";
+    private static String command = "removeautorole";
     private static String desc = "temp";
-    private static String[] inputs = {"role"};
+    private static String[] inputs = {};
 
     @Override
     public String[] getInputs() {
@@ -40,8 +39,9 @@ public class AddAutoRole extends AbstractCommand {
 
     public void run(Message msg) throws InvalidPermissionsException, NoArgumentsGivenException {
         PermissionHandler.checkModPermissions(msg.getMember());
-
         String[] args = getInputArgs(msg);
+
+        String serverID = msg.getGuild().getId();
         String role = "";
 
         // Build into one argument
@@ -57,7 +57,7 @@ public class AddAutoRole extends AbstractCommand {
             // Role not found
         } else {
             //AutoAssignmentSQL.addAutoChannelForServer(msg.getGuild().getId(), msg.getTextChannel());
-            AutoAssignmentSQL.addAutoRoleForServer(msg.getGuild().getId(), result.get(0));
+            AutoAssignmentSQL.dropAutoRoleForServer(serverID, result.get(0));
             msg.getChannel().sendMessage("Success").queue();
         }
     }

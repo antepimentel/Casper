@@ -1,9 +1,8 @@
 package Commands.Admin;
 
+import Core.PermissionHandler;
 import Commands.AbstractCommand;
 import Commands.CommandCategory;
-import Core.EventHandlers.AutoAssignmentEventHandler;
-import Core.PermissionHandler;
 import Exceptions.InvalidPermissionsException;
 import Exceptions.NoArgumentsGivenException;
 import JDBC.AutoAssignmentSQL;
@@ -12,11 +11,11 @@ import net.dv8tion.jda.core.entities.Role;
 
 import java.util.List;
 
-public class AddAutoRole extends AbstractCommand {
+public class UseAsAutoChannel extends AbstractCommand {
 
-    private static String command = "addautorole";
+    private static String command = "useasautochannel";
     private static String desc = "temp";
-    private static String[] inputs = {"role"};
+    private static String[] inputs = {};
 
     @Override
     public String[] getInputs() {
@@ -41,24 +40,13 @@ public class AddAutoRole extends AbstractCommand {
     public void run(Message msg) throws InvalidPermissionsException, NoArgumentsGivenException {
         PermissionHandler.checkModPermissions(msg.getMember());
 
-        String[] args = getInputArgs(msg);
-        String role = "";
+        String serverID = msg.getGuild().getId();
 
-        // Build into one argument
-        for(int i = 0; i < args.length; i++){
-            role = role + args[i] + " ";
-        }
-        role = role.trim();
-
-        // Does role exist?
-        List<Role> result = msg.getGuild().getRolesByName(role, true);
-
-        if(result.size() < 1){
-            // Role not found
+        if(AutoAssignmentSQL.checkAutoChannelForServer(serverID)){
+            AutoAssignmentSQL.changeAutoChannelName(serverID, msg.getTextChannel());
         } else {
-            //AutoAssignmentSQL.addAutoChannelForServer(msg.getGuild().getId(), msg.getTextChannel());
-            AutoAssignmentSQL.addAutoRoleForServer(msg.getGuild().getId(), result.get(0));
-            msg.getChannel().sendMessage("Success").queue();
+            AutoAssignmentSQL.addAutoChannelForServer(serverID, msg.getTextChannel());
         }
+        AutoAssignmentSQL.printMessagesForServer(serverID);
     }
 }

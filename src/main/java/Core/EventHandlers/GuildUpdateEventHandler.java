@@ -1,12 +1,17 @@
 package Core.EventHandlers;
 
+import JDBC.AutoAssignmentSQL;
+import JDBC.MainSQLHandler;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.Event;
+import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
+import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberRoleAddEvent;
 import net.dv8tion.jda.core.hooks.EventListener;
+import sun.applet.Main;
 
 import java.util.List;
 
@@ -18,6 +23,10 @@ public class GuildUpdateEventHandler implements EventListener {
             onGuildMemberJoinEvent((GuildMemberJoinEvent) e);
         } else if(e instanceof GuildMemberRoleAddEvent){
             onGuildMemberRoleAddEvent((GuildMemberRoleAddEvent) e);
+        } else if(e instanceof GuildJoinEvent){
+            onGuildJoinEvent((GuildJoinEvent) e);
+        } else if(e instanceof GuildLeaveEvent){
+            onGuildLeaveEvent((GuildLeaveEvent) e);
         }
     }
 
@@ -35,6 +44,25 @@ public class GuildUpdateEventHandler implements EventListener {
         if(roles.contains(seraph)){
             gen.sendMessage("Congratulations " + e.getMember().getAsMention() + "! You've got your clan tag!").queue();
         }
+    }
+
+    public void onGuildJoinEvent(GuildJoinEvent e){
+        String guildID = e.getGuild().getId();
+        String guildName = e.getGuild().getName();
+
+        MainSQLHandler.addServer(guildID, guildName);
+
+        // Check for auto-assignment channel
+        List<TextChannel> channels = e.getGuild().getTextChannelsByName("role-assignment", false);
+        if(channels.size() == 1){
+            AutoAssignmentSQL.addAutoChannelForServer(e.getGuild().getId(), channels.get(0));
+        }
+    }
+
+    public void onGuildLeaveEvent(GuildLeaveEvent e){
+        String guildID = e.getGuild().getId();
+
+        MainSQLHandler.deleteAllServerData(guildID);
     }
 
     public TextChannel getGenChannel(Guild g){
