@@ -11,9 +11,9 @@ import net.dv8tion.jda.core.entities.Role;
 
 import java.util.List;
 
-public class UseAsAutoChannel extends AbstractCommand {
+public class SetAutoChannel extends AbstractCommand {
 
-    private static String command = "useasautochannel";
+    private static String command = "setautochannel";
     private static String desc = "temp";
     private static String[] inputs = {};
 

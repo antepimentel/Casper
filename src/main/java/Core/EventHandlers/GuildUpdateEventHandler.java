@@ -30,12 +30,24 @@ public class GuildUpdateEventHandler implements EventListener {
         }
     }
 
+    /**
+     * Welcome message, new member
+     *
+     * @param e
+     */
     public void onGuildMemberJoinEvent(GuildMemberJoinEvent e){
         String message = "Welcome " + e.getMember().getAsMention() + "! Tell us about yourself.";
         TextChannel gen = getGenChannel(e.getGuild());
         gen.sendMessage(message).queue();
+
+        //TODO: Make this customizable, Also send DM message
     }
 
+    /**
+     * Role update event
+     *
+     * @param e
+     */
     public void onGuildMemberRoleAddEvent(GuildMemberRoleAddEvent e){
         List<Role> roles = e.getRoles();
         Role seraph = e.getGuild().getRolesByName("seraph", true).get(0);
@@ -44,8 +56,16 @@ public class GuildUpdateEventHandler implements EventListener {
         if(roles.contains(seraph)){
             gen.sendMessage("Congratulations " + e.getMember().getAsMention() + "! You've got your clan tag!").queue();
         }
+
+        //TODO: Make this more general?
     }
 
+    /**
+     * This runs when the bot first joins a server.
+     * Adds server to db, checks for an auto-assignment channel
+     *
+     * @param e
+     */
     public void onGuildJoinEvent(GuildJoinEvent e){
         String guildID = e.getGuild().getId();
         String guildName = e.getGuild().getName();
@@ -59,12 +79,24 @@ public class GuildUpdateEventHandler implements EventListener {
         }
     }
 
+    /**
+     * This runs when the bot leaves a server.
+     * Scrubs the db of data related to that server.
+     *
+     * @param e
+     */
     public void onGuildLeaveEvent(GuildLeaveEvent e){
         String guildID = e.getGuild().getId();
 
         MainSQLHandler.deleteAllServerData(guildID);
     }
 
+    /**
+     * Returns a channel named "general"
+     *
+     * @param g
+     * @return
+     */
     public TextChannel getGenChannel(Guild g){
         return g.getTextChannelsByName("general", true).get(0);
     }

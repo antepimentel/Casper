@@ -62,27 +62,27 @@ public class AutoAssignmentEventHandler implements net.dv8tion.jda.core.hooks.Ev
         }
     }
 
-    public static void load(JDA bot){
-        Guild guild = bot.getGuildsByName(SERVER_NAME, false).get(0);
-        TextChannel channel = guild.getTextChannelsByName(ASSIGNMENT_CHANNEL, false).get(0);
-
-        loadRoles();
-        clearChannel(channel);
-
-        // Post Messages to channel
-        for(int i = 0; i < ROLES.size(); i++){
-            channel.sendMessage("React to add role: " + ROLES.get(i)).queue();
-        }
-
-        // Add base reactions to messages
-        //Emote reaction = getEmote(bot);
-        List<Message> messages = channel.getHistory().retrievePast(ROLES.size()).complete();
-        for(int i = 0; i < messages.size(); i++){
-            messages.get(i).addReaction(MONITORED_REACTION).queue();
-            MSG_KEYS.put(messages.get(i).getId(), ROLES.get(ROLES.size()-1-i));
-        }
-
-    }
+//    public static void load(JDA bot){
+//        Guild guild = bot.getGuildsByName(SERVER_NAME, false).get(0);
+//        TextChannel channel = guild.getTextChannelsByName(ASSIGNMENT_CHANNEL, false).get(0);
+//
+//        loadRoles();
+//        clearChannel(channel);
+//
+//        // Post Messages to channel
+//        for(int i = 0; i < ROLES.size(); i++){
+//            channel.sendMessage("React to add role: " + ROLES.get(i)).queue();
+//        }
+//
+//        // Add base reactions to messages
+//        //Emote reaction = getEmote(bot);
+//        List<Message> messages = channel.getHistory().retrievePast(ROLES.size()).complete();
+//        for(int i = 0; i < messages.size(); i++){
+//            messages.get(i).addReaction(MONITORED_REACTION).queue();
+//            MSG_KEYS.put(messages.get(i).getId(), ROLES.get(ROLES.size()-1-i));
+//        }
+//
+//    }
 
     // OLD
     public static void loadRoles(){

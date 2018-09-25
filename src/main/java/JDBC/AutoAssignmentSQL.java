@@ -16,13 +16,25 @@ public class AutoAssignmentSQL {
     private static Connection connObj = MainSQLHandler.connObj;
 
     public static void init(){
-        // Need to print for every server
-        // TODO
+        printAllMessages();
     }
 
     public static void printAllMessages(){
-        // TODO
-        // Print all auto messages for every server
+
+        try {
+            String query = "select " + SQLSchema.AC_COL_SERVERID + " from " + SQLSchema.TABLE_AC;
+            PreparedStatement stmtObj = connObj.prepareStatement(query);
+            ResultSet rs = stmtObj.executeQuery();
+
+            // Get list of serverIDs to print
+            while(rs.next()){
+                String serverID = rs.getString(SQLSchema.AC_COL_SERVERID);
+                printMessagesForServer(serverID);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
