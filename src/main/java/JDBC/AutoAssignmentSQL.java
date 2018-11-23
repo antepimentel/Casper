@@ -1,7 +1,7 @@
 package JDBC;
 
 import Core.Bot;
-import Core.EventHandlers.AutoAssignmentEventHandler;
+import Core.EventHandlers.MessageReactionEventHandler;
 import net.dv8tion.jda.core.entities.*;
 
 import java.sql.Connection;
@@ -17,6 +17,27 @@ public class AutoAssignmentSQL {
 
     public static void init(){
         printAllMessages();
+    }
+
+    public static String queryMessageID(String serverID, String messageID){
+        String query = "select " + SQLSchema.AR_COL_ROLEID + " from " + SQLSchema.TABLE_AR + " where " + SQLSchema.AR_COL_SERVERID + "=? and "
+                + SQLSchema.AR_COL_MESSAGEID + "=?";
+        String result = null;
+        try {
+            PreparedStatement stmtObj = connObj.prepareStatement(query);
+            stmtObj.setString(1, serverID);
+            stmtObj.setString(2, messageID);
+
+            ResultSet rs = stmtObj.executeQuery();
+
+            // rs.next returns false on empty result set
+            if(rs.next()) {
+                result = rs.getString(SQLSchema.AR_COL_ROLEID);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     public static void printAllMessages(){
@@ -154,7 +175,7 @@ public class AutoAssignmentSQL {
             if(roles.size() > 0){
                 List<Message> messages = channel.getHistory().retrievePast(roles.size()).complete();
                 for(int i = 0; i < messages.size(); i++){
-                    messages.get(i).addReaction(AutoAssignmentEventHandler.MONITORED_REACTION).queue();
+                    messages.get(i).addReaction(MessageReactionEventHandler.MONITORED_REACTION).queue();
                 }
 
                 // Add message IDs to SQL server

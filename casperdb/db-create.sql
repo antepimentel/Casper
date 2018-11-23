@@ -24,6 +24,16 @@ create table disabledcommand (
 		foreign key (serverid) references server (id)
 );
 
+create table eventboard (
+	serverid varchar(20) not null,
+	channelid varchar(20) not null,
+	sys_type varchar(4) not null,
+	constraint channel_eb_pk
+		primary key (channelid),
+	constraint server_eb_fk
+		foreign key (serverid) references server (id)
+);
+
 create table post (
 	serverid varchar(20) not null,
 	groupid varchar(15) not null, 
@@ -31,6 +41,8 @@ create table post (
 	groupdate varchar(30) not null,
 	players varchar(120),
 	subs varchar(40),
+	sys_type varchar(4) not null,
+	msg_id varchar(20) not null,
 	constraint server_post_fk
 		foreign key (serverid) references server (id)
 );
@@ -55,3 +67,5 @@ create table autorole (
 	constraint server_ar_fk
 		foreign key (serverid) references server (id)
 );
+
+

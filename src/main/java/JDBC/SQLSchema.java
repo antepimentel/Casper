@@ -30,6 +30,8 @@ public class SQLSchema {
     public static String POST_COL_GROUPDATE = "groupdate";
     public static String POST_COL_PLAYERS = "players";
     public static String POST_COL_SUBS = "subs";
+    public static String POST_COL_TYPE = "sys_type";
+    public static String POST_COL_MSG_ID = "msg_id";
 
     // AutoChannel
     public static String TABLE_AC = "autochannel";
@@ -43,4 +45,10 @@ public class SQLSchema {
     public static String AR_COL_ROLENAME = "rolename";
     public static String AR_COL_MESSAGEID = "messageid";
     public static String AR_COL_ROLEID = "roleid";
+
+    // EventBoard
+    public static String TABLE_EB = "eventboard";
+    public static String EB_COL_SERVERID = "serverid";
+    public static String EB_COL_CHANNELID = "channelid";
+    public static String EB_COL_TYPE = "sys_type";
 }

@@ -4,6 +4,7 @@ import Core.Bot;
 import Core.PropertyKeys;
 import Commands.AbstractCommand;
 import Exceptions.NoArgumentsGivenException;
+import Exceptions.NoBoardForPlatformException;
 import JDBC.GroupSQL;
 import LFG.Group;
 import LFG.LFGHandler;
@@ -16,7 +17,7 @@ public class Post extends AbstractCommand {
 
     private static String command = "post";
     private static String desc = "temp";
-    private static String[] inputs = {"name", "date(MM/dd)", "time", "timezone"};
+    private static String[] inputs = {"name", "date(MM/dd)", "time", "timezone", "platform"};
 
     @Override
     public String[] getInputs() {
@@ -58,7 +59,7 @@ public class Post extends AbstractCommand {
     }
 
     @Override
-    public void run(Message msg) throws NoArgumentsGivenException {
+    public void run(Message msg) throws NoArgumentsGivenException, NoBoardForPlatformException {
         String response = "";
         try {
             String[] args;
@@ -70,9 +71,7 @@ public class Post extends AbstractCommand {
                 args = super.getInputArgs(msg);
             }
 
-            Group g = LFGHandler.post(msg.getGuild().getId(), args[0], args[1], args[2], args[3], msg.getMember());
-
-            GroupSQL.save(g);
+            Group g = LFGHandler.post(msg.getGuild().getId(), args[0], args[1], args[2], args[3], msg.getMember(), args[4]);
 
             response = g.toString();
         } catch (ParseException e){

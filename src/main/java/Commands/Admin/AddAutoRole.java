@@ -2,7 +2,6 @@ package Commands.Admin;
 
 import Commands.AbstractCommand;
 import Commands.CommandCategory;
-import Core.EventHandlers.AutoAssignmentEventHandler;
 import Core.PermissionHandler;
 import Exceptions.InvalidPermissionsException;
 import Exceptions.NoArgumentsGivenException;

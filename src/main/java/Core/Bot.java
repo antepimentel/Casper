@@ -1,9 +1,10 @@
 package Core;
 
-import Core.EventHandlers.AutoAssignmentEventHandler;
+import Core.EventHandlers.MessageReactionEventHandler;
 import Core.EventHandlers.GuildUpdateEventHandler;
 import Commands.CommandHandler;
 import JDBC.MainSQLHandler;
+import LFG.LFGHandler;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -36,7 +37,7 @@ public class Bot extends ListenerAdapter {
         jdaBuilder.addEventListener(new Bot());
         jdaBuilder.addEventListener(ch);
         jdaBuilder.addEventListener(new GuildUpdateEventHandler());
-        jdaBuilder.addEventListener(new AutoAssignmentEventHandler());
+        jdaBuilder.addEventListener(new MessageReactionEventHandler());
         jdaBuilder.addEventListener(new EventListener() {
             @Override
             public void onEvent(Event event) {
@@ -44,6 +45,7 @@ public class Bot extends ListenerAdapter {
                     jda = event.getJDA();
                     SELF_USER_ID = event.getJDA().getSelfUser().getId();
                     MainSQLHandler.init();
+                    LFGHandler.init();
                 }
             }
         });
