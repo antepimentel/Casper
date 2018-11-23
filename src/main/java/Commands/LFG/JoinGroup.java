@@ -43,16 +43,7 @@ public class JoinGroup extends AbstractCommand {
 
         } catch (NoAvailableSpotsException e) {
             e.printStackTrace();
-
-            try {
-                LFGHandler.joinAsSub(msg.getGuild().getId(), Integer.parseInt(args[0]), msg.getMember());
-                response = msg.getMember().getAsMention()+" Group: " + args[0] + " is full. Adding as a substitute";
-
-            } catch (NoAvailableSpotsException e1) {
-                e1.printStackTrace();
-                response = e.getMessage();
-            }
-
+            response = e.getMessage();
         }
         msg.getChannel().sendMessage(response).queue();
     }

@@ -19,6 +19,8 @@ import java.util.TimeZone;
  */
 public class Group {
 
+    public static ArrayList<String> PLATFORMS = new ArrayList<String>();
+
     private static final int MAX_GROUP_SIZE = 6;
     private static final int MAX_SUBS = 2;
 
@@ -29,13 +31,27 @@ public class Group {
     private Date date;
     private String time;
     private String timezone;
+    private String platform;
+    private String msgID;
 
     public static DateFormat df = new SimpleDateFormat("MM/dd hh:mmaa zzz yyyy");
 
     private ArrayList<Member> players = new ArrayList<Member>();
     private ArrayList<Member> subs = new ArrayList<Member>();
 
-    public Group(String serverID, int id, String name, String date, String time, String timezone, Member m) throws ParseException {
+    /**
+     *
+     *
+     * @param serverID
+     * @param id
+     * @param name
+     * @param date
+     * @param time
+     * @param timezone
+     * @param m
+     * @throws ParseException
+     */
+    public Group(String serverID, int id, String name, String date, String time, String timezone, Member m, String platform) throws ParseException {
         ID = id;
         this.name = name;
         this.serverID = serverID;
@@ -46,9 +62,19 @@ public class Group {
         //this.time = time;
         //this.timezone = timezone;
         players.add(m);
+        this.platform = platform;
     }
 
-    public Group(String serverID, int id, String name, Date date) throws ParseException {
+    /**
+     * This is used when grabbing groups from the database
+     *
+     * @param serverID
+     * @param id
+     * @param name
+     * @param date
+     * @throws ParseException
+     */
+    public Group(String serverID, int id, String name, Date date, String platform, String msgID) throws ParseException {
         ID = id;
         this.name = name;
         this.serverID = serverID;
@@ -56,13 +82,15 @@ public class Group {
         this.dateCreated = new Date();
         //this.time = time;
         //this.timezone = timezone;
+        this.platform = platform;
+        this.msgID = msgID;
     }
 
     public void join(Member m) throws NoAvailableSpotsException {
         if(players.size() < MAX_GROUP_SIZE){
             players.add(m);
         } else {
-            throw new NoAvailableSpotsException(m, ID);
+            joinAsSub(m);
         }
     }
 
@@ -72,6 +100,18 @@ public class Group {
         } else {
             throw new NoAvailableSpotsException(m, ID);
         }
+    }
+
+    public String getPlayersAsMention(){
+        String response = "";
+        for(int i = 0; i < getPlayers().size(); i++){
+            response = response + getPlayers().get(i).getAsMention();
+        }
+
+        for(int i = 0; i < getSubs().size(); i++){
+            response = response + getSubs().get(i).getAsMention();
+        }
+        return response + " Roll call for group: " + getID();
     }
 
     public void removePlayer(Member m) throws MemberNotFoundException, GroupIsEmptyException {
@@ -142,6 +182,10 @@ public class Group {
         return date;
     }
 
+    public String getType() {
+        return platform;
+    }
+
     public void setDate(String date, String time, String timezone) throws ParseException {
         int year = Calendar.getInstance().get(Calendar.YEAR);
         this.df.setTimeZone(TimeZone.getTimeZone(timezone));
@@ -196,5 +240,27 @@ public class Group {
             }
         }
         return result;
+    }
+
+    public static void setPlatforms(){
+        PLATFORMS.add("ps4");
+        PLATFORMS.add("xbox");
+        PLATFORMS.add("pc");
+    }
+
+    public String getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
+    }
+
+    public String getMsgID() {
+        return msgID;
+    }
+
+    public void setMsgID(String msgID) {
+        this.msgID = msgID;
     }
 }

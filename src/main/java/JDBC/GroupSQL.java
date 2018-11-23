@@ -25,7 +25,7 @@ public class GroupSQL {
         String players = g.getPlayerIDString();
         String subs = g.getSubIDString();
 
-        String query = "insert into " + SQLSchema.TABLE_POST + " values (?,?,?,?,?,?)";
+        String query = "insert into " + SQLSchema.TABLE_POST + " values (?,?,?,?,?,?,?,?)";
 
         try {
             PreparedStatement stmtObj = connObj.prepareStatement(query);
@@ -35,6 +35,8 @@ public class GroupSQL {
             stmtObj.setString(4, Group.df.format(g.getDate())); // Date
             stmtObj.setString(5, players); // Players
             stmtObj.setString(6, subs); // Subs
+            stmtObj.setString(7, g.getType()); // Platform
+            stmtObj.setString(8, g.getMsgID()); // Message ID
             stmtObj.executeUpdate();
             connObj.commit();
             connObj.rollback();
@@ -109,6 +111,21 @@ public class GroupSQL {
         }
     }
 
+    public static void updateMessageID(Group g){
+        String query = "update " + SQLSchema.TABLE_POST + " set " + SQLSchema.POST_COL_MSG_ID + " = ? where " + SQLSchema.POST_COL_SERVERID + " = ? and " + SQLSchema.POST_COL_GROUPID + " = ?";
+        try {
+            PreparedStatement stmtObj = connObj.prepareStatement(query);
+            stmtObj.setString(1, g.getMsgID()); // Name
+            stmtObj.setString(2, g.getServerID()); // Server ID
+            stmtObj.setString(3, Integer.toString(g.getID())); // Group ID
+            stmtObj.executeUpdate();
+            connObj.commit();
+            connObj.rollback();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static ArrayList<Group> getGroupsByServer(String serverID){
 
         String query = "select * from " + SQLSchema.TABLE_POST + " where " + SQLSchema.POST_COL_SERVERID + " = ?";
@@ -128,17 +145,39 @@ public class GroupSQL {
         return null;
     }
 
+    public static Group queryGroupFromMsgID(String serverID, String msgID){
+        String query = "select * from " + SQLSchema.TABLE_POST + " where " + SQLSchema.POST_COL_SERVERID + " = ? and "
+                + SQLSchema.POST_COL_MSG_ID + "=?";
+
+        try{
+            PreparedStatement stmtObj = connObj.prepareStatement(query);
+            stmtObj.setString(1, serverID);
+            stmtObj.setString(2, msgID);
+            ResultSet rs = stmtObj.executeQuery();
+
+            if(rs.next()){
+                return getGroupFromSQLResult(rs);
+            } else {
+                return null;
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private static Group getGroupFromSQLResult(ResultSet rs) throws SQLException {
         try {
-            // TODO: Use SQLSchema here
-            String serverID = rs.getString("serverid");
-            int groupID = Integer.parseInt(rs.getString("groupid"));
-            String name = rs.getString("name");
-            Date date = Group.df.parse(rs.getString("groupdate"));
-            String players = rs.getString("players");
-            String subs = rs.getString("subs");
+            String serverID = rs.getString(SQLSchema.POST_COL_SERVERID);
+            int groupID = Integer.parseInt(rs.getString(SQLSchema.POST_COL_GROUPID));
+            String name = rs.getString(SQLSchema.POST_COL_NAME);
+            Date date = Group.df.parse(rs.getString(SQLSchema.POST_COL_GROUPDATE));
+            String players = rs.getString(SQLSchema.POST_COL_PLAYERS);
+            String subs = rs.getString(SQLSchema.POST_COL_SUBS);
+            String platform = rs.getString(SQLSchema.POST_COL_TYPE);
+            String msgID = rs.getString(SQLSchema.POST_COL_MSG_ID);
 
-            Group g = new Group(serverID, groupID, name, date);
+            Group g = new Group(serverID, groupID, name, date, platform, msgID);
 
             StringTokenizer st = new StringTokenizer(players, "#");
             while(st.hasMoreTokens()){

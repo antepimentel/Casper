@@ -44,23 +44,19 @@ public class RemoveFromGroup extends AbstractCommand {
         int ID = Integer.parseInt(args[0]);
         Group g = null;
 
-        try {
-            PermissionHandler.checkModPermissions(msg.getMember());
-            g = LFGHandler.findGroupByID(msg.getGuild().getId(), ID);
-            List<Member> mentions = msg.getMentionedMembers();
-            response = "Removing from group " + g.getID() + ": ";
 
-            for(int i = 0; i < mentions.size(); i++){
-                response = response + mentions.get(i).getEffectiveName() + " ";
-                //g.removePlayer(mentions.get(i));
-                LFGHandler.leave(g.getServerID(), g.getID(), mentions.get(i));
-            }
+        PermissionHandler.checkModPermissions(msg.getMember());
+        g = LFGHandler.findGroupByID(msg.getGuild().getId(), ID);
+        List<Member> mentions = msg.getMentionedMembers();
+        response = "Removing from group " + g.getID() + ": ";
 
-        } catch (GroupIsEmptyException e) {
-            e.printStackTrace();
-            GroupSQL.delete(g);
-            response = e.getMessage();
+        for(int i = 0; i < mentions.size(); i++){
+            response = response + mentions.get(i).getEffectiveName() + " ";
+            //g.removePlayer(mentions.get(i));
+            LFGHandler.leave(g.getServerID(), g.getID(), mentions.get(i));
         }
+
+
         msg.getChannel().sendMessage(response).queue();
     }
 }

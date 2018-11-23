@@ -1,11 +1,10 @@
 package LFG;
 
-import Exceptions.GroupIsEmptyException;
-import Exceptions.GroupNotFoundException;
-import Exceptions.MemberNotFoundException;
-import Exceptions.NoAvailableSpotsException;
+import Core.EventHandlers.MessageReactionEventHandler;
+import Exceptions.*;
 import JDBC.GroupSQL;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.PrivateChannel;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -19,9 +18,11 @@ import java.util.concurrent.TimeUnit;
  */
 public class LFGHandler {
 
-    //private static ArrayList<Group> groups = new ArrayList<Group>();
+    public static void init(){
+        Group.setPlatforms();
+    }
 
-    public static Group post(String serverID, String name, String date, String time, String timezone, Member poster) throws ParseException {
+    public static Group post(String serverID, String name, String date, String time, String timezone, Member poster, String platform) throws ParseException, NoBoardForPlatformException {
         Group g = new Group(
                 serverID,
           getFreeGroupID(serverID),
@@ -29,17 +30,28 @@ public class LFGHandler {
                 date,
                 time,
                 timezone,
-                poster
+                poster,
+                platform
         );
-        //groups.add(g);
-       // sortGroupsByID(get);
-
-        //save();
+        String msgID = MessageReactionEventHandler.postEventGroup(g);
+        g.setMsgID(msgID);
+        GroupSQL.save(g);
         return g;
+    }
+
+    public static void repostAndUpdateMsgID(Group g) throws NoBoardForPlatformException {
+        String msgID = MessageReactionEventHandler.postEventGroup(g);
+        g.setMsgID(msgID);
+        GroupSQL.updateMessageID(g);
     }
 
     public static void join(String serverID, int ID, Member m) throws GroupNotFoundException, NoAvailableSpotsException {
         Group g = findGroupByID(serverID, ID);
+        g.join(m);
+        GroupSQL.updatePlayers(g);
+    }
+
+    public static void join(Group g, Member m) throws GroupNotFoundException, NoAvailableSpotsException {
         g.join(m);
         GroupSQL.updatePlayers(g);
     }
@@ -50,18 +62,40 @@ public class LFGHandler {
         GroupSQL.updatePlayers(g);
     }
 
-    public static void leave(String serverID, int ID, Member m) throws GroupNotFoundException, MemberNotFoundException, GroupIsEmptyException {
+    public static void leave(String serverID, int ID, Member m) throws GroupNotFoundException, MemberNotFoundException {
         Group g = findGroupByID(serverID, ID);
-        g.removePlayer(m);
-        GroupSQL.updatePlayers(g);
+        try{
+            g.removePlayer(m);
+            GroupSQL.updatePlayers(g);
+        } catch (GroupIsEmptyException e){
+            GroupSQL.delete(g);
+        }
     }
 
-//    public static ArrayList<Group> getGroups() {
-//        return null;
-//    }
+    public static void leave(Group g, Member m) throws GroupNotFoundException, MemberNotFoundException {
+        try{
+            g.removePlayer(m);
+            GroupSQL.updatePlayers(g);
+        } catch (GroupIsEmptyException e){
+            GroupSQL.delete(g);
+        }
+    }
 
     private static void sortGroupsByID(ArrayList<Group> groupsToSort){
         Collections.sort(groupsToSort, new GroupComparator());
+    }
+
+    public static void pingPlayers(Group g){
+
+        String message = "Roll call for: " + g.getName();
+        for(Member m: g.getPlayers()){
+            PrivateChannel pc = m.getUser().openPrivateChannel().complete();
+            pc.sendMessage(message).queue();
+        }
+        for(Member m: g.getSubs()){
+            PrivateChannel pc = m.getUser().openPrivateChannel().complete();
+            pc.sendMessage(message).queue();
+        }
     }
 
     /**
@@ -85,11 +119,6 @@ public class LFGHandler {
         }
     }
 
-    /**
-     * USE WITH CARE, MAY RETURN NULL
-     * @param ID
-     * @return
-     */
 //    public static Group getGroupByID(int ID) {
 //        Group ans = null;
 //        for(int i = 0; i < groups.size(); i++){

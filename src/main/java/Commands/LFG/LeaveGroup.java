@@ -39,15 +39,10 @@ public class LeaveGroup extends AbstractCommand {
         String response = "";
         Group g = null;
 
-        try {
-            g = LFGHandler.findGroupByID(msg.getGuild().getId(), Integer.parseInt(args[0]));
-            LFGHandler.leave(msg.getGuild().getId(), g.getID(), msg.getMember());
-            response = msg.getMember().getAsMention() + " removed from group: " + g.getID();
-        } catch (GroupIsEmptyException e) {
-            e.printStackTrace();
-            GroupSQL.delete(g);
-            response = e.getMessage();
-        }
+        g = LFGHandler.findGroupByID(msg.getGuild().getId(), Integer.parseInt(args[0]));
+        LFGHandler.leave(msg.getGuild().getId(), g.getID(), msg.getMember());
+        response = msg.getMember().getAsMention() + " removed from group: " + g.getID();
+
         msg.getChannel().sendMessage(response).queue();
     }
 }
