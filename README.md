@@ -10,6 +10,7 @@
   JDBC_USER=SQL USER FOT BOT
   JDBC_PASS=SQL PASSWORD FOR BOT
   JDBC_DB_NAME=SQL DB NAME
+  BOT_KEY=YOUR DISCORD BOT KEY
   ```
 3. Go to /casperdb and run db-create.sql in your MySQL command window
 
