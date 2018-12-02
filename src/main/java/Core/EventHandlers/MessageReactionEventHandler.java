@@ -1,6 +1,7 @@
 package Core.EventHandlers;
 
 import Core.Bot;
+import Core.PermissionHandler;
 import Exceptions.*;
 import JDBC.AutoAssignmentSQL;
 import JDBC.EventBoardSQL;
@@ -54,7 +55,7 @@ public class MessageReactionEventHandler implements net.dv8tion.jda.core.hooks.E
             e1.printStackTrace();
         } catch (MemberNotFoundException e1) {
             e1.printStackTrace();
-        } catch (GroupIsEmptyException e1) {
+        } catch (InvalidPermissionsException e1) {
             e1.printStackTrace();
         }
     }
@@ -86,7 +87,7 @@ public class MessageReactionEventHandler implements net.dv8tion.jda.core.hooks.E
     //============================================
     // EVENT BOARD METHODS
     //============================================
-    private void handleEventBoardAddEvent(MessageReactionAddEvent e) throws GroupNotFoundException, NoAvailableSpotsException, MemberNotFoundException, GroupIsEmptyException {
+    private void handleEventBoardAddEvent(MessageReactionAddEvent e) throws GroupNotFoundException, NoAvailableSpotsException, MemberNotFoundException, InvalidPermissionsException {
         Group g = GroupSQL.queryGroupFromMsgID(e.getGuild().getId(), e.getMessageId());
         if(g != null){
             String reaction = e.getReactionEmote().getName();
@@ -103,7 +104,7 @@ public class MessageReactionEventHandler implements net.dv8tion.jda.core.hooks.E
 
            } else if(reaction.equals(DELETE_REACTION)){
                 // Check permissions
-                // TODO
+               PermissionHandler.isLeaderOrMod(e.getMember(), g);
                GroupSQL.delete(g);
                e.getTextChannel().deleteMessageById(e.getMessageId()).complete();
            }

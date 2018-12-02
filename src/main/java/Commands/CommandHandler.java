@@ -58,6 +58,8 @@ public class CommandHandler extends ListenerAdapter {
     public void init(){
         loadCommands();
 
+        //TODO: Custom command initialization?? Cannot have static custom commands with the multi-server setup. Look into this.
+
         // TEMP CODE
         customCommands.put("meme1", "http://photobucket.com/gallery/user/TheOffice-isms/media/cGF0aDpUaGUgT2ZmaWNlLWlzbXMgbWVtZS1vLW1hdGljL1lPVVRVQkVNSUNIQUVMX3pwc2NwNGF5a3V0LmpwZw==/?ref=");
         // TEMP CODE

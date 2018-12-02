@@ -17,16 +17,25 @@ import java.util.List;
 
 public class GuildUpdateEventHandler implements EventListener {
 
+    /**
+     * This catches a generic event and checks the type.
+     * Filters to the appropriate method.
+     * @param e
+     */
     @Override
     public void onEvent(Event e){
         if(e instanceof GuildMemberJoinEvent){
             onGuildMemberJoinEvent((GuildMemberJoinEvent) e);
+
         } else if(e instanceof GuildMemberRoleAddEvent){
             onGuildMemberRoleAddEvent((GuildMemberRoleAddEvent) e);
+
         } else if(e instanceof GuildJoinEvent){
             onGuildJoinEvent((GuildJoinEvent) e);
+
         } else if(e instanceof GuildLeaveEvent){
             onGuildLeaveEvent((GuildLeaveEvent) e);
+
         }
     }
 

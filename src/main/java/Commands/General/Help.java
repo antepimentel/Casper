@@ -31,6 +31,6 @@ public class Help extends AbstractCommand {
     }
 
     public void run(Message msg){
-        msg.getChannel().sendMessage("Success!").queue();
+        // Copy command handler or steal from it, print all command names and descriptions
     }
 }
