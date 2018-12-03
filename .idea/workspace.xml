@@ -2,94 +2,181 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="971c6c27-77f9-4191-81ed-09571e6e1dcc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/TestBot_main_jar/TestBot_main.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/AbstractCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/Admin/AddAutoRole.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/Admin/Clear.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/Admin/Disable.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/Admin/Enable.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/Admin/ReloadAutoRoles.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/Admin/ReloadBoards.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/Admin/RemoveAutoRole.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/Admin/SetAutoChannel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/Admin/SetBoard.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/CommandCategory.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/CommandHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/Destiny/WeeklySummary.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/General/Help.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/General/Ping.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/LFG/AddToGroup.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/LFG/ChangeName.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/LFG/ChangeTime.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/LFG/Countdown.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/LFG/JoinGroup.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/LFG/LeaveGroup.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/LFG/MyGroups.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/LFG/Post.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/LFG/RemoveFromGroup.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/LFG/RemoveGroup.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/LFG/RemoveOldGroups.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/LFG/RollCall.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/LFG/ViewAllGroups.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Commands/LFG/ViewGroup.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Core/Bot$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Core/Bot.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Core/EventHandlers/GuildUpdateEventHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Core/EventHandlers/MessageReactionEventHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Core/EventHandlers/TimedEventHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Core/PermissionHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Core/PropertyKeys.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Core/Utility.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Destiny/Activity.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Destiny/DestinyAPIWrapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Destiny/DestinyProperties.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Destiny/Milestone.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Exceptions/CustomAbstractException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Exceptions/GroupIsEmptyException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Exceptions/GroupNotFoundException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Exceptions/InvalidGroupTypeException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Exceptions/InvalidPermissionsException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Exceptions/MemberNotFoundException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Exceptions/NoArgumentsGivenException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Exceptions/NoAvailableSpotsException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Exceptions/NoBoardForPlatformException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/JDBC/AutoAssignmentSQL.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/JDBC/EventBoardSQL.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/JDBC/GroupSQL.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/JDBC/MainSQLHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/JDBC/SQLSchema.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/LFG/Group.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/LFG/GroupComparator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/LFG/LFGHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/LFG/Platform.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/META-INF/TestBot.main.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/resources/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/AbstractCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/AbstractCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/Admin/Clear.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/Admin/Clear.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/Admin/Disable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/Admin/Disable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/Admin/Enable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/Admin/Enable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/Admin/SetBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/Admin/SetBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/General/Help.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/General/Help.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/General/Ping.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/General/Ping.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/AddToGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/LFG/AddToGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/ChangeName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/LFG/ChangeName.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/ChangeTime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/LFG/ChangeTime.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/Countdown.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/LFG/Countdown.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/JoinGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/LFG/JoinGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/LeaveGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/LFG/LeaveGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/MyGroups.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/LFG/MyGroups.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/LFG/Post.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/RemoveFromGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/LFG/RemoveFromGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/RemoveGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/LFG/RemoveGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/RemoveOldGroups.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/LFG/RemoveOldGroups.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/RollCall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/LFG/RollCall.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/ViewAllGroups.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/LFG/ViewAllGroups.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/ViewGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/LFG/ViewGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Core/Utility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Core/Utility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Destiny/Milestone.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Destiny/Milestone.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/LFG/Group.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LFG/Group.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileChanges/last-build.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileContent/annotation-processors.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileContent/fileContent.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileHashes/resourceHashesCache.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_code_findbugs_annotations_2_0_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_code_findbugs_jsr305_3_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_code_gson_gson_2_8_4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_guava_guava_18_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_neovisionaries_nv_websocket_client_2_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_okhttp3_okhttp_3_8_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_okio_okio_1_13_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__net_dv8tion_JDA_3_6_0_355.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__net_java_dev_jna_jna_4_4_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__net_sf_trove4j_trove4j_3_0_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_apache_commons_commons_collections4_4_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_javassist_javassist_3_18_2_GA.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_json_json_20160810.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_reflections_reflections_0_9_10.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_slf4j_slf4j_api_1_7_25.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java_8_0_11.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/TestBot_main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/TestBot_test.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/AbstractCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/Admin/AddAutoRole.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/Admin/Clear.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/Admin/Disable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/Admin/Enable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/Admin/ReloadAutoRoles.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/Admin/ReloadBoards.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/Admin/RemoveAutoRole.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/Admin/SetAutoChannel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/Admin/SetBoard.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/CommandCategory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/CommandHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/Destiny/WeeklySummary.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/General/Help.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/General/Ping.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/LFG/AddToGroup.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/LFG/ChangeName.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/LFG/ChangeTime.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/LFG/Countdown.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/LFG/JoinGroup.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/LFG/LeaveGroup.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/LFG/MyGroups.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/LFG/Post.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/LFG/RemoveFromGroup.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/LFG/RemoveGroup.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/LFG/RemoveOldGroups.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/LFG/RollCall.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/LFG/ViewAllGroups.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Commands/LFG/ViewGroup.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Core/Bot$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Core/Bot.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Core/EventHandlers/GuildUpdateEventHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Core/EventHandlers/MessageReactionEventHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Core/EventHandlers/TimedEventHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Core/PermissionHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Core/PropertyKeys.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Core/Utility.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Destiny/Activity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Destiny/DestinyAPIWrapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Destiny/DestinyProperties.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Destiny/Milestone.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Exceptions/CustomAbstractException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Exceptions/GroupIsEmptyException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Exceptions/GroupNotFoundException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Exceptions/InvalidPermissionsException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Exceptions/MemberNotFoundException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Exceptions/NoArgumentsGivenException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Exceptions/NoAvailableSpotsException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Exceptions/NoBoardForPlatformException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/JDBC/AutoAssignmentSQL.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/JDBC/EventBoardSQL.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/JDBC/GroupSQL.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/JDBC/MainSQLHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/JDBC/SQLSchema.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/LFG/Group.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/LFG/GroupComparator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/LFG/LFGHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/distributions/TestBot-shadow-1.0.tar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/distributions/TestBot-shadow-1.0.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/libs/TestBot-1.0-all.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/libs/TestBot-1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/scripts/TestBot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/scripts/TestBot.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/scriptsShadow/TestBot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/scriptsShadow/TestBot.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/jar/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/shadowJar/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/casperdb/db-create.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/casperdb/db-drop.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/coverage-error.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/AbstractCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/Admin/AddAutoRole.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/Admin/Clear.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/Admin/Disable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/Admin/Enable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/Admin/ReloadAutoRoles.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/Admin/ReloadBoards.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/Admin/RemoveAutoRole.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/Admin/SetAutoChannel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/Admin/SetBoard.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/CommandCategory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/CommandHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/Destiny/WeeklySummary.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/General/Help.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/General/Ping.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/AddToGroup.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/ChangeName.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/ChangeTime.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/Countdown.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/JoinGroup.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/LeaveGroup.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/MyGroups.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/Post.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/RemoveFromGroup.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/RemoveGroup.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/RemoveOldGroups.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/RollCall.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/ViewAllGroups.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/LFG/ViewGroup.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Core/Bot.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Core/EventHandlers/GuildUpdateEventHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Core/EventHandlers/MessageReactionEventHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Core/EventHandlers/TimedEventHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Core/PermissionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Core/PropertyKeys.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Core/Utility.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Destiny/Activity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Destiny/DestinyAPIWrapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Destiny/DestinyProperties.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Destiny/Milestone.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Exceptions/CustomAbstractException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Exceptions/GroupIsEmptyException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Exceptions/GroupNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Exceptions/InvalidGroupTypeException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Exceptions/InvalidPermissionsException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Exceptions/MemberNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Exceptions/NoArgumentsGivenException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Exceptions/NoAvailableSpotsException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Exceptions/NoBoardForPlatformException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/JDBC/AutoAssignmentSQL.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/JDBC/EventBoardSQL.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/JDBC/GroupSQL.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/JDBC/MainSQLHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/JDBC/SQLSchema.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LFG/Group.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LFG/GroupComparator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LFG/LFGHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LFG/Platform.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -110,15 +197,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Commands/Admin/Disable.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="14" column="51" selection-start-line="14" selection-start-column="51" selection-end-line="14" selection-end-column="51" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Commands/Admin/SetAutoChannel.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -158,17 +236,26 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Commands/Destiny/WeeklySummary.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="197">
-              <caret line="42" selection-start-line="42" selection-end-line="42" />
+            <state relative-caret-position="418">
+              <caret line="55" selection-start-line="55" selection-end-line="59" selection-end-column="5" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="1" column="3" lean-forward="true" selection-start-line="1" selection-start-column="3" selection-end-line="1" selection-end-column="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Destiny/Milestone.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="282">
-              <caret line="38" column="93" lean-forward="true" selection-start-line="38" selection-start-column="93" selection-end-line="38" selection-end-column="93" />
+            <state relative-caret-position="333">
+              <caret line="36" selection-start-line="36" selection-end-line="36" />
             </state>
           </provider>
         </entry>
@@ -186,7 +273,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/Commands/Admin/ReloadBoards.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="421">
-              <caret line="63" column="29" lean-forward="true" selection-start-line="63" selection-start-column="29" selection-end-line="63" selection-end-column="29" />
+              <caret line="63" column="29" selection-start-line="63" selection-start-column="29" selection-end-line="63" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -245,7 +332,6 @@
         <option value="$PROJECT_DIR$/src/main/java/Core/EventHandlers/MessageReactionEventHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/Commands/LFG/SetEventChannel.java" />
         <option value="$PROJECT_DIR$/src/main/java/Commands/CommandHandler.java" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/main/java/LFG/Group.java" />
         <option value="$PROJECT_DIR$/src/main/java/Commands/LFG/AddToGroup.java" />
         <option value="$PROJECT_DIR$/src/main/java/Commands/LFG/ChangeName.java" />
@@ -271,6 +357,7 @@
         <option value="$PROJECT_DIR$/src/main/java/Commands/Admin/SetBoard.java" />
         <option value="$PROJECT_DIR$/src/main/java/Commands/General/Help.java" />
         <option value="$PROJECT_DIR$/src/main/java/Destiny/Milestone.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -318,6 +405,13 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="Commands" type="462c0819:PsiDirectoryNode" />
+              <item name="Destiny" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="TestBot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="Commands" type="462c0819:PsiDirectoryNode" />
               <item name="General" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -344,6 +438,18 @@
               <item name="TestBot" type="b2602c69:ProjectViewProjectNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="Destiny" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="TestBot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="Exceptions" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="TestBot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="JDBC" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -363,7 +469,7 @@
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543836446209" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543837392643" />
     <property name="external.system.task.project.file.to.start" value="$PROJECT_DIR$" />
     <property name="last_opened_file_path" value="$USER_HOME$/Desktop/mysql-connector-java-8.0.11.jar!/" />
     <property name="project.structure.last.edited" value="Libraries" />
@@ -461,7 +567,7 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2553305" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2553305" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -470,7 +576,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32936078" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32936078" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -628,13 +734,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="15" column="26" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="14" selection-start-column="14" selection-end-column="14" />
         </state>
       </provider>
     </entry>
@@ -857,7 +956,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/Commands/Admin/ReloadBoards.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="421">
-          <caret line="63" column="29" lean-forward="true" selection-start-line="63" selection-start-column="29" selection-end-line="63" selection-end-column="29" />
+          <caret line="63" column="29" selection-start-line="63" selection-start-column="29" selection-end-line="63" selection-end-column="29" />
         </state>
       </provider>
     </entry>
@@ -889,17 +988,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Commands/Destiny/WeeklySummary.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/Destiny/Milestone.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="42" selection-start-line="42" selection-end-line="42" />
+        <state relative-caret-position="333">
+          <caret line="36" selection-start-line="36" selection-end-line="36" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Destiny/Milestone.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/Commands/Destiny/WeeklySummary.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="38" column="93" lean-forward="true" selection-start-line="38" selection-start-column="93" selection-end-line="38" selection-end-column="93" />
+        <state relative-caret-position="418">
+          <caret line="55" selection-start-line="55" selection-end-line="59" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="3" lean-forward="true" selection-start-line="1" selection-start-column="3" selection-end-line="1" selection-end-column="3" />
         </state>
       </provider>
     </entry>
