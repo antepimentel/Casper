@@ -15,7 +15,7 @@ import java.util.List;
 public class RemoveFromGroup extends AbstractCommand {
 
     private static String command = "removefromgroup";
-    private static String desc = "temp";
+    private static String desc = "Remove a player from a group";
     private static String[] inputs = {"ID"};
 
     @Override
@@ -35,7 +35,7 @@ public class RemoveFromGroup extends AbstractCommand {
 
     @Override
     public int getCategory() {
-        return CommandCategory.GENERAL;
+        return CommandCategory.LFG;
     }
 
     public void run(Message msg) throws CustomAbstractException {

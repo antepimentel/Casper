@@ -18,11 +18,11 @@ public abstract class AbstractCommand {
     }
 
     public String getUsage(String name, String[] inputs){
-        String result = "```" + Bot.props.getProperty(PropertyKeys.DELIMITER_KEY)+name + " ";
+        String result = "`" + Bot.props.getProperty(PropertyKeys.DELIMITER_KEY)+name + " ";
         for(int i = 0; i < inputs.length; i++){
             result = result + "<" + inputs[i] + "> ";
         }
-        result = result + "```";
+        result = result + "`";
         return result;
     }
 

@@ -186,17 +186,22 @@ public class Group {
         for(int i = 0; i < players.size(); i++){
             playerText = playerText + (i+1) + ". " + players.get(i).getEffectiveName() + "\n";
         }
+
         eb.addField("Players", playerText, false);
 
-        String subText = "";
-        if(subs.size() > 0){
-            for(int i = 0; i < subs.size(); i++){
-                subText = subText + (players.size()+1) + ". " + subs.get(i).getEffectiveName() + "\n";
+        if(subs.size() != 0) {
+            String subText = "";
+            if(subs.size() > 0){
+                for(int i = 0; i < subs.size(); i++){
+                    subText = subText + (players.size()+1) + ". " + subs.get(i).getEffectiveName() + "\n";
+                }
             }
+
+            eb.addField("Subs", subText, false);
         }
-        eb.addField("Subs", subText, false);
 
         eb.setFooter("Group Creator: "+owner.getEffectiveName(), null);
+        eb.setAuthor("⠀", null, platform.getEmbedIconUrl()); // uses U+2800 for name.
         eb.setColor(platform.getEmbedColor());
 
         return eb.build();
@@ -294,9 +299,9 @@ public class Group {
     }
 
     public static void setPlatforms(){
-        PLATFORMS.add(new Platform("ps4", 0x6acefc, ""));
-        PLATFORMS.add(new Platform("pc", 0xbc61ed, ""));
-        PLATFORMS.add(new Platform("xbox", 0x82ed7b, ""));
+        PLATFORMS.add(new Platform("ps4", 0x00AE86, "https://i0.wp.com/freepngimages.com/wp-content/uploads/2014/05/playstation_logo_2.png?w=220"));
+        PLATFORMS.add(new Platform("pc", 0x00AE86, "https://banner2.kisspng.com/20180416/ave/kisspng-battle-net-computer-icons-blizzard-entertainment-v-jainism-5ad4b5106d9d86.495096951523889424449.jpg"));
+        PLATFORMS.add(new Platform("xbox", 0x00AE86, "http://icons.iconarchive.com/icons/dakirby309/simply-styled/256/Xbox-icon.png"));
     }
 
     public String getPlatform() {

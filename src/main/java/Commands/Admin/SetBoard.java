@@ -14,7 +14,7 @@ import net.dv8tion.jda.core.entities.Message;
 public class SetBoard extends AbstractCommand {
 
     private static String command = "setboard";
-    private static String desc = "temp";
+    private static String desc = "Set a channel to be the event board channel for a platform";
     private static String[] inputs = {"command"};
 
     @Override

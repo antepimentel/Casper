@@ -1,6 +1,7 @@
 package Commands.LFG;
 
 import Commands.AbstractCommand;
+import Commands.CommandCategory;
 import Exceptions.CustomAbstractException;
 import Exceptions.NoAvailableSpotsException;
 import LFG.LFGHandler;
@@ -28,9 +29,7 @@ public class JoinGroup extends AbstractCommand {
     }
 
     @Override
-    public int getCategory() {
-        return 0;
-    }
+    public int getCategory() { return CommandCategory.LFG; }
 
     @Override
     public void run(Message msg) throws CustomAbstractException {

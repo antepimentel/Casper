@@ -11,7 +11,7 @@ import java.util.List;
 public class Clear extends AbstractCommand {
 
     private static String command = "clear";
-    private static String desc = "temp";
+    private static String desc = "Clear a channel 50 messages at a time.";
     private static String[] inputs = {};
 
     @Override

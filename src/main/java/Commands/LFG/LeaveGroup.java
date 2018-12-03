@@ -1,6 +1,7 @@
 package Commands.LFG;
 
 import Commands.AbstractCommand;
+import Commands.CommandCategory;
 import Exceptions.*;
 import JDBC.GroupSQL;
 import LFG.Group;
@@ -30,7 +31,7 @@ public class LeaveGroup extends AbstractCommand {
 
     @Override
     public int getCategory() {
-        return 0;
+        return CommandCategory.LFG;
     }
 
     @Override

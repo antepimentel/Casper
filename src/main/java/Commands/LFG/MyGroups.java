@@ -1,6 +1,7 @@
 package Commands.LFG;
 
 import Commands.AbstractCommand;
+import Commands.CommandCategory;
 import Exceptions.CustomAbstractException;
 import LFG.Group;
 import LFG.LFGHandler;
@@ -31,7 +32,7 @@ public class MyGroups extends AbstractCommand {
 
     @Override
     public int getCategory() {
-        return 0;
+        return CommandCategory.LFG;
     }
 
     @Override
