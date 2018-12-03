@@ -71,9 +71,22 @@ public class Post extends AbstractCommand {
                 args = super.getInputArgs(msg);
             }
 
-            Group g = LFGHandler.post(msg.getGuild().getId(), args[0], args[1], args[2], args[3], msg.getMember(), args[4]);
+            //Check platform
+            int platformIndex = -1;
+            for(int i = 0; i < Group.PLATFORMS.size(); i++){
+                if(Group.PLATFORMS.get(i).getName().equals(args[4])) {
+                    platformIndex = i;
+                    break;
+                }
+            }
 
-            response = g.toString();
+            if(platformIndex != -1) {
+                Group g = LFGHandler.post(msg.getGuild().getId(), args[0], args[1], args[2], args[3], msg.getMember(), args[4]);
+                response = g.toString();
+            } else {
+                response = "No platform exists for: " + args[4];
+            }
+
         } catch (ParseException e){
             e.printStackTrace();
             response = "Unable to parse date/time. Required format:"

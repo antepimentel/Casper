@@ -44,7 +44,15 @@ public class SetBoard extends AbstractCommand {
 
         PermissionHandler.checkModPermissions(msg.getMember());
 
-        if(Group.PLATFORMS.contains(platform)){
+        int platformIndex = -1;
+        for(int i = 0; i < Group.PLATFORMS.size(); i++){
+            if(Group.PLATFORMS.get(i).getName().equals(platform)) {
+                platformIndex = i;
+                break;
+            }
+        }
+
+        if(platformIndex != -1) {
             EventBoardSQL.setEventBoard(msg.getGuild().getId(), msg.getChannel().getId(), platform);
             response = "Board set for " + platform;
         } else {

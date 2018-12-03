@@ -18,8 +18,6 @@ public class DestinyAPIWrapper {
     private static HashMap<String, Integer> platform = new HashMap<String, Integer>();
     private static JsonParser parser = new JsonParser();
 
-
-
     public static ArrayList<Milestone> getPublicMilestones() throws IOException{
         JsonObject resp = sendRequest("/Destiny2/Milestones/");
         ArrayList<Milestone> milestones = new ArrayList<Milestone>();

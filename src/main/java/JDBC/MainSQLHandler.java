@@ -16,7 +16,7 @@ public class MainSQLHandler {
 
     // JDBC Driver Name & Database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String JDBC_DB_URL = "jdbc:mysql://localhost:3306/" + Bot.props.getProperty(PropertyKeys.JDBC_DB_NAME_KEY) + "?useSSL=false";
+    static final String JDBC_DB_URL = "jdbc:mysql://localhost:3306/" + Bot.props.getProperty(PropertyKeys.JDBC_DB_NAME_KEY) + "?allowPublicKeyRetrieval=true&useSSL=false";
 
     static final String JDBC_USER = Bot.props.getProperty(PropertyKeys.JDBC_USER_KEY);
     static final String JDBC_PASS = Bot.props.getProperty(PropertyKeys.JDBC_PASS_KEY);

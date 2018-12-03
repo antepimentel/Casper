@@ -43,6 +43,7 @@ create table post (
 	subs varchar(40),
 	sys_type varchar(4) not null,
 	msg_id varchar(20) not null,
+    owner_id varchar(20) not null,
 	constraint server_post_fk
 		foreign key (serverid) references server (id)
 );

@@ -32,7 +32,6 @@ public class CommandHandler extends ListenerAdapter {
         String delim = Bot.props.getProperty(PropertyKeys.DELIMITER_KEY);
         if(e.getMessage().getContentRaw().startsWith(delim)){
             String[] args = e.getMessage().getContentRaw().substring(delim.length()).split(" ");
-
             if(commands.containsKey(args[0])){
                 AbstractCommand com = commands.get(args[0]);
                 try {

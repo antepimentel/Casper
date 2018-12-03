@@ -4,6 +4,7 @@ import Core.Bot;
 import Exceptions.NoAvailableSpotsException;
 import LFG.Group;
 
+import java.lang.reflect.Member;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +26,7 @@ public class GroupSQL {
         String players = g.getPlayerIDString();
         String subs = g.getSubIDString();
 
-        String query = "insert into " + SQLSchema.TABLE_POST + " values (?,?,?,?,?,?,?,?)";
+        String query = "insert into " + SQLSchema.TABLE_POST + " values (?,?,?,?,?,?,?,?,?)";
 
         try {
             PreparedStatement stmtObj = connObj.prepareStatement(query);
@@ -37,6 +38,7 @@ public class GroupSQL {
             stmtObj.setString(6, subs); // Subs
             stmtObj.setString(7, g.getType()); // Platform
             stmtObj.setString(8, g.getMsgID()); // Message ID
+            stmtObj.setString(9, g.getOwnerID());
             stmtObj.executeUpdate();
             connObj.commit();
             connObj.rollback();
@@ -176,8 +178,10 @@ public class GroupSQL {
             String subs = rs.getString(SQLSchema.POST_COL_SUBS);
             String platform = rs.getString(SQLSchema.POST_COL_TYPE);
             String msgID = rs.getString(SQLSchema.POST_COL_MSG_ID);
+            String ownerID = rs.getString(SQLSchema.POST_COL_OWNER_ID);
 
-            Group g = new Group(serverID, groupID, name, date, platform, msgID);
+            net.dv8tion.jda.core.entities.Member owner = Bot.jda.getGuildById(serverID).getMemberById(ownerID);
+            Group g = new Group(serverID, groupID, name, date, platform, owner, msgID);
 
             StringTokenizer st = new StringTokenizer(players, "#");
             while(st.hasMoreTokens()){
@@ -188,6 +192,8 @@ public class GroupSQL {
             while(st.hasMoreTokens()){
                 g.joinAsSub(Bot.jda.getGuildById(serverID).getMemberById(st.nextToken()));
             }
+
+            if(g.getPlayers().size() == 0) g.setEmpty(true);
 
             return g;
         } catch (ParseException e) {
