@@ -2,6 +2,7 @@ package Commands;
 
 import Core.Bot;
 import Core.PropertyKeys;
+import Core.Utility;
 import Exceptions.CustomAbstractException;
 import JDBC.MainSQLHandler;
 import net.dv8tion.jda.core.entities.Message;
@@ -13,6 +14,7 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import org.reflections.Reflections;
@@ -25,7 +27,7 @@ public class CommandHandler extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent e){
 
         // Ignore Private Messages
-        if(e.getMessage().getGuild() == null){
+        if(e.getMessage().getGuild() == null || e.getAuthor().getId().equals(Bot.jda.getSelfUser().getId())) {
             return;
         }
 
@@ -50,6 +52,21 @@ public class CommandHandler extends ListenerAdapter {
                 }
             } else if(customCommands.containsKey(args[0])){
                 e.getMessage().getChannel().sendMessage(customCommands.get(args[0])).queue();
+            } else {
+                String response = "";
+
+                HashMap<String, AbstractCommand> similarCommands = getSimilarCommands(args[0]);
+                response = Bot.props.getProperty(PropertyKeys.DELIMITER_KEY) + args[0] + " is not a command, ";
+                System.out.println(similarCommands.keySet().size());
+                if(similarCommands.keySet().size() == 0) response += "and no similar commands were found.";
+                else response += "did you mean: ";
+
+                for(String name : similarCommands.keySet()) {
+                    response += "\n`" + Bot.props.getProperty(PropertyKeys.DELIMITER_KEY) + name + "`";
+                }
+
+                response += "\n\nType " + Bot.props.getProperty(PropertyKeys.DELIMITER_KEY) + "help to get a list of available commands";
+                e.getMessage().getChannel().sendMessage(response).queue();
             }
         }
     }
@@ -88,4 +105,20 @@ public class CommandHandler extends ListenerAdapter {
     public static HashMap<String, AbstractCommand> getCommands(){
         return commands;
     }
+
+    public static HashMap<String, AbstractCommand> getSimilarCommands(String input) {
+        HashMap<String, AbstractCommand> availableCommands = getCommands();
+        HashMap<String, AbstractCommand> similarCommands = new HashMap<>();
+        for(String name : availableCommands.keySet()) {
+            int distance = Utility.levenshtienDistance(input, name);
+
+            if(distance <= 2){
+                similarCommands.put(name, availableCommands.get(name));
+            }
+        }
+
+        return similarCommands;
+    }
+
+
 }
