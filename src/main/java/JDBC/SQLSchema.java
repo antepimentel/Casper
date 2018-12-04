@@ -32,6 +32,7 @@ public class SQLSchema {
     public static String POST_COL_SUBS = "subs";
     public static String POST_COL_TYPE = "sys_type";
     public static String POST_COL_MSG_ID = "msg_id";
+    public static String POST_COL_OWNER_ID = "owner_id";
 
     // AutoChannel
     public static String TABLE_AC = "autochannel";

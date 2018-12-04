@@ -8,8 +8,10 @@ import JDBC.EventBoardSQL;
 import JDBC.GroupSQL;
 import LFG.Group;
 import LFG.LFGHandler;
+import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.Event;
+import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.events.message.react.GenericMessageReactionEvent;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.core.events.message.react.MessageReactionRemoveEvent;
@@ -17,11 +19,11 @@ import net.dv8tion.jda.core.events.message.react.MessageReactionRemoveEvent;
 
 public class MessageReactionEventHandler implements net.dv8tion.jda.core.hooks.EventListener {
 
-    public static String MONITORED_REACTION = "\uD83E\uDD86";//Bot.props.getProperty(PropertyKeys.MONITORED_REACTION_KEY); //Unicode, this may not work after the props file has been re-saved
-    private static String JOIN_REACTION = "\uD83D\uDE00"; // Smiley
-    private static String LEAVE_REACTION = "\uD83D\uDE02"; // Tears of joy
-    private static String ROLLCALL_REACTION = "\uD83D\uDE0E"; // Glasses
-    private static String DELETE_REACTION = "\uD83D\uDE0D"; // Hearts
+    public static String MONITORED_REACTION;//Bot.props.getProperty(PropertyKeys.MONITORED_REACTION_KEY); //Unicode, this may not work after the props file has been re-saved
+    private static Emote JOIN_REACTION; // Smiley
+    private static Emote LEAVE_REACTION; // Tears of joy
+    private static Emote ROLLCALL_REACTION; // Glasses
+    private static Emote DELETE_REACTION; // Hearts
 
     @Override
     public void onEvent(Event e){
@@ -32,6 +34,17 @@ public class MessageReactionEventHandler implements net.dv8tion.jda.core.hooks.E
                 id = ((GenericMessageReactionEvent) e).getUser().getId();
             }
 
+            // Setup reactions
+            if(e instanceof ReadyEvent) {
+                JDA jda = e.getJDA();
+
+                MONITORED_REACTION = "➕";
+                JOIN_REACTION = jda.getEmotesByName("plus", false).get(0);
+                LEAVE_REACTION = jda.getEmotesByName("minus", false).get(0);
+                ROLLCALL_REACTION = jda.getEmotesByName("rollcall", false).get(0);
+                DELETE_REACTION = jda.getEmotesByName("delete", false).get(0);
+            }
+
             if(id.equals(Bot.SELF_USER_ID)){
                 // Do nothing
             } else if(e instanceof MessageReactionAddEvent){
@@ -40,13 +53,13 @@ public class MessageReactionEventHandler implements net.dv8tion.jda.core.hooks.E
                 onMessageReactionRemoveEvent((MessageReactionRemoveEvent) e);
             }
         } catch (Exception err){
-            System.out.println(err.getMessage());
+            System.out.println(err.toString());
+            err.printStackTrace();
         }
     }
 
     public void onMessageReactionAddEvent(MessageReactionAddEvent e){
         handleAutoRoleAddEvent(e);
-
         try {
             handleEventBoardAddEvent(e);
         } catch (GroupNotFoundException e1) {
@@ -89,25 +102,32 @@ public class MessageReactionEventHandler implements net.dv8tion.jda.core.hooks.E
     //============================================
     private void handleEventBoardAddEvent(MessageReactionAddEvent e) throws GroupNotFoundException, NoAvailableSpotsException, MemberNotFoundException, InvalidPermissionsException {
         Group g = GroupSQL.queryGroupFromMsgID(e.getGuild().getId(), e.getMessageId());
+
         if(g != null){
-            String reaction = e.getReactionEmote().getName();
-           if(reaction.equals(JOIN_REACTION)){
+            Emote reaction = e.getReactionEmote().getEmote();
+            String reactionID = reaction.getId();
+
+           if(reactionID.equals(JOIN_REACTION.getId())){
                LFGHandler.join(g, e.getMember());
                refreshMessage(e.getTextChannel(), e.getMessageId(), g);
 
-           } else if(reaction.equals(LEAVE_REACTION)){
+           } else if(reactionID.equals(LEAVE_REACTION.getId())){
                LFGHandler.leave(g, e.getMember());
                refreshMessage(e.getTextChannel(), e.getMessageId(), g);
 
-           } else if(reaction.equals(ROLLCALL_REACTION)){
+           } else if(reactionID.equals(ROLLCALL_REACTION.getId())){
                 LFGHandler.pingPlayers(g);
 
-           } else if(reaction.equals(DELETE_REACTION)){
+           } else if(reactionID.equals(DELETE_REACTION.getId())){
                 // Check permissions
                PermissionHandler.isLeaderOrMod(e.getMember(), g);
                GroupSQL.delete(g);
                e.getTextChannel().deleteMessageById(e.getMessageId()).complete();
+           } else {
+               System.out.println("Unknown Emote: "+reaction.toString());
            }
+        } else {
+            throw new GroupNotFoundException(null);
         }
     }
 
@@ -120,12 +140,13 @@ public class MessageReactionEventHandler implements net.dv8tion.jda.core.hooks.E
     }
 
     private static void refreshMessage(TextChannel tc, String msgID, Group group){
-        tc.getMessageById(msgID).complete().editMessage(group.toStringFull()).queue();
+        tc.getMessageById(msgID).complete().editMessage(group.toEmbed()).queue();
     }
 
     public static String postEventGroup(Group g) throws NoBoardForPlatformException {
+        System.out.println(g.getServerID() + ", " + g.getType());
         TextChannel tc = EventBoardSQL.getEventBoard(g.getServerID(), g.getType());
-        Message msg = tc.sendMessage(g.toStringFull()).complete();
+        Message msg = tc.sendMessage(g.toEmbed()).complete();
 
         msg.addReaction(JOIN_REACTION).queue();
         msg.addReaction(LEAVE_REACTION).queue();
@@ -134,5 +155,4 @@ public class MessageReactionEventHandler implements net.dv8tion.jda.core.hooks.E
 
         return msg.getId();
     }
-
 }

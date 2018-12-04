@@ -11,7 +11,7 @@ import java.util.List;
 public class Clear extends AbstractCommand {
 
     private static String command = "clear";
-    private static String desc = "temp";
+    private static String desc = "Clear a channel 50 messages at a time.";
     private static String[] inputs = {};
 
     @Override
@@ -31,7 +31,7 @@ public class Clear extends AbstractCommand {
 
     @Override
     public int getCategory() {
-        return CommandCategory.GENERAL;
+        return CommandCategory.ADMIN;
     }
 
     public void run(Message msg) throws InvalidPermissionsException {

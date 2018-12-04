@@ -14,7 +14,7 @@ import java.util.List;
 public class SetAutoChannel extends AbstractCommand {
 
     private static String command = "setautochannel";
-    private static String desc = "temp";
+    private static String desc = "Call this from the channel you want to use for auto role assignment";
     private static String[] inputs = {};
 
     @Override
@@ -34,7 +34,7 @@ public class SetAutoChannel extends AbstractCommand {
 
     @Override
     public int getCategory() {
-        return CommandCategory.GENERAL;
+        return CommandCategory.ADMIN;
     }
 
     public void run(Message msg) throws InvalidPermissionsException, NoArgumentsGivenException {

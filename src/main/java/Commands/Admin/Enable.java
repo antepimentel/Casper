@@ -12,7 +12,7 @@ import net.dv8tion.jda.core.entities.Message;
 public class Enable extends AbstractCommand {
 
     private static String command = "enable";
-    private static String desc = "temp";
+    private static String desc = "Emable a command";
     private static String[] inputs = {"command"};
 
     @Override
@@ -32,7 +32,7 @@ public class Enable extends AbstractCommand {
 
     @Override
     public int getCategory() {
-        return CommandCategory.GENERAL;
+        return CommandCategory.ADMIN;
     }
 
     public void run(Message msg) throws NoArgumentsGivenException, InvalidPermissionsException {

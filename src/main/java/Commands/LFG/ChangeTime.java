@@ -34,7 +34,7 @@ public class ChangeTime extends AbstractCommand {
 
     @Override
     public int getCategory() {
-        return CommandCategory.GENERAL;
+        return CommandCategory.LFG;
     }
 
     public void run(Message msg) throws CustomAbstractException {

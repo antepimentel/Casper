@@ -90,8 +90,8 @@ public class EventBoardSQL {
                         + " where " + SQLSchema.EB_COL_SERVERID + "=? and " + SQLSchema.EB_COL_TYPE + "=?";
 
                 PreparedStatement stmtObj2 = connObj.prepareStatement(query);
-                stmtObj2.setString(1, channelID); // Channel ID
-                stmtObj2.setString(2, serverID); // Server ID
+                stmtObj2.setString(1, serverID); // Channel ID
+                stmtObj2.setString(2, channelID); // Server ID
                 stmtObj2.setString(3, type); // System Type
 
                 stmtObj2.executeUpdate();
@@ -101,11 +101,12 @@ public class EventBoardSQL {
                 // Entry does not exist, create a new one
                 query = "insert into " + SQLSchema.TABLE_EB + " values(?,?,?)";
 
-                PreparedStatement stmtObj2 = connObj.prepareStatement(query);
-                stmtObj2.setString(1, channelID); // Channel ID
-                stmtObj2.setString(2, serverID); // Server ID
-                stmtObj2.setString(3, type); // System Type
 
+                PreparedStatement stmtObj2 = connObj.prepareStatement(query);
+                stmtObj2.setString(1, serverID); // Channel ID
+                stmtObj2.setString(2, channelID); // Server ID
+                stmtObj2.setString(3, type); // System Type
+                System.out.println(stmtObj2.toString());
                 stmtObj2.executeUpdate();
                 connObj.commit();
                 connObj.rollback();

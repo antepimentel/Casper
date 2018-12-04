@@ -14,7 +14,7 @@ import java.util.List;
 public class AddAutoRole extends AbstractCommand {
 
     private static String command = "addautorole";
-    private static String desc = "temp";
+    private static String desc = "Adds a role to the auto role assignment channel";
     private static String[] inputs = {"role"};
 
     @Override
@@ -34,7 +34,7 @@ public class AddAutoRole extends AbstractCommand {
 
     @Override
     public int getCategory() {
-        return CommandCategory.GENERAL;
+        return CommandCategory.ADMIN;
     }
 
     public void run(Message msg) throws InvalidPermissionsException, NoArgumentsGivenException {

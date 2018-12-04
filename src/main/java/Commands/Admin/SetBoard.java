@@ -14,8 +14,8 @@ import net.dv8tion.jda.core.entities.Message;
 public class SetBoard extends AbstractCommand {
 
     private static String command = "setboard";
-    private static String desc = "temp";
-    private static String[] inputs = {"command"};
+    private static String desc = "Set a channel to be the event board channel for a platform";
+    private static String[] inputs = {"platform"};
 
     @Override
     public String[] getInputs() {
@@ -34,7 +34,7 @@ public class SetBoard extends AbstractCommand {
 
     @Override
     public int getCategory() {
-        return CommandCategory.GENERAL;
+        return CommandCategory.ADMIN;
     }
 
     public void run(Message msg) throws NoArgumentsGivenException, InvalidPermissionsException {
@@ -44,7 +44,15 @@ public class SetBoard extends AbstractCommand {
 
         PermissionHandler.checkModPermissions(msg.getMember());
 
-        if(Group.PLATFORMS.contains(platform)){
+        int platformIndex = -1;
+        for(int i = 0; i < Group.PLATFORMS.size(); i++){
+            if(Group.PLATFORMS.get(i).getName().equals(platform)) {
+                platformIndex = i;
+                break;
+            }
+        }
+
+        if(platformIndex != -1) {
             EventBoardSQL.setEventBoard(msg.getGuild().getId(), msg.getChannel().getId(), platform);
             response = "Board set for " + platform;
         } else {

@@ -17,6 +17,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 
 import javax.xml.soap.Text;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,8 +25,8 @@ import java.util.Map;
 public class ReloadBoards extends AbstractCommand {
 
     private static String command = "reloadboards";
-    private static String desc = "temp";
-    private static String[] inputs = {"command"};
+    private static String desc = "Reloads all event boards on this server";
+    private static String[] inputs = {};
 
     @Override
     public String[] getInputs() {
@@ -44,7 +45,7 @@ public class ReloadBoards extends AbstractCommand {
 
     @Override
     public int getCategory() {
-        return CommandCategory.GENERAL;
+        return CommandCategory.ADMIN;
     }
 
     public void run(Message msg) throws InvalidPermissionsException, NoBoardForPlatformException {

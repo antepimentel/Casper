@@ -1,10 +1,14 @@
 package LFG;
 
+import Core.Bot;
 import Exceptions.GroupIsEmptyException;
 import Exceptions.MemberNotFoundException;
 import Exceptions.NoAvailableSpotsException;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 
+import java.awt.*;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -19,7 +23,7 @@ import java.util.TimeZone;
  */
 public class Group {
 
-    public static ArrayList<String> PLATFORMS = new ArrayList<String>();
+    public static ArrayList<Platform> PLATFORMS = new ArrayList<Platform>();
 
     private static final int MAX_GROUP_SIZE = 6;
     private static final int MAX_SUBS = 2;
@@ -33,6 +37,8 @@ public class Group {
     private String timezone;
     private String platform;
     private String msgID;
+    private Member owner;
+    private boolean empty;
 
     public static DateFormat df = new SimpleDateFormat("MM/dd hh:mmaa zzz yyyy");
 
@@ -59,9 +65,11 @@ public class Group {
         this.df.setTimeZone(TimeZone.getTimeZone(timezone));
         this.date = df.parse(date +" "+ time +" "+ timezone + " " + year);
         this.dateCreated = new Date();
+        this.owner = m;
         //this.time = time;
-        //this.timezone = timezone;
+        this.timezone = timezone;
         players.add(m);
+        this.empty = false;
         this.platform = platform;
     }
 
@@ -74,7 +82,7 @@ public class Group {
      * @param date
      * @throws ParseException
      */
-    public Group(String serverID, int id, String name, Date date, String platform, String msgID) throws ParseException {
+    public Group(String serverID, int id, String name, Date date, String platform, Member owner, String msgID) throws ParseException {
         ID = id;
         this.name = name;
         this.serverID = serverID;
@@ -84,6 +92,7 @@ public class Group {
         //this.timezone = timezone;
         this.platform = platform;
         this.msgID = msgID;
+        this.owner = owner;
     }
 
     public void join(Member m) throws NoAvailableSpotsException {
@@ -115,10 +124,10 @@ public class Group {
     }
 
     public void removePlayer(Member m) throws MemberNotFoundException, GroupIsEmptyException {
-        if(players.contains(m)){
-            players.remove(m);
-        } else if(subs.contains(m)){
+        if(subs.contains(m)){
             subs.remove(m);
+        } else if(players.contains(m)){
+            players.remove(m);
         } else {
             throw new MemberNotFoundException(ID, m);
         }
@@ -158,6 +167,46 @@ public class Group {
         return "```"+temp+"```";
     }
 
+    public MessageEmbed toEmbed() {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle(name);
+        eb.addField("ID", Integer.toString(ID), false);
+        eb.addField("Start Date & Time", df.format(date), false);
+
+        Platform platform = null;
+        for(Platform p : PLATFORMS) {
+            if(p.getName().equals(this.platform)) {
+                platform = p;
+            }
+        }
+
+        String playerText = (empty) ?
+                "This group is empty, use the " + Bot.jda.getEmotesByName("plus", false).get(0).getAsMention() + " reaction to join it." :
+                "" ;
+        for(int i = 0; i < players.size(); i++){
+            playerText = playerText + (i+1) + ". " + players.get(i).getEffectiveName() + "\n";
+        }
+
+        eb.addField("Players", playerText, false);
+
+        if(subs.size() != 0) {
+            String subText = "";
+            if(subs.size() > 0){
+                for(int i = 0; i < subs.size(); i++){
+                    subText = subText + (players.size()+1) + ". " + subs.get(i).getEffectiveName() + "\n";
+                }
+            }
+
+            eb.addField("Subs", subText, false);
+        }
+
+        eb.setFooter("Group Creator: "+owner.getEffectiveName(), null);
+        eb.setAuthor("⠀", null, platform.getEmbedIconUrl()); // uses U+2800 for name.
+        eb.setColor(platform.getEmbedColor());
+
+        return eb.build();
+    }
+
     public int getID() {
         return ID;
     }
@@ -185,6 +234,13 @@ public class Group {
     public String getType() {
         return platform;
     }
+
+    public String getOwnerID() { return owner.getUser().getId(); }
+
+    public void setOwner(Member m) { this.owner = m; }
+
+    public boolean getEmpty() { return empty; }
+    public void setEmpty(boolean empty ) { this.empty = empty; }
 
     public void setDate(String date, String time, String timezone) throws ParseException {
         int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -243,9 +299,9 @@ public class Group {
     }
 
     public static void setPlatforms(){
-        PLATFORMS.add("ps4");
-        PLATFORMS.add("xbox");
-        PLATFORMS.add("pc");
+        PLATFORMS.add(new Platform("ps4", 0x00AE86, "https://i0.wp.com/freepngimages.com/wp-content/uploads/2014/05/playstation_logo_2.png?w=220"));
+        PLATFORMS.add(new Platform("pc", 0x00AE86, "https://banner2.kisspng.com/20180416/ave/kisspng-battle-net-computer-icons-blizzard-entertainment-v-jainism-5ad4b5106d9d86.495096951523889424449.jpg"));
+        PLATFORMS.add(new Platform("xbox", 0x00AE86, "http://icons.iconarchive.com/icons/dakirby309/simply-styled/256/Xbox-icon.png"));
     }
 
     public String getPlatform() {

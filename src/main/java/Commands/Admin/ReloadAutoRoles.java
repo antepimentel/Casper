@@ -12,7 +12,7 @@ import java.util.List;
 public class ReloadAutoRoles extends AbstractCommand {
 
     private static String command = "reloadautoroles";
-    private static String desc = "temp";
+    private static String desc = "Reloads the auto role assignment channel on this server";
     private static String[] inputs = {};
 
     @Override
@@ -32,7 +32,7 @@ public class ReloadAutoRoles extends AbstractCommand {
 
     @Override
     public int getCategory() {
-        return CommandCategory.GENERAL;
+        return CommandCategory.ADMIN;
     }
 
     public void run(Message msg) throws InvalidPermissionsException {

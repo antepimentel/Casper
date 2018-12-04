@@ -14,8 +14,8 @@ import java.util.List;
 public class RemoveAutoRole extends AbstractCommand {
 
     private static String command = "removeautorole";
-    private static String desc = "temp";
-    private static String[] inputs = {};
+    private static String desc = "Removes the role from the auto assignment channel";
+    private static String[] inputs = {"role"};
 
     @Override
     public String[] getInputs() {
@@ -34,7 +34,7 @@ public class RemoveAutoRole extends AbstractCommand {
 
     @Override
     public int getCategory() {
-        return CommandCategory.GENERAL;
+        return CommandCategory.ADMIN;
     }
 
     public void run(Message msg) throws InvalidPermissionsException, NoArgumentsGivenException {

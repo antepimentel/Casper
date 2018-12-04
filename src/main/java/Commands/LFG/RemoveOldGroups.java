@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class RemoveOldGroups extends AbstractCommand {
 
     private static String command = "removeoldgroups";
-    private static String desc = "temp";
+    private static String desc = "Remove groups that have passed there start date";
     private static String[] inputs = {};
 
     @Override
@@ -36,7 +36,7 @@ public class RemoveOldGroups extends AbstractCommand {
 
     @Override
     public int getCategory() {
-        return CommandCategory.GENERAL;
+        return CommandCategory.LFG;
     }
 
     public void run(Message msg) throws InvalidPermissionsException {
@@ -59,6 +59,7 @@ public class RemoveOldGroups extends AbstractCommand {
 
         // For safe removal
         for(int i = 0; i < toRemove.size(); i++){
+            System.out.println(toRemove.get(i).toString());
             GroupSQL.delete(toRemove.get(i));
         }
 

@@ -1,13 +1,14 @@
 package Commands.General;
 
 import Commands.AbstractCommand;
+import Commands.CommandCategory;
 import JDBC.MainSQLHandler;
 import net.dv8tion.jda.core.entities.Message;
 
 public class Ping extends AbstractCommand {
 
     private static String command = "ping";
-    private static String desc = "temp";
+    private static String desc = "Ping the bot";
     private static String[] inputs = {};
 
     @Override
@@ -27,7 +28,7 @@ public class Ping extends AbstractCommand {
 
     @Override
     public int getCategory() {
-        return 0;
+        return CommandCategory.GENERAL;
     }
 
     @Override

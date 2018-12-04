@@ -33,10 +33,10 @@ public class Milestone {
 
         // Check for sub activities/quests
         JsonArray questsJson = input.getAsJsonObject(hashKey).getAsJsonArray("availableQuests");
-
         try{
             for(int i = 0; i < questsJson.size(); i++){
-                String questHashKey = questsJson.get(i).getAsJsonObject().getAsJsonObject("activity").getAsJsonPrimitive("activityHash").toString();
+                System.out.println(questsJson.get(i).getAsJsonObject().toString());
+                String questHashKey = questsJson.get(i).getAsJsonObject().getAsJsonPrimitive("questItemHash").toString();
                 JsonObject questJson = DestinyAPIWrapper.getDestinyEntityDefinition(DestinyProperties.ACTIVITY_DEF, questHashKey);
 
                 this.quests.add(new Activity(questJson));

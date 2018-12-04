@@ -28,7 +28,7 @@ public class Bot extends ListenerAdapter {
 
         // Initialize
         loadProperties();
-        jdaBuilder.setToken(props.getProperty(PropertyKeys.BOT_TOKEN_KEY));
+       jdaBuilder.setToken(props.getProperty(PropertyKeys.BOT_TOKEN_KEY));
         jdaBuilder.setAudioEnabled(false);
         CommandHandler ch = new CommandHandler();
         ch.init();
@@ -46,6 +46,7 @@ public class Bot extends ListenerAdapter {
                     SELF_USER_ID = event.getJDA().getSelfUser().getId();
                     MainSQLHandler.init();
                     LFGHandler.init();
+
                 }
             }
         });

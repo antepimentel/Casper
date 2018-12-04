@@ -3,6 +3,7 @@ package LFG;
 import Core.EventHandlers.MessageReactionEventHandler;
 import Exceptions.*;
 import JDBC.GroupSQL;
+import JDBC.EventBoardSQL;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.PrivateChannel;
 
@@ -33,6 +34,7 @@ public class LFGHandler {
                 poster,
                 platform
         );
+
         String msgID = MessageReactionEventHandler.postEventGroup(g);
         g.setMsgID(msgID);
         GroupSQL.save(g);
@@ -49,6 +51,7 @@ public class LFGHandler {
         Group g = findGroupByID(serverID, ID);
         g.join(m);
         GroupSQL.updatePlayers(g);
+        if(g.getEmpty()) g.setEmpty(false);
     }
 
     public static void join(Group g, Member m) throws GroupNotFoundException, NoAvailableSpotsException {
@@ -67,8 +70,13 @@ public class LFGHandler {
         try{
             g.removePlayer(m);
             GroupSQL.updatePlayers(g);
+
+            if(g.getEmpty()) g.setEmpty(false);
         } catch (GroupIsEmptyException e){
-            GroupSQL.delete(g);
+            if(!g.getEmpty())  {
+                GroupSQL.updatePlayers(g);
+                g.setEmpty(true);
+            }
         }
     }
 
@@ -76,8 +84,13 @@ public class LFGHandler {
         try{
             g.removePlayer(m);
             GroupSQL.updatePlayers(g);
+
+            if(g.getEmpty()) g.setEmpty(false);
         } catch (GroupIsEmptyException e){
-            GroupSQL.delete(g);
+            if(!g.getEmpty())  {
+                GroupSQL.updatePlayers(g);
+                g.setEmpty(true);
+            }
         }
     }
 
