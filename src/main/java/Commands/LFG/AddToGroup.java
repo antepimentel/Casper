@@ -34,7 +34,7 @@ public class AddToGroup extends AbstractCommand {
     }
 
     @Override
-    public int getCategory() {
+    public CommandCategory getCategory() {
         return CommandCategory.LFG;
     }
 

@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.entities.PrivateChannel;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -99,13 +100,18 @@ public class LFGHandler {
     }
 
     public static void pingPlayers(Group g){
-
         String message = "Roll call for: " + g.getName();
-        for(Member m: g.getPlayers()){
+        ArrayList<Member> players = g.getPlayers();
+        ArrayList<Member> subs = g.getSubs();
+        for(Member m: players) {
+
             PrivateChannel pc = m.getUser().openPrivateChannel().complete();
             pc.sendMessage(message).queue();
+
+            players.removeAll(Collections.singleton(m));
+            subs.removeAll(Collections.singleton(m));
         }
-        for(Member m: g.getSubs()){
+        for(Member m: subs){
             PrivateChannel pc = m.getUser().openPrivateChannel().complete();
             pc.sendMessage(message).queue();
         }

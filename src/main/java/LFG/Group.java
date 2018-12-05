@@ -193,14 +193,18 @@ public class Group {
             String subText = "";
             if(subs.size() > 0){
                 for(int i = 0; i < subs.size(); i++){
-                    subText = subText + (players.size()+1) + ". " + subs.get(i).getEffectiveName() + "\n";
+                    subText = subText + (players.size() + i +1) + ". " + subs.get(i).getEffectiveName() + "\n";
                 }
             }
 
             eb.addField("Subs", subText, false);
         }
+        String footerText = "Group Creator: "+owner.getEffectiveName() + ".";
+        if(players.size() == MAX_GROUP_SIZE && subs.size() == MAX_SUBS) {
+            footerText += "\n   (This group is full)";
+        }
 
-        eb.setFooter("Group Creator: "+owner.getEffectiveName(), null);
+        eb.setFooter(footerText, owner.getUser().getAvatarUrl());
         eb.setAuthor("⠀", null, platform.getEmbedIconUrl()); // uses U+2800 for name.
         eb.setColor(platform.getEmbedColor());
 
@@ -295,12 +299,13 @@ public class Group {
                 result = result + "#";
             }
         }
+
         return result;
     }
 
     public static void setPlatforms(){
         PLATFORMS.add(new Platform("ps4", 0x00AE86, "https://i0.wp.com/freepngimages.com/wp-content/uploads/2014/05/playstation_logo_2.png?w=220"));
-        PLATFORMS.add(new Platform("pc", 0x00AE86, "https://banner2.kisspng.com/20180416/ave/kisspng-battle-net-computer-icons-blizzard-entertainment-v-jainism-5ad4b5106d9d86.495096951523889424449.jpg"));
+        PLATFORMS.add(new Platform("pc", 0x00AE86, "https://png2.kisspng.com/sh/1558f63709413cf22c2b32bf9a0b8679/L0KzQYm3VcE3N5h3iZH0aYP2gLBuTfJifKVxfZ93ZYSwh7F5jPQud5cyj9N7Y4LkdsW0jCZmeqhmjNVxLXPyfcH8lPVzNZpoRadqZnOzRLa6gvNkOJQ5RqM9NEO2RoWAUcUzPmU7TakBM0e6Q4K1kP5o/kisspng-battle-net-world-of-warcraft-overwatch-computer-ic-5afc04e3bcc0c4.1443364715264657637731.png"));
         PLATFORMS.add(new Platform("xbox", 0x00AE86, "http://icons.iconarchive.com/icons/dakirby309/simply-styled/256/Xbox-icon.png"));
     }
 

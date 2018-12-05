@@ -33,7 +33,7 @@ public class RemoveAutoRole extends AbstractCommand {
     }
 
     @Override
-    public int getCategory() {
+    public CommandCategory getCategory() {
         return CommandCategory.ADMIN;
     }
 

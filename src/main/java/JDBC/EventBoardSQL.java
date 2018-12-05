@@ -106,7 +106,6 @@ public class EventBoardSQL {
                 stmtObj2.setString(1, serverID); // Channel ID
                 stmtObj2.setString(2, channelID); // Server ID
                 stmtObj2.setString(3, type); // System Type
-                System.out.println(stmtObj2.toString());
                 stmtObj2.executeUpdate();
                 connObj.commit();
                 connObj.rollback();

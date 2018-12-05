@@ -32,7 +32,7 @@ public abstract class AbstractCommand {
 
     public abstract String[] getInputs();
 
-    public abstract int getCategory();
+    public abstract CommandCategory getCategory();
 
     public boolean isEnabled(){
         return isEnabled;

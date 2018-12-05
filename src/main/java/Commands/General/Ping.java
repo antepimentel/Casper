@@ -2,6 +2,7 @@ package Commands.General;
 
 import Commands.AbstractCommand;
 import Commands.CommandCategory;
+import Core.Bot;
 import JDBC.MainSQLHandler;
 import net.dv8tion.jda.core.entities.Message;
 
@@ -27,17 +28,12 @@ public class Ping extends AbstractCommand {
     }
 
     @Override
-    public int getCategory() {
+    public CommandCategory getCategory() {
         return CommandCategory.GENERAL;
     }
 
     @Override
     public void run(Message msg) {
-        msg.getChannel().sendMessage("This works?").queue();
-        msg.getChannel().sendMessage(msg.getMember().getUser().getId()).queue();
-
-//        msg.getGuild().getId();
-//        msg.getGuild().getName();
-        MainSQLHandler.addServer(msg.getGuild().getId(), msg.getGuild().getName());
+        msg.getChannel().sendMessage(msg.getMember().getAsMention() + ", you called?\nPing: "+ Math.floor(Bot.jda.getPing()) + "ms.\n*This bot is built and maintained by NullRoz007 and Reusableduckk, please @ one of them or an @Bot_Commander if you run into any issues.*\n\nHelp keep the lights on: http://www.ko-fi.com/A8882QT2").queue();
     }
 }

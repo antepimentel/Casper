@@ -30,7 +30,7 @@ public class LeaveGroup extends AbstractCommand {
     }
 
     @Override
-    public int getCategory() {
+    public CommandCategory getCategory() {
         return CommandCategory.LFG;
     }
 

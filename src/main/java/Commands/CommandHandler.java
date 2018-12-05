@@ -39,7 +39,12 @@ public class CommandHandler extends ListenerAdapter {
                 try {
                     boolean checkDisabled = MainSQLHandler.checkDisabledCommand(e.getGuild().getId(), com.getCommand());
                     if(!checkDisabled){
-                        com.run(e.getMessage());
+
+                        CommandCategory category = com.getCategory();
+                        if(category.canRun(e.getMember(), e.getMessage())) {
+
+                            com.run(e.getMessage());
+                        }
                     } else {
                         System.out.println("DISABLED");
                     }

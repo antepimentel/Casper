@@ -29,7 +29,7 @@ public class RollCall extends AbstractCommand {
     }
 
     @Override
-    public int getCategory() {
+    public CommandCategory getCategory() {
         return CommandCategory.LFG;
     }
 

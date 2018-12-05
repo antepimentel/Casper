@@ -29,7 +29,7 @@ public class JoinGroup extends AbstractCommand {
     }
 
     @Override
-    public int getCategory() { return CommandCategory.LFG; }
+    public CommandCategory getCategory() { return CommandCategory.LFG; }
 
     @Override
     public void run(Message msg) throws CustomAbstractException {

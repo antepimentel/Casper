@@ -10,6 +10,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.PrivateChannel;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,16 +38,15 @@ public class Help extends AbstractCommand {
     }
 
     @Override
-    public int getCategory() {
+    public CommandCategory getCategory() {
         return CommandCategory.GENERAL;
     }
 
     public void run(Message msg) {
         String response = "";
-        // Copy command handler or steal from it, print all command names and descriptions
         HashMap<String, AbstractCommand> commands = CommandHandler.getCommands();
         Iterator commandsIter = commands.entrySet().iterator();
-        HashMap<Integer, ArrayList<AbstractCommand>> sortedCommands = new HashMap<>();
+        HashMap<CommandCategory, ArrayList<AbstractCommand>> sortedCommands = new HashMap<>();
 
         while(commandsIter.hasNext()) {
             Map.Entry pair = (Map.Entry)commandsIter.next();
@@ -57,7 +57,6 @@ public class Help extends AbstractCommand {
         }
 
         Iterator sortedCommandsIter = sortedCommands.entrySet().iterator();
-        CommandCategory categories = new CommandCategory();
 
         while(sortedCommandsIter.hasNext()) {
             Map.Entry pair = (Map.Entry)sortedCommandsIter.next();
@@ -65,14 +64,16 @@ public class Help extends AbstractCommand {
             String category = "";
             ArrayList<AbstractCommand> commandArrayList = (ArrayList<AbstractCommand>) pair.getValue();
             for(Field f : fields) {
-                f.setAccessible(true);
-                try {
-                    Integer value = new Integer(f.getInt(null));
-                    if(value.equals((Integer) pair.getKey())) {
-                        category = f.getName();
+                if(Modifier.isStatic(f.getModifiers())) {
+                    f.setAccessible(true);
+                    try {
+                        CommandCategory value = (CommandCategory) f.get(null);
+                        if(value.equals( pair.getKey())) {
+                            category = f.getName();
+                        }
+                    } catch (IllegalAccessException e){
+                        System.out.println(e.getMessage() + "\n" + e.getStackTrace());
                     }
-                } catch (IllegalAccessException e){
-                    System.out.println(e.getMessage() + "\n" + e.getStackTrace());
                 }
             }
 

@@ -33,7 +33,7 @@ public class SetAutoChannel extends AbstractCommand {
     }
 
     @Override
-    public int getCategory() {
+    public CommandCategory getCategory() {
         return CommandCategory.ADMIN;
     }
 

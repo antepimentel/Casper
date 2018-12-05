@@ -28,7 +28,7 @@ public class PermissionHandler {
     }
 
     public static boolean isLeaderOrMod(Member m, Group g) throws InvalidPermissionsException {
-        if(m.equals(g.getOwnerID())){
+        if(m.getUser().getId().equals(g.getOwnerID())){
             return true;
         } else if(checkModPermissions(m)){
             return true;

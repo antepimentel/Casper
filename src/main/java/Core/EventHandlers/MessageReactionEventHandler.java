@@ -115,9 +115,9 @@ public class MessageReactionEventHandler implements net.dv8tion.jda.core.hooks.E
                LFGHandler.leave(g, e.getMember());
                refreshMessage(e.getTextChannel(), e.getMessageId(), g);
 
-           } else if(reactionID.equals(ROLLCALL_REACTION.getId())){
-                LFGHandler.pingPlayers(g);
-
+           } else if(reactionID.equals(ROLLCALL_REACTION.getId())) {
+               PermissionHandler.isLeaderOrMod(e.getMember(), g);
+               LFGHandler.pingPlayers(g);
            } else if(reactionID.equals(DELETE_REACTION.getId())){
                 // Check permissions
                PermissionHandler.isLeaderOrMod(e.getMember(), g);
@@ -144,7 +144,6 @@ public class MessageReactionEventHandler implements net.dv8tion.jda.core.hooks.E
     }
 
     public static String postEventGroup(Group g) throws NoBoardForPlatformException {
-        System.out.println(g.getServerID() + ", " + g.getType());
         TextChannel tc = EventBoardSQL.getEventBoard(g.getServerID(), g.getType());
         Message msg = tc.sendMessage(g.toEmbed()).complete();
 

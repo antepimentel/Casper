@@ -1,6 +1,7 @@
 package Commands.Destiny;
 
 import Commands.AbstractCommand;
+import Commands.CommandCategory;
 import Destiny.Activity;
 import Destiny.DestinyAPIWrapper;
 import Destiny.DestinyProperties;
@@ -34,9 +35,7 @@ public class WeeklySummary extends AbstractCommand {
     }
 
     @Override
-    public int getCategory() {
-        return 0;
-    }
+    public CommandCategory getCategory() { return CommandCategory.ADMIN; }
 
     @Override
     public void run(Message msg) throws IOException {
