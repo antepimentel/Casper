@@ -44,6 +44,7 @@ create table post (
 	sys_type varchar(4) not null,
 	msg_id varchar(20) not null,
     owner_id varchar(20) not null,
+    type_code varchar(6),
 	constraint server_post_fk
 		foreign key (serverid) references server (id)
 );

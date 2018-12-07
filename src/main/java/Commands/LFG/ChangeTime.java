@@ -51,7 +51,8 @@ public class ChangeTime extends AbstractCommand {
             if(PermissionHandler.isLeaderOrMod(msg.getMember(), g)){
                 g.setDate(date, time, timezone);
                 GroupSQL.updateTime(g);
-                response = response + g.toString();
+                LFGHandler.refreshGroup(msg.getGuild().getId(), g);
+                response =  "Changed " + g.getName() + "'s time to: "+g.getDate();
             }
         } catch (ParseException e) {
             e.printStackTrace();

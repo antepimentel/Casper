@@ -26,8 +26,9 @@ public class GroupSQL {
         String players = g.getPlayerIDString();
         String subs = g.getSubIDString();
 
-        String query = "insert into " + SQLSchema.TABLE_POST + " values (?,?,?,?,?,?,?,?,?)";
+        String query = "insert into " + SQLSchema.TABLE_POST + " values (?,?,?,?,?,?,?,?,?,?)";
 
+        //noinspection MagicConstant
         try {
             PreparedStatement stmtObj = connObj.prepareStatement(query);
             stmtObj.setString(1, g.getServerID()); // Server ID
@@ -39,6 +40,7 @@ public class GroupSQL {
             stmtObj.setString(7, g.getType()); // Platform
             stmtObj.setString(8, g.getMsgID()); // Message ID
             stmtObj.setString(9, g.getOwnerID());
+            stmtObj.setString(10, g.getGroupActivityType() == null ? "" : g.getGroupActivityType().getCode());
             stmtObj.executeUpdate();
             connObj.commit();
             connObj.rollback();
@@ -48,7 +50,6 @@ public class GroupSQL {
     }
 
     public static void delete(Group g){
-
         String query = "delete from " + SQLSchema.TABLE_POST + " where " + SQLSchema.POST_COL_SERVERID + " = ? and " + SQLSchema.POST_COL_GROUPID + " = ?";
         try{
             PreparedStatement stmtObj = connObj.prepareStatement(query);
@@ -78,6 +79,20 @@ public class GroupSQL {
         }
     }
 
+    public static void updateTypeCode(Group g) {
+        String query = "update " + SQLSchema.TABLE_POST + " set " + SQLSchema.POST_COL_TYPE_CODE+ " = ? where " + SQLSchema.POST_COL_SERVERID + " = ? and " + SQLSchema.POST_COL_GROUPID + " = ?";
+        try {
+            PreparedStatement stmtObj = connObj.prepareStatement(query);
+            stmtObj.setString(1, g.getGroupActivityType() == null ? "" : g.getGroupActivityType().getCode()); // Name
+            stmtObj.setString(2, g.getServerID()); // Server ID
+            stmtObj.setString(3, Integer.toString(g.getID())); // Group ID
+            stmtObj.executeUpdate();
+            connObj.commit();
+            connObj.rollback();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public static void updateTime(Group g){
 
         String query = "update " + SQLSchema.TABLE_POST + " set " + SQLSchema.POST_COL_GROUPDATE + " = ? where " + SQLSchema.POST_COL_SERVERID + " = ? and " + SQLSchema.POST_COL_GROUPID + " = ?";
@@ -179,6 +194,7 @@ public class GroupSQL {
             String platform = rs.getString(SQLSchema.POST_COL_TYPE);
             String msgID = rs.getString(SQLSchema.POST_COL_MSG_ID);
             String ownerID = rs.getString(SQLSchema.POST_COL_OWNER_ID);
+            String typeCode = rs.getString(SQLSchema.POST_COL_TYPE_CODE);
 
             net.dv8tion.jda.core.entities.Member owner = Bot.jda.getGuildById(serverID).getMemberById(ownerID);
             Group g = new Group(serverID, groupID, name, date, platform, owner, msgID);
@@ -194,6 +210,8 @@ public class GroupSQL {
             }
 
             if(g.getPlayers().size() == 0) g.setEmpty(true);
+
+            g.setGroupActivityType(Group.getGroupTypeByCode(typeCode));
 
             return g;
         } catch (ParseException e) {

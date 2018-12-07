@@ -52,6 +52,7 @@ public class AddToGroup extends AbstractCommand {
             g.join(mentions.get(i));
         }
         GroupSQL.updatePlayers(g);
+        LFGHandler.refreshGroup(msg.getGuild().getId(), g);
         msg.getChannel().sendMessage(response).queue();
     }
 }

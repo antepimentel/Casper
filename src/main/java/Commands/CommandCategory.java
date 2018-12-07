@@ -12,16 +12,18 @@ import java.util.Collection;
 import java.util.Iterator;
 
 public class CommandCategory {
-    public static CommandCategory ADMIN = new CommandCategory(new String[0], true);
-    public static CommandCategory GENERAL = new CommandCategory(new String[0], false);
-    public static CommandCategory LFG = new CommandCategory(new String[] { "rasputin-commands"}, false);
+    public static CommandCategory ADMIN = new CommandCategory("Admin commands.", new String[0], true);
+    public static CommandCategory GENERAL = new CommandCategory("General use commands.", new String[0], false);
+    public static CommandCategory LFG = new CommandCategory("Commands for creating and editing groups.", new String[] { "rasputin-commands"}, false);
 
     private String[] approvedChannels;
     private boolean mod;
+    private String description;
 
-    public CommandCategory(String[] approvedChannels, boolean mod) {
+    public CommandCategory(String description, String[] approvedChannels, boolean mod) {
         this.approvedChannels = approvedChannels;
         this.mod = mod;
+        this.description = description;
     }
 
     public boolean canRun(Member member, Message message) {
@@ -49,11 +51,19 @@ public class CommandCategory {
         return mod;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public void setApprovedChannels(String[] channels) {
         approvedChannels = channels;
     }
 
     public void setMod(boolean m) {
         mod = m;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

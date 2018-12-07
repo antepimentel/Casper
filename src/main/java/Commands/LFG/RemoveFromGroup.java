@@ -52,11 +52,12 @@ public class RemoveFromGroup extends AbstractCommand {
 
         for(int i = 0; i < mentions.size(); i++){
             response = response + mentions.get(i).getEffectiveName() + " ";
-            //g.removePlayer(mentions.get(i));
-            LFGHandler.leave(g.getServerID(), g.getID(), mentions.get(i));
+            g.removePlayer(mentions.get(i));
+
         }
 
-
+        GroupSQL.updatePlayers(g);
+        LFGHandler.refreshGroup(msg.getGuild().getId(), g);
         msg.getChannel().sendMessage(response).queue();
     }
 }

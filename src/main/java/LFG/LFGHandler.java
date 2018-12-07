@@ -1,17 +1,20 @@
 package LFG;
 
+import Core.Bot;
 import Core.EventHandlers.MessageReactionEventHandler;
+import Core.PropertyKeys;
 import Exceptions.*;
 import JDBC.GroupSQL;
 import JDBC.EventBoardSQL;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.PrivateChannel;
+import JDBC.MainSQLHandler;
+import net.dv8tion.jda.core.entities.*;
+import org.omg.CORBA.TIMEOUT;
 
+import javax.xml.soap.Text;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -19,10 +22,54 @@ import java.util.concurrent.TimeUnit;
  * Model should be modified by only this class if possible
  */
 public class LFGHandler {
+    private final static ScheduledExecutorService lfgSchedular = Executors.newScheduledThreadPool(1);
+
+    private static ArrayList<Group> deletionQueue = new ArrayList<Group>();
+    private static Runnable checkGroups = new Runnable() {
+        @Override
+        public void run() {
+            List<Guild> guilds = Bot.jda.getGuilds();
+            for(Guild guild : guilds) {
+                for(Group g : deletionQueue) {
+                    try {
+                        System.out.println("DELETED: " + g.getID());
+                        GroupSQL.delete(g);
+
+                        TextChannel board = EventBoardSQL.getEventBoard(guild.getId(), g.getType());
+                        Message groupMessage = board.getMessageById(g.getMsgID()).complete();
+                        groupMessage.delete().queue();
+
+                    } catch (NoBoardForPlatformException ex){
+                        System.out.println(ex.getMessage());
+                    }
+                }
+
+                List<Group> groups = GroupSQL.getGroupsByServer(guild.getId());
+                for(Group g : groups) {
+                    long diff = LFGHandler.getDateDiff(new Date(), g.getDate(), TimeUnit.MINUTES);
+
+                    if(diff >= 0 && diff < 20) {
+                        pingPlayers(g);
+                    } else if (diff < 0) {
+                        System.out.println("Adding Group "+g.getID()+" to the deletion queue.");
+                        PrivateChannel dmChannel = g.getOwner().getUser().openPrivateChannel().complete();
+                        dmChannel.sendMessage("Your Group "+g.getName() + " has started and so has been flagged for deletion in the next ten minutes! To keep your group around for longer, type "+Bot.props.getProperty(PropertyKeys.DELIMITER_KEY)+"keepgroup "+g.getID() + " in #rasputin-commands").queue();
+                        deletionQueue.add(g);
+                    }
+                }
+            }
+        }
+    };
 
     public static void init(){
+        Group.setGroupTypes();
         Group.setPlatforms();
+
+        lfgSchedular.scheduleAtFixedRate(checkGroups, 0, 10, TimeUnit.MINUTES);
     }
+
+
+
 
     public static Group post(String serverID, String name, String date, String time, String timezone, Member poster, String platform) throws ParseException, NoBoardForPlatformException {
         Group g = new Group(
@@ -93,6 +140,19 @@ public class LFGHandler {
                 g.setEmpty(true);
             }
         }
+    }
+
+    public static void refreshGroup(String ServerID, Group g) {
+        String platform = g.getPlatform();
+        try {
+            TextChannel tc = EventBoardSQL.getEventBoard(ServerID, platform);
+            Message message = tc.getMessageById(g.getMsgID()).complete();
+            tc.getMessageById(message.getId()).complete().editMessage(g.toEmbed()).queue();
+
+        } catch (NoBoardForPlatformException ex) {
+
+        }
+
     }
 
     private static void sortGroupsByID(ArrayList<Group> groupsToSort){
@@ -218,6 +278,18 @@ public class LFGHandler {
         return GroupSQL.getGroupsByServer(serverID);
     }
 
+    public static ArrayList<Group> getDeletionQueue() { return deletionQueue; }
+    public static void removeFromDeletionQueue(Group g) {
+        ArrayList<Group> newDeletionQueue = deletionQueue;
+        for(int i = 0; i < deletionQueue.size(); i++) {
+            Group dg = deletionQueue.get(i);
+            if(dg.getID() == g.getID()) {
+                deletionQueue.remove(i);
+                System.out.println(deletionQueue.indexOf(dg));
+            }
+        }
+    }
+
     public static ArrayList<Group> getGroupsByMember(Member m) throws GroupNotFoundException {
         ArrayList<Group> result = new ArrayList<Group>();
         ArrayList<Group> serverGroups = getGroupsByServer(m.getGuild().getId());
@@ -252,5 +324,4 @@ public class LFGHandler {
         }
         return ans;
     }
-
 }

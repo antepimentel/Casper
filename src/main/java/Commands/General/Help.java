@@ -44,6 +44,8 @@ public class Help extends AbstractCommand {
 
     public void run(Message msg) {
         String response = "";
+
+        //Existing commands:
         HashMap<String, AbstractCommand> commands = CommandHandler.getCommands();
         Iterator commandsIter = commands.entrySet().iterator();
         HashMap<CommandCategory, ArrayList<AbstractCommand>> sortedCommands = new HashMap<>();
@@ -61,7 +63,8 @@ public class Help extends AbstractCommand {
         while(sortedCommandsIter.hasNext()) {
             Map.Entry pair = (Map.Entry)sortedCommandsIter.next();
             Field[] fields = CommandCategory.class.getFields();
-            String category = "";
+            CommandCategory category = null;
+            String categoryName = "";
             ArrayList<AbstractCommand> commandArrayList = (ArrayList<AbstractCommand>) pair.getValue();
             for(Field f : fields) {
                 if(Modifier.isStatic(f.getModifiers())) {
@@ -69,7 +72,8 @@ public class Help extends AbstractCommand {
                     try {
                         CommandCategory value = (CommandCategory) f.get(null);
                         if(value.equals( pair.getKey())) {
-                            category = f.getName();
+                            category = value;
+                            categoryName = f.getName();
                         }
                     } catch (IllegalAccessException e){
                         System.out.println(e.getMessage() + "\n" + e.getStackTrace());
@@ -77,7 +81,7 @@ public class Help extends AbstractCommand {
                 }
             }
 
-            response += "**["+category+" Commands]**\n";
+            response += "**["+categoryName+" Commands]**\n*"+category.getDescription()+"*\n";
 
             for(AbstractCommand command : commandArrayList) {
                 response += Bot.props.getProperty(PropertyKeys.DELIMITER_KEY) + command.getCommand()
@@ -87,6 +91,17 @@ public class Help extends AbstractCommand {
             }
 
             response += "\n";
+        }
+
+        //Custom commands:
+        response += "**[Custom commands]**\n*Custom commands added by a server's moderator.*\n";
+        HashMap<String, String> customCommands = CommandHandler.getCustomCommands();
+        Iterator customCommandsIter = customCommands.entrySet().iterator();
+        while(customCommandsIter.hasNext()) {
+            Map.Entry pair = (Map.Entry)customCommandsIter.next();
+            response += Bot.props.getProperty(PropertyKeys.DELIMITER_KEY) + (String)pair.getKey()
+                     + "\n\tUsage: ```"
+                     + Bot.props.getProperty(PropertyKeys.DELIMITER_KEY) + pair.getKey() + "```\n";
         }
 
         PrivateChannel dmChannel = msg.getMember().getUser().openPrivateChannel().complete();

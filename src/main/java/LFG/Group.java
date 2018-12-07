@@ -22,8 +22,8 @@ import java.util.TimeZone;
  * LFG Group data object
  */
 public class Group {
-
     public static ArrayList<Platform> PLATFORMS = new ArrayList<Platform>();
+    public static ArrayList<GroupActivityType> GROUPTYPES = new ArrayList<GroupActivityType>();
 
     private static final int MAX_GROUP_SIZE = 6;
     private static final int MAX_SUBS = 2;
@@ -39,7 +39,7 @@ public class Group {
     private String msgID;
     private Member owner;
     private boolean empty;
-
+    private GroupActivityType groupActivityType;
     public static DateFormat df = new SimpleDateFormat("MM/dd hh:mmaa zzz yyyy");
 
     private ArrayList<Member> players = new ArrayList<Member>();
@@ -88,8 +88,6 @@ public class Group {
         this.serverID = serverID;
         this.date = date;
         this.dateCreated = new Date();
-        //this.time = time;
-        //this.timezone = timezone;
         this.platform = platform;
         this.msgID = msgID;
         this.owner = owner;
@@ -208,6 +206,10 @@ public class Group {
         eb.setAuthor("⠀", null, platform.getEmbedIconUrl()); // uses U+2800 for name.
         eb.setColor(platform.getEmbedColor());
 
+        if(groupActivityType != null) {
+            eb = groupActivityType.editEmbed(eb);
+        }
+
         return eb.build();
     }
 
@@ -240,6 +242,8 @@ public class Group {
     }
 
     public String getOwnerID() { return owner.getUser().getId(); }
+
+    public Member getOwner() { return owner; }
 
     public void setOwner(Member m) { this.owner = m; }
 
@@ -307,6 +311,33 @@ public class Group {
         PLATFORMS.add(new Platform("ps4", 0x00AE86, "https://i0.wp.com/freepngimages.com/wp-content/uploads/2014/05/playstation_logo_2.png?w=220"));
         PLATFORMS.add(new Platform("pc", 0x00AE86, "https://png2.kisspng.com/sh/1558f63709413cf22c2b32bf9a0b8679/L0KzQYm3VcE3N5h3iZH0aYP2gLBuTfJifKVxfZ93ZYSwh7F5jPQud5cyj9N7Y4LkdsW0jCZmeqhmjNVxLXPyfcH8lPVzNZpoRadqZnOzRLa6gvNkOJQ5RqM9NEO2RoWAUcUzPmU7TakBM0e6Q4K1kP5o/kisspng-battle-net-world-of-warcraft-overwatch-computer-ic-5afc04e3bcc0c4.1443364715264657637731.png"));
         PLATFORMS.add(new Platform("xbox", 0x00AE86, "http://icons.iconarchive.com/icons/dakirby309/simply-styled/256/Xbox-icon.png"));
+    }
+
+    public static void setGroupTypes() {
+        //normal modes
+        GROUPTYPES.add(new GroupActivityType("levi-n", "2693136600", false)); //Leviathan: Normal Mode
+        GROUPTYPES.add(new GroupActivityType("eow-n", "3089205900", false)); //Eater of Worlds: Normal Mode
+        GROUPTYPES.add(new GroupActivityType("sos-n", "119944200", false)); //Spire of Stars: Normal Mode
+        GROUPTYPES.add(new GroupActivityType("lw-n", "1661734046", false)); //Last Wish: Normal Mode
+
+        GROUPTYPES.add(new GroupActivityType("levi-p", "1685065161", false)); //Leviathan: Prestige Mode
+        GROUPTYPES.add(new GroupActivityType("eow-p", "809170886", false)); //Eater of Worlds: Prestige Mode
+        GROUPTYPES.add(new GroupActivityType("sos-p", "3213556450", false));  //Spire of Stars: Prestige Mode
+        //GROUPTYPES.add(new GroupActivityType("lw-p", "1661734046", false));
+    }
+
+    public void setGroupActivityType(GroupActivityType g) {
+        groupActivityType = g;
+    }
+
+    public GroupActivityType getGroupActivityType() { return groupActivityType; }
+
+    public static GroupActivityType getGroupTypeByCode(String code) {
+        for(GroupActivityType g : GROUPTYPES) {
+            if(g.getCode().equals(code)) return g;
+        }
+
+        return null;
     }
 
     public String getPlatform() {

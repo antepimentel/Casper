@@ -111,6 +111,8 @@ public class CommandHandler extends ListenerAdapter {
         return commands;
     }
 
+    public static HashMap<String, String> getCustomCommands() {return customCommands; }
+
     public static HashMap<String, AbstractCommand> getSimilarCommands(String input) {
         HashMap<String, AbstractCommand> availableCommands = getCommands();
         HashMap<String, AbstractCommand> similarCommands = new HashMap<>();

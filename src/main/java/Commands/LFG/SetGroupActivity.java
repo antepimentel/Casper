@@ -9,11 +9,11 @@ import LFG.Group;
 import LFG.LFGHandler;
 import net.dv8tion.jda.core.entities.Message;
 
-public class ChangeName extends AbstractCommand {
+public class SetGroupActivity extends AbstractCommand {
 
-    private static String command = "changename";
+    private static String command = "setactivity";
     private static String desc = "temp";
-    private static String[] inputs = {"ID", "name"};
+    private static String[] inputs = {"ID", "code"};
 
     @Override
     public String[] getInputs() {
@@ -40,19 +40,21 @@ public class ChangeName extends AbstractCommand {
         String name = "";
         String response = "";
         int ID = Integer.parseInt(args[0]);
+        String code = args[1];
 
         Group g = LFGHandler.findGroupByID(msg.getGuild().getId(), ID);
 
-        // Build name
-        for(int i = 1; i < args.length; i++){
-            name = name + args[i] + " ";
-        }
-
         if(PermissionHandler.isLeaderOrMod(msg.getMember(), g)){
-            g.setName(name);
-            GroupSQL.updateName(g);
-            LFGHandler.refreshGroup(msg.getGuild().getId(), g);
-            response = "Changed Group " + g.getID() + "'s name to: "+name;
+            LFG.GroupActivityType type = Group.getGroupTypeByCode(code);
+            if(type != null) {
+                g.setGroupActivityType(type);
+                LFGHandler.refreshGroup(msg.getGuild().getId(), g);
+                GroupSQL.updateTypeCode(g);
+
+                response = "Set Group " + g.getID() + "'s activity to " + type.getCode();
+            } else {
+                response = "Unknown group activity code: "+code;
+            }
         }
 
         msg.getChannel().sendMessage(response).queue();
