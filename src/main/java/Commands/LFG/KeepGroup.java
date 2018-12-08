@@ -3,13 +3,18 @@ package Commands.LFG;
 import Commands.AbstractCommand;
 import Commands.CommandCategory;
 import Core.Bot;
+import Core.PermissionHandler;
 import Exceptions.GroupNotFoundException;
+import Exceptions.InvalidPermissionsException;
 import Exceptions.NoArgumentsGivenException;
 import JDBC.GroupSQL;
 import JDBC.MainSQLHandler;
 import LFG.Group;
 import LFG.LFGHandler;
 import net.dv8tion.jda.core.entities.Message;
+
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class KeepGroup extends AbstractCommand {
 
@@ -38,23 +43,29 @@ public class KeepGroup extends AbstractCommand {
     }
 
     @Override
-    public void run(Message msg) throws NoArgumentsGivenException, GroupNotFoundException {
-       String[] args = getInputArgs(msg);
+    public void run(Message msg) throws NoArgumentsGivenException, GroupNotFoundException, InvalidPermissionsException {
+
+        String[] args = getInputArgs(msg);
        int ID = Integer.parseInt(args[0]);
         String response = "";
        Group g = LFGHandler.findGroupByID(msg.getGuild().getId(), ID);
-       boolean found = false;
-       for(int i = 0; i < LFGHandler.getDeletionQueue().size(); i++) {
-           if (LFGHandler.getDeletionQueue().get(i).getID() == g.getID()) found = true;
-       }
+        if(PermissionHandler.isLeaderOrMod(msg.getMember(), g)) {
+            boolean found = false;
+            for (int i = 0; i < LFGHandler.getDeletionQueue().size(); i++) {
+                if (LFGHandler.getDeletionQueue().get(i).getID() == g.getID()) found = true;
+            }
 
-       if(!found) {
-            response = "Group "+g.getID() + " is not marked for deletion.";
-       } else {
-           LFGHandler.removeFromDeletionQueue(g);
-           response = "Group "+g.getID()+" unmarked for deletion, you have until the 10 minutes after you recieved the initial DM to change the time of your group.";
-       }
+            if (!found) {
+                response = "Group " + g.getID() + " is not marked for deletion.";
+            } else {
+                LFGHandler.removeFromDeletionQueue(g);
+                Date now = new Date();
+                long diff = LFGHandler.getDateDiff(LFGHandler.getLastCheck(), now, TimeUnit.MINUTES);
+                System.out.println(diff);
+                response = "Group " + g.getID() + " has been unmarked for deletion, you have " + (10 - diff) + " minutes to change the time of your group to stop it from being deleted.";
+            }
 
-       msg.getChannel().sendMessage(response).queue();
+            msg.getChannel().sendMessage(response).queue();
+        }
     }
 }

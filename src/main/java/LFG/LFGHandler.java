@@ -22,9 +22,9 @@ import java.util.concurrent.TimeUnit;
  * Model should be modified by only this class if possible
  */
 public class LFGHandler {
-    private final static ScheduledExecutorService lfgSchedular = Executors.newScheduledThreadPool(1);
-
+    private final static ScheduledExecutorService lfgScheduler = Executors.newScheduledThreadPool(1);
     private static ArrayList<Group> deletionQueue = new ArrayList<Group>();
+    private static Date lastCheck = new Date();
     private static Runnable checkGroups = new Runnable() {
         @Override
         public void run() {
@@ -58,6 +58,8 @@ public class LFGHandler {
                     }
                 }
             }
+
+            lastCheck = new Date();
         }
     };
 
@@ -65,11 +67,8 @@ public class LFGHandler {
         Group.setGroupTypes();
         Group.setPlatforms();
 
-        lfgSchedular.scheduleAtFixedRate(checkGroups, 0, 10, TimeUnit.MINUTES);
+        lfgScheduler.scheduleAtFixedRate(checkGroups, 0, 10, TimeUnit.MINUTES);
     }
-
-
-
 
     public static Group post(String serverID, String name, String date, String time, String timezone, Member poster, String platform) throws ParseException, NoBoardForPlatformException {
         Group g = new Group(
@@ -289,6 +288,8 @@ public class LFGHandler {
             }
         }
     }
+
+    public static Date getLastCheck() { return lastCheck; }
 
     public static ArrayList<Group> getGroupsByMember(Member m) throws GroupNotFoundException {
         ArrayList<Group> result = new ArrayList<Group>();

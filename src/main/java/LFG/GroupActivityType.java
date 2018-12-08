@@ -39,6 +39,7 @@ public class GroupActivityType {
             String description = displayProperties.getAsJsonPrimitive("description").getAsString();
             String iconUrl = "https://www.bungie.net"+displayProperties.getAsJsonPrimitive("icon").getAsString();
             String ebDesc = "Activity: "+name + "\n*"+description+"*";
+            embedBuilder.setThumbnail(iconUrl);
             embedBuilder.setDescription(ebDesc);
 
         } catch (IOException ex) {

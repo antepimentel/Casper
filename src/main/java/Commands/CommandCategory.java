@@ -30,10 +30,8 @@ public class CommandCategory {
         boolean result = true;
         try {
             PermissionHandler.checkModPermissions(member);
-
-            System.out.println("MOD!");
         } catch (InvalidPermissionsException ex) { //member is not a mod so check if command can be run
-            if(mod) { //cat requires mod
+            if(mod) { //category requires user to be mod
                 result = false;
             } else if(approvedChannels.length != 0) { //channel restrictions
                 result =  Arrays.asList(approvedChannels).indexOf(message.getChannel().getName()) != -1;
