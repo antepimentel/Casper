@@ -158,22 +158,24 @@ public class LFGHandler {
         Collections.sort(groupsToSort, new GroupComparator());
     }
 
+    //TODO: Only ping each user once
     public static void pingPlayers(Group g){
         String message = "Roll call for: " + g.getName();
-        ArrayList<Member> players = g.getPlayers();
-        ArrayList<Member> subs = g.getSubs();
-        for(Member m: players) {
+        ArrayList<Member> toPing = g.getPlayers();
+        toPing.addAll(g.getSubs());
+        ArrayList<Member> pinged = new ArrayList<Member>();
 
-            PrivateChannel pc = m.getUser().openPrivateChannel().complete();
-            pc.sendMessage(message).queue();
+        for(Member m: toPing) {
+            if(pinged.indexOf(m) == -1) {
+                PrivateChannel pc = m.getUser().openPrivateChannel().complete();
+                pc.sendMessage(message).queue();
+                pinged.add(m);
+            }
 
-            players.removeAll(Collections.singleton(m));
-            subs.removeAll(Collections.singleton(m));
         }
-        for(Member m: subs){
-            PrivateChannel pc = m.getUser().openPrivateChannel().complete();
-            pc.sendMessage(message).queue();
-        }
+
+        g.setRollcallCount(g.getRollcallCount() + 1);
+        GroupSQL.updateRollcallCount(g);
     }
 
     /**

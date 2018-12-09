@@ -37,8 +37,6 @@ public class MessageReactionEventHandler implements net.dv8tion.jda.core.hooks.E
             // Setup reactions
             if(e instanceof ReadyEvent) {
                 JDA jda = e.getJDA();
-
-                MONITORED_REACTION = "➕";
                 JOIN_REACTION = jda.getEmotesByName("plus", false).get(0);
                 LEAVE_REACTION = jda.getEmotesByName("minus", false).get(0);
                 ROLLCALL_REACTION = jda.getEmotesByName("rollcall", false).get(0);
@@ -116,8 +114,11 @@ public class MessageReactionEventHandler implements net.dv8tion.jda.core.hooks.E
                refreshMessage(e.getTextChannel(), e.getMessageId(), g);
 
            } else if(reactionID.equals(ROLLCALL_REACTION.getId())) {
-               PermissionHandler.isLeaderOrMod(e.getMember(), g);
-               LFGHandler.pingPlayers(g);
+               if(g.getRollcallCount() < 3) {
+                   PermissionHandler.isLeaderOrMod(e.getMember(), g);
+                   LFGHandler.pingPlayers(g);
+                   refreshMessage(e.getTextChannel(), e.getMessageId(), g);
+               }
            } else if(reactionID.equals(DELETE_REACTION.getId())){
                 // Check permissions
                PermissionHandler.isLeaderOrMod(e.getMember(), g);

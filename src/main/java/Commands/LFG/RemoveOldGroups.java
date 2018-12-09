@@ -4,10 +4,13 @@ import Core.PermissionHandler;
 import Commands.AbstractCommand;
 import Commands.CommandCategory;
 import Exceptions.InvalidPermissionsException;
+import Exceptions.NoBoardForPlatformException;
+import JDBC.EventBoardSQL;
 import JDBC.GroupSQL;
 import LFG.Group;
 import LFG.LFGHandler;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,7 +42,7 @@ public class RemoveOldGroups extends AbstractCommand {
         return CommandCategory.LFG;
     }
 
-    public void run(Message msg) throws InvalidPermissionsException {
+    public void run(Message msg) throws InvalidPermissionsException, NoBoardForPlatformException {
 
         PermissionHandler.checkModPermissions(msg.getMember());
 
@@ -51,7 +54,7 @@ public class RemoveOldGroups extends AbstractCommand {
         for(int i = 0; i < groups.size(); i++){
             Group g = groups.get(i);
             long diff = LFGHandler.getDateDiff(new Date(), g.getDate(), TimeUnit.MINUTES);
-            if(diff <= 0){
+            if(diff < 0){
                 response = response + g.getID() + " ";
                 toRemove.add(g);
             }
@@ -61,6 +64,14 @@ public class RemoveOldGroups extends AbstractCommand {
         for(int i = 0; i < toRemove.size(); i++){
             System.out.println(toRemove.get(i).toString());
             GroupSQL.delete(toRemove.get(i));
+
+            TextChannel board = EventBoardSQL.getEventBoard(msg.getGuild().getId(), toRemove.get(i).getType());
+            Message groupMessage = board.getMessageById(toRemove.get(i).getMsgID()).complete();
+            if(LFGHandler.getDeletionQueue().indexOf(toRemove.get(i)) != -1) {
+                LFGHandler.removeFromDeletionQueue(toRemove.get(i));
+            }
+
+            groupMessage.delete().queue();
         }
 
         if(response.equals("")){

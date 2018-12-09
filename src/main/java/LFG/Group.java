@@ -40,6 +40,7 @@ public class Group {
     private Member owner;
     private boolean empty;
     private GroupActivityType groupActivityType;
+    private int rollcallCount;
     public static DateFormat df = new SimpleDateFormat("MM/dd hh:mmaa zzz yyyy");
 
     private ArrayList<Member> players = new ArrayList<Member>();
@@ -71,6 +72,7 @@ public class Group {
         players.add(m);
         this.empty = false;
         this.platform = platform;
+        this.rollcallCount = 0;
     }
 
     /**
@@ -82,7 +84,7 @@ public class Group {
      * @param date
      * @throws ParseException
      */
-    public Group(String serverID, int id, String name, Date date, String platform, Member owner, String msgID) throws ParseException {
+    public Group(String serverID, int id, String name, Date date, String platform, Member owner, String msgID, int rollcallCount) throws ParseException {
         ID = id;
         this.name = name;
         this.serverID = serverID;
@@ -91,6 +93,7 @@ public class Group {
         this.platform = platform;
         this.msgID = msgID;
         this.owner = owner;
+        this.rollcallCount = rollcallCount;
     }
 
     public void join(Member m) throws NoAvailableSpotsException {
@@ -197,10 +200,12 @@ public class Group {
 
             eb.addField("Subs", subText, false);
         }
-        String footerText = "Group Creator: "+owner.getEffectiveName() + ".";
+        String footerText = "Group Creator: "+owner.getEffectiveName() + ". ";
         if(players.size() == MAX_GROUP_SIZE && subs.size() == MAX_SUBS) {
-            footerText += "\n   (This group is full)";
+            footerText += "(This group is full)";
         }
+
+        footerText += "Rollcalls remaining: " + ( 3 - rollcallCount);
 
         eb.setFooter(footerText, owner.getUser().getAvatarUrl());
         eb.setAuthor("⠀", null, platform.getEmbedIconUrl()); // uses U+2800 for name.
@@ -354,5 +359,13 @@ public class Group {
 
     public void setMsgID(String msgID) {
         this.msgID = msgID;
+    }
+
+    public int getRollcallCount() {
+        return rollcallCount;
+    }
+
+    public void setRollcallCount(int rollcallCount) {
+        this.rollcallCount = rollcallCount;
     }
 }

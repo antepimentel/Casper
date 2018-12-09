@@ -53,14 +53,7 @@ public class Tutorial extends AbstractCommand {
             "Press the reaction to do the actions described above, please allow for about a second for the action to be processed and avoid spamming the reactions if possible. \n" +
             "\n" +
             "**Rollcall**\n" +
-            "- You can rollcall your group by using the **!** reaction underneath any group that you created. This will ping every member of the group so to prevent spam you are limited to 3 rollcalls per group. \n" +
-            "\n" +
-            "**Integration with Destiny 2**\n" +
-            "- Rasputin can also display your Destiny information in any group that you've joined using the r!link command:\n" +
-            "\tUsage: r!link username platform\n" +
-            "\tExample: r!link NullRoz007#1650 pc\n" +
-            "\n" +
-            "- Available platforms are ps4 and pc, this will display your light levels for each of your characters alongside your name and warn you if you are underleveled for an activity if the group has been assigned one. \n";
+            "- You can rollcall your group by using the **!** reaction underneath any group that you created. This will ping every member of the group so to prevent spam you are limited to 3 rollcalls per group.";
 
 
     @Override

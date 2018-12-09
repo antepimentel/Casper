@@ -35,7 +35,6 @@ public class GuildUpdateEventHandler implements EventListener {
 
         } else if(e instanceof GuildLeaveEvent){
             onGuildLeaveEvent((GuildLeaveEvent) e);
-
         }
     }
 
@@ -66,7 +65,7 @@ public class GuildUpdateEventHandler implements EventListener {
             gen.sendMessage("Congratulations " + e.getMember().getAsMention() + "! You've got your clan tag!").queue();
         }
 
-        //TODO: Make this more general?
+        //TODO: Make this more general, add Initiate role on join. Deal with Former Seraph role being added.
     }
 
     /**

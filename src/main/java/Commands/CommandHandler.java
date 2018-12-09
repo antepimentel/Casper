@@ -42,7 +42,6 @@ public class CommandHandler extends ListenerAdapter {
 
                         CommandCategory category = com.getCategory();
                         if(category.canRun(e.getMember(), e.getMessage())) {
-
                             com.run(e.getMessage());
                         }
                     } else {
@@ -51,7 +50,8 @@ public class CommandHandler extends ListenerAdapter {
                 } catch (CustomAbstractException exp){
                     exp.printStackTrace();
                     e.getMessage().getChannel().sendMessage(exp.getMessage()).queue();
-                } catch (Exception exp){
+                } catch (Exception exp) {
+                    System.out.println(exp.getMessage());
                     exp.printStackTrace();
                     e.getMessage().getChannel().sendMessage("There was an error with that command or its inputs, please try" + com.getUsage(com.getCommand(), com.getInputs())).queue();
                 }
