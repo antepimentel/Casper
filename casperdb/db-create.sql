@@ -8,7 +8,7 @@ create table server (
 create table customcommand (
 	serverid varchar(20) not null,
 	name varchar(15) not null,
-	command varchar(50) not null,
+	command varchar(300) not null,
 	constraint customcommand_pk
 		primary key (name),
 	constraint server_customcommand_fk

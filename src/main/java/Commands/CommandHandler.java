@@ -34,6 +34,8 @@ public class CommandHandler extends ListenerAdapter {
         String delim = Bot.props.getProperty(PropertyKeys.DELIMITER_KEY);
         if(e.getMessage().getContentRaw().startsWith(delim)){
             String[] args = e.getMessage().getContentRaw().substring(delim.length()).split(" ");
+            String customCommandResponse = MainSQLHandler.checkCustomCommand(e.getGuild().getId(), args[0]);
+
             if(commands.containsKey(args[0])){
                 AbstractCommand com = commands.get(args[0]);
                 try {
@@ -55,8 +57,8 @@ public class CommandHandler extends ListenerAdapter {
                     exp.printStackTrace();
                     e.getMessage().getChannel().sendMessage("There was an error with that command or its inputs, please try" + com.getUsage(com.getCommand(), com.getInputs())).queue();
                 }
-            } else if(customCommands.containsKey(args[0])){
-                e.getMessage().getChannel().sendMessage(customCommands.get(args[0])).queue();
+            } else if(customCommandResponse != null){
+                e.getMessage().getChannel().sendMessage(customCommandResponse).queue();
             } else {
                 String response = "";
 
