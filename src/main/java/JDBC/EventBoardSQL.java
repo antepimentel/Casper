@@ -1,8 +1,10 @@
 package JDBC;
 
 import Core.Bot;
+import Core.Utility;
 import Exceptions.NoBoardForPlatformException;
 import LFG.Group;
+import LFG.LFGHandler;
 import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.sql.Connection;
@@ -11,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class handles the Event Board. Users post groups and they appear in the event channel.
@@ -20,6 +23,10 @@ import java.util.HashMap;
 public class EventBoardSQL {
 
     private static Connection connObj = MainSQLHandler.connObj;
+
+    public static void init(){
+        printAllMessages();
+    }
 
     public static TextChannel getEventBoard(String serverID, String type) throws NoBoardForPlatformException {
         String query = "select " + SQLSchema.EB_COL_CHANNELID + " from " + SQLSchema.TABLE_EB
@@ -47,7 +54,7 @@ public class EventBoardSQL {
         return null;
     }
 
-    public static HashMap<String, TextChannel> getAllEventBoards(String serverID) {
+    public static HashMap<String, TextChannel> getAllEventBoardsForServer(String serverID) {
         String query = "select * from " + SQLSchema.TABLE_EB
                 + " where " + SQLSchema.EB_COL_SERVERID + "=?";
 
@@ -69,6 +76,46 @@ public class EventBoardSQL {
             e.printStackTrace();
         }
         return channels;
+    }
+
+    public static ArrayList<TextChannel> getAllEventBoards() {
+        String query = "select * from " + SQLSchema.TABLE_EB;
+
+        ArrayList<TextChannel> channels = new ArrayList<TextChannel>();
+        try {
+            PreparedStatement stmtObj = connObj.prepareStatement(query);
+
+            ResultSet rs = stmtObj.executeQuery();
+
+            while(rs.next()){
+                String channelID = rs.getString(SQLSchema.EB_COL_CHANNELID);
+                TextChannel eb = Bot.jda.getGuildById(rs.getString(SQLSchema.EB_COL_SERVERID)).getTextChannelById(channelID);
+                channels.add(eb);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return channels;
+    }
+
+    public static ArrayList<String> getServersWithEventBoards(){
+        String query = "select distinct " + SQLSchema.SERVER_COL_ID + " from " + SQLSchema.TABLE_SERVER;
+
+        ArrayList<String> result = new ArrayList<String>();
+
+        try {
+            PreparedStatement stmtObj = connObj.prepareStatement(query);
+            ResultSet rs = stmtObj.executeQuery();
+
+            while(rs.next()){
+                result.add(rs.getString(SQLSchema.SERVER_COL_ID));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     public static void setEventBoard(String serverID, String channelID, String type){
@@ -116,4 +163,28 @@ public class EventBoardSQL {
         }
     }
 
+    private static void printAllMessages(){
+
+        ArrayList<String> servers = getServersWithEventBoards();
+        ArrayList<TextChannel> channels = EventBoardSQL.getAllEventBoards();
+
+        // Clear all the channels
+        for(TextChannel tc: channels){
+            Utility.clearChannel(tc);
+        }
+
+        for(String server: servers){
+            ArrayList<Group> groups = GroupSQL.getGroupsByServer(server);
+
+            // Post all groups into the proper channels
+            for(Group g: groups){
+                try {
+                    LFGHandler.repostAndUpdateMsgID(g);
+                } catch (NoBoardForPlatformException e) {
+                    e.getMessage();
+                }
+            }
+        }
+
+    }
 }

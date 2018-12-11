@@ -22,7 +22,6 @@ import org.reflections.Reflections;
 public class CommandHandler extends ListenerAdapter {
 
     private static final HashMap<String, AbstractCommand> commands = new HashMap<>();
-    private static final HashMap<String, String> customCommands = new HashMap<>();
 
     public void onMessageReceived(MessageReceivedEvent e){
 
@@ -81,11 +80,6 @@ public class CommandHandler extends ListenerAdapter {
     public void init(){
         loadCommands();
 
-        //TODO: Custom command initialization?? Cannot have static custom commands with the multi-server setup. Look into this.
-
-        // TEMP CODE
-        customCommands.put("meme1", "http://photobucket.com/gallery/user/TheOffice-isms/media/cGF0aDpUaGUgT2ZmaWNlLWlzbXMgbWVtZS1vLW1hdGljL1lPVVRVQkVNSUNIQUVMX3pwc2NwNGF5a3V0LmpwZw==/?ref=");
-        // TEMP CODE
     }
 
     private static void loadCommands(){
@@ -112,8 +106,6 @@ public class CommandHandler extends ListenerAdapter {
     public static HashMap<String, AbstractCommand> getCommands(){
         return commands;
     }
-
-    public static HashMap<String, String> getCustomCommands() {return customCommands; }
 
     public static HashMap<String, AbstractCommand> getSimilarCommands(String input) {
         HashMap<String, AbstractCommand> availableCommands = getCommands();

@@ -169,6 +169,16 @@ public class Group {
     }
 
     public MessageEmbed toEmbed() {
+
+        // This IF is messy but it's late, This is called somewhere in MainSQL.init but requires LFGHandler.init is called first,
+        // But LFG requires MainSQL first.... this is the work around
+
+        if(PLATFORMS.size() == 0){
+            Group.setPlatforms();
+            Group.setGroupTypes();
+        }
+
+
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle(name);
         eb.addField("ID", Integer.toString(ID), false);
@@ -208,7 +218,7 @@ public class Group {
         footerText += "Rollcalls remaining: " + ( 3 - rollcallCount);
 
         eb.setFooter(footerText, owner.getUser().getAvatarUrl());
-        eb.setAuthor("⠀", null, platform.getEmbedIconUrl()); // uses U+2800 for name.
+        eb.setAuthor("⠀", null, platform.getEmbedIconUrl()); // uses U+2800 for name.   //TODO: This is causing a bug with auto posting groups, nullPointerException
         eb.setColor(platform.getEmbedColor());
 
         if(groupActivityType != null) {

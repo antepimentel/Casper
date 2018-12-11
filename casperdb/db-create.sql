@@ -45,6 +45,7 @@ create table post (
 	msg_id varchar(20) not null,
     owner_id varchar(20) not null,
     type_code varchar(6),
+    rollcall_count varchar(2),
 	constraint server_post_fk
 		foreign key (serverid) references server (id)
 );

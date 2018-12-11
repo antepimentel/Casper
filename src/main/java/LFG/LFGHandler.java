@@ -32,12 +32,16 @@ public class LFGHandler {
             for(Guild guild : guilds) {
                 for(Group g : deletionQueue) {
                     try {
-                        System.out.println("DELETED: " + g.getID());
-                        GroupSQL.delete(g);
 
-                        TextChannel board = EventBoardSQL.getEventBoard(guild.getId(), g.getType());
-                        Message groupMessage = board.getMessageById(g.getMsgID()).complete();
-                        groupMessage.delete().queue();
+                        // Putting the if statement avoids confusing output to console about boards not existing
+                        if(guild.getId().equals(g.getServerID())){
+                            TextChannel board = EventBoardSQL.getEventBoard(guild.getId(), g.getType());
+                            Message groupMessage = board.getMessageById(g.getMsgID()).complete();
+                            groupMessage.delete().queue();
+
+                            System.out.println("DELETED: " + g.getID());
+                            GroupSQL.delete(g);
+                        }
 
                     } catch (NoBoardForPlatformException ex){
                         System.out.println(ex.getMessage());
@@ -67,7 +71,8 @@ public class LFGHandler {
         Group.setGroupTypes();
         Group.setPlatforms();
 
-        lfgScheduler.scheduleAtFixedRate(checkGroups, 0, 10, TimeUnit.MINUTES);
+        lfgScheduler.scheduleAtFixedRate(checkGroups, 0, 10, TimeUnit.MINUTES); // PROD
+        //lfgScheduler.scheduleAtFixedRate(checkGroups, 0, 20, TimeUnit.SECONDS); // DEBUG
     }
 
     public static Group post(String serverID, String name, String date, String time, String timezone, Member poster, String platform) throws ParseException, NoBoardForPlatformException {

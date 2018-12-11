@@ -6,6 +6,7 @@ import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.StringTokenizer;
 
 /**
@@ -32,6 +33,7 @@ public class MainSQLHandler {
 
             GroupSQL.init();
             AutoAssignmentSQL.init();
+            EventBoardSQL.init();
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -223,7 +225,7 @@ public class MainSQLHandler {
         return null;
     }
 
-    public static ArrayList<String> getAllCustomCommandsForServer(String serverID){
+    public static HashMap<String, String> getAllCustomCommandsForServer(String serverID){
         String query = "select * from " + SQLSchema.TABLE_CUSTOMCOMMAND + " where " + SQLSchema.CC_COL_SERVERID + " = ?";
         try {
             PreparedStatement stmtObj = connObj.prepareStatement(query);
@@ -231,10 +233,10 @@ public class MainSQLHandler {
 
             ResultSet rs = stmtObj.executeQuery();
 
-            ArrayList<String> result = new ArrayList<String>();
+            HashMap<String, String> result = new HashMap<String, String>();
 
             while(rs.next()){
-                result.add(rs.getString(SQLSchema.CC_COL_COMMAND));
+                result.put(rs.getString(SQLSchema.CC_COL_NAME), rs.getString(SQLSchema.CC_COL_COMMAND));
             }
 
             return result;

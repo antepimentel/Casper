@@ -51,9 +51,10 @@ public class Bot extends ListenerAdapter {
                     jda = event.getJDA();
                     jda.getPresence().setGame(Game.playing("Version: "+VERSION.toString()));
                     SELF_USER_ID = event.getJDA().getSelfUser().getId();
+
+                    // The ordering here is important
                     MainSQLHandler.init();
                     LFGHandler.init();
-
                 }
             }
         });

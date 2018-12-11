@@ -19,7 +19,7 @@ import net.dv8tion.jda.core.events.message.react.MessageReactionRemoveEvent;
 
 public class MessageReactionEventHandler implements net.dv8tion.jda.core.hooks.EventListener {
 
-    public static String MONITORED_REACTION;//Bot.props.getProperty(PropertyKeys.MONITORED_REACTION_KEY); //Unicode, this may not work after the props file has been re-saved
+    public static Emote MONITORED_REACTION;//Bot.props.getProperty(PropertyKeys.MONITORED_REACTION_KEY); //Unicode, this may not work after the props file has been re-saved
     private static Emote JOIN_REACTION; // Smiley
     private static Emote LEAVE_REACTION; // Tears of joy
     private static Emote ROLLCALL_REACTION; // Glasses
@@ -37,6 +37,7 @@ public class MessageReactionEventHandler implements net.dv8tion.jda.core.hooks.E
             // Setup reactions
             if(e instanceof ReadyEvent) {
                 JDA jda = e.getJDA();
+                MONITORED_REACTION = jda.getEmotesByName("plus", false).get(0);
                 JOIN_REACTION = jda.getEmotesByName("plus", false).get(0);
                 LEAVE_REACTION = jda.getEmotesByName("minus", false).get(0);
                 ROLLCALL_REACTION = jda.getEmotesByName("rollcall", false).get(0);

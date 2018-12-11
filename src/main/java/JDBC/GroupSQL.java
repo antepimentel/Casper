@@ -39,7 +39,7 @@ public class GroupSQL {
             stmtObj.setString(6, subs); // Subs
             stmtObj.setString(7, g.getType()); // Platform
             stmtObj.setString(8, g.getMsgID()); // Message ID
-            stmtObj.setString(9, g.getOwnerID());
+            stmtObj.setString(9, g.getOwnerID()); // Group Owner
             stmtObj.setString(10, g.getGroupActivityType() == null ? "" : g.getGroupActivityType().getCode());
             stmtObj.setInt(11, g.getRollcallCount());
             stmtObj.executeUpdate();

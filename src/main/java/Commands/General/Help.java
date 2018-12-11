@@ -6,6 +6,7 @@ import Commands.CommandHandler;
 import Core.Bot;
 import Core.PropertyKeys;
 import Core.Utility;
+import JDBC.MainSQLHandler;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.PrivateChannel;
 
@@ -95,7 +96,7 @@ public class Help extends AbstractCommand {
 
         //Custom commands:
         response += "**[Custom commands]**\n*Custom commands added by a server's moderator.*\n";
-        HashMap<String, String> customCommands = CommandHandler.getCustomCommands();
+        HashMap<String, String> customCommands = MainSQLHandler.getAllCustomCommandsForServer(msg.getGuild().getId());
         Iterator customCommandsIter = customCommands.entrySet().iterator();
         while(customCommandsIter.hasNext()) {
             Map.Entry pair = (Map.Entry)customCommandsIter.next();
