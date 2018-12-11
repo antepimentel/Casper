@@ -55,7 +55,11 @@ public class GuildUpdateEventHandler implements EventListener {
 
         Role initiate = e.getGuild().getRolesByName("initiate", true).get(0);
         guildController.addSingleRoleToMember(e.getMember(), initiate).queue();
-        //TODO: Make this customizable, Also send DM message
+        //TODO: Make this customizable
+
+        String dmMessage = "Welcome to Seraphim Elite " + e.getMember().getEffectiveName() + ", make sure you read the rules in #rules-read-me, and please introduce yourself to the rest of the clan in #general! Make sure you put your PSN / Battle.net Tag in your nickname somewhere (if it isn't already) and let us know where you're from or what timezone you're in. If you would like a tutorial on how our LFG bot works, type r!tutorial in the #rasputin-commands channel.";
+        PrivateChannel pc = e.getMember().getUser().openPrivateChannel().complete();
+        pc.sendMessage(dmMessage);
     }
 
     /**
@@ -73,7 +77,7 @@ public class GuildUpdateEventHandler implements EventListener {
         Role visitor = e.getGuild().getRolesByName("visitor", true).get(0);
         TextChannel gen = getGenChannel(e.getGuild());
 
-        //Visitor
+        //Seraph
         if(roles.contains(seraph)){
             gen.sendMessage("Congratulations " + e.getMember().getAsMention() + "! You've got your clan tag!").queue();
         }

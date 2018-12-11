@@ -36,7 +36,6 @@ public class ReloadAutoRoles extends AbstractCommand {
     }
 
     public void run(Message msg) throws InvalidPermissionsException {
-        PermissionHandler.checkModPermissions(msg.getMember());
         String serverID = msg.getGuild().getId();
         AutoAssignmentSQL.printMessagesForServer(serverID);
     }

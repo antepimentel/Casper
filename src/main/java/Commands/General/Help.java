@@ -44,8 +44,7 @@ public class Help extends AbstractCommand {
     }
 
     public void run(Message msg) {
-        String response = "";
-
+        PrivateChannel dmChannel = msg.getMember().getUser().openPrivateChannel().complete();
         //Existing commands:
         HashMap<String, AbstractCommand> commands = CommandHandler.getCommands();
         Iterator commandsIter = commands.entrySet().iterator();
@@ -82,30 +81,35 @@ public class Help extends AbstractCommand {
                 }
             }
 
-            response += "**["+categoryName+" Commands]**\n*"+category.getDescription()+"*\n";
+            String dm =  "**["+categoryName+" Commands]**\n*"+category.getDescription()+"*\n";
 
             for(AbstractCommand command : commandArrayList) {
-                response += Bot.props.getProperty(PropertyKeys.DELIMITER_KEY) + command.getCommand()
+                dm += Bot.props.getProperty(PropertyKeys.DELIMITER_KEY) + command.getCommand()
                         + "\n\tInfo: " + command.getDescription()
                         + ".\n\tUsage: "
                         + command.getUsage(command.getCommand(), command.getInputs()) + "\n";
             }
 
-            response += "\n";
+            dm += "\n";
+
+            dmChannel.sendMessage(dm).queue();
         }
 
         //Custom commands:
-        response += "**[Custom commands]**\n*Custom commands added by a server's moderator.*\n";
+        String customCommandsDm = "**[Custom commands]**\n*Custom commands added by a server's moderator.*\n";
         HashMap<String, String> customCommands = MainSQLHandler.getAllCustomCommandsForServer(msg.getGuild().getId());
         Iterator customCommandsIter = customCommands.entrySet().iterator();
+
+
+
         while(customCommandsIter.hasNext()) {
             Map.Entry pair = (Map.Entry)customCommandsIter.next();
-            response += Bot.props.getProperty(PropertyKeys.DELIMITER_KEY) + (String)pair.getKey()
-                     + "\n\tUsage: ```"
-                     + Bot.props.getProperty(PropertyKeys.DELIMITER_KEY) + pair.getKey() + "```\n";
+            customCommandsDm += Bot.props.getProperty(PropertyKeys.DELIMITER_KEY) + (String)pair.getKey()
+                     + "\n\tUsage: `"
+                     + Bot.props.getProperty(PropertyKeys.DELIMITER_KEY) + pair.getKey() + "`\n";
         }
 
-        PrivateChannel dmChannel = msg.getMember().getUser().openPrivateChannel().complete();
-        dmChannel.sendMessage(response).queue();
+
+        dmChannel.sendMessage(customCommandsDm).queue();
     }
 }

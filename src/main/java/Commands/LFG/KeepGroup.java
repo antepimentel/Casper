@@ -20,7 +20,7 @@ public class KeepGroup extends AbstractCommand {
 
     private static String command = "keepgroup";
     private static String desc = "Keep a group that has been marked for deletion, lasts until the groups are checked again (every 10 minutes)";
-    private static String[] inputs = {};
+    private static String[] inputs = {"ID"};
 
     @Override
     public String[] getInputs() {

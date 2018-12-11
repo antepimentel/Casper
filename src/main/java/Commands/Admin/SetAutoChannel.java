@@ -38,8 +38,6 @@ public class SetAutoChannel extends AbstractCommand {
     }
 
     public void run(Message msg) throws InvalidPermissionsException, NoArgumentsGivenException {
-        PermissionHandler.checkModPermissions(msg.getMember());
-
         String serverID = msg.getGuild().getId();
 
         if(AutoAssignmentSQL.checkAutoChannelForServer(serverID)){

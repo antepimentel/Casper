@@ -45,7 +45,6 @@ public class ReloadBoards extends AbstractCommand {
 
     public void run(Message msg) throws InvalidPermissionsException, NoBoardForPlatformException {
         String response = "";
-        PermissionHandler.checkModPermissions(msg.getMember());
 
         HashMap<String, TextChannel> channels = EventBoardSQL.getAllEventBoardsForServer(msg.getGuild().getId());
         ArrayList<Group> groups = GroupSQL.getGroupsByServer(msg.getGuild().getId());

@@ -39,7 +39,6 @@ public class Enable extends AbstractCommand {
         String[] args = getInputArgs(msg);
         String response = "";
 
-        PermissionHandler.checkModPermissions(msg.getMember());
         AbstractCommand c = CommandHandler.getCommands().get(args[0]);
 
         MainSQLHandler.dropDisabledCommand(msg.getGuild().getId(), c.getCommand());

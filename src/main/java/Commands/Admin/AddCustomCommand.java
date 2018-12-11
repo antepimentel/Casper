@@ -32,15 +32,13 @@ public class AddCustomCommand extends AbstractCommand {
 
     @Override
     public CommandCategory getCategory() {
-        return CommandCategory.GENERAL;
+            return CommandCategory.ADMIN;
     }
 
     @Override
     public void run(Message msg) throws NoArgumentsGivenException, InvalidPermissionsException {
         String[] args = getInputArgs(msg);
         String response = "";
-
-        PermissionHandler.checkModPermissions(msg.getMember());
 
         String cName = args[0];
         String cCommand = args[1];

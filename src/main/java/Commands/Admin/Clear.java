@@ -35,7 +35,6 @@ public class Clear extends AbstractCommand {
     }
 
     public void run(Message msg) throws InvalidPermissionsException {
-        PermissionHandler.checkModPermissions(msg.getMember());
         List<Message> messages = msg.getChannel().getHistory().retrievePast(50).complete();
 
         for(int i = 0; i < messages.size(); i++){

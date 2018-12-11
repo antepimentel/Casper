@@ -32,7 +32,7 @@ public class RemoveCustomCommand extends AbstractCommand {
 
     @Override
     public CommandCategory getCategory() {
-        return CommandCategory.GENERAL;
+        return CommandCategory.ADMIN;
     }
 
     @Override
@@ -40,7 +40,6 @@ public class RemoveCustomCommand extends AbstractCommand {
         String[] args = getInputArgs(msg);
         String response = "";
 
-        PermissionHandler.checkModPermissions(msg.getMember());
         String cName = args[0];
 
         String serverResponse = MainSQLHandler.checkCustomCommand(msg.getGuild().getId(), cName);

@@ -38,8 +38,6 @@ public class AddAutoRole extends AbstractCommand {
     }
 
     public void run(Message msg) throws InvalidPermissionsException, NoArgumentsGivenException {
-        PermissionHandler.checkModPermissions(msg.getMember());
-
         String[] args = getInputArgs(msg);
         String role = "";
 

@@ -39,7 +39,6 @@ public class Disable extends AbstractCommand {
         String[] args = getInputArgs(msg);
         String response = "";
 
-        PermissionHandler.checkModPermissions(msg.getMember());
         AbstractCommand c = CommandHandler.getCommands().get(args[0]);
 
         MainSQLHandler.addDisabledCommand(msg.getGuild().getId(), c.getCommand());

@@ -28,9 +28,9 @@ public class Tutorial extends AbstractCommand {
             "2. This will create a new post in the events channel which corresponds to the platform you entered: Find your group in that channel to get your group's ID. You will automatically be added to any group that you create. \n" +
             "\n" +
             "**Editing Groups:**\n" +
-            "- If you want to assign a Destiny 2 activity to your group you can do so using the r!setgroupactivity command:\n" +
-            "\tUsage: r!setgroupactivity ID ActivityCode\n" +
-            "\tExample: r!setgroupactivity 0 levi\n" +
+            "- If you want to assign a Destiny 2 activity to your group you can do so using the r!setactivity command:\n" +
+            "\tUsage: r!setactivity ID ActivityCode\n" +
+            "\tExample: r!setactivity 0 levi-n\n" +
             "\n" +
             "- You can edit your group's name using the r!changename command:\n" +
             "\tUsage: r!changename ID Name\n" +
@@ -42,7 +42,7 @@ public class Tutorial extends AbstractCommand {
     private static String tutorialTextFullPart2 =
             "- You can edit your groups time and date using the r!changetime command:\n" +
             "\tUsage: r!changetime ID date time timezone\n" +
-            "\tExample: r!changetime 0 11/6 1:00pm CST\n" +
+            "\tExample: r!changetime 0 11/6 1:00PM CST\n" +
             "\n" +
             "**Joining and Leaving Groups**\n" +
             "Seraphim Elite has two group board channels for the PC and PS4 platforms, #events-pc and #events-ps4. In there you will find all the available groups. Each post will have four reactions underneath it: \n" +
