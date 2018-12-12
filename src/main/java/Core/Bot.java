@@ -3,6 +3,7 @@ package Core;
 import Core.EventHandlers.MessageReactionEventHandler;
 import Core.EventHandlers.GuildUpdateEventHandler;
 import Commands.CommandHandler;
+import IPC.IPCHandler;
 import JDBC.MainSQLHandler;
 import LFG.LFGHandler;
 import net.dv8tion.jda.core.AccountType;
@@ -64,6 +65,9 @@ public class Bot extends ListenerAdapter {
         } catch (Exception e){
             System.out.println("Core.Core Exception: " + e.getLocalizedMessage());
         }
+
+        //IPCHandler for API
+        IPCHandler.init();
     }
 
     private static void loadProperties(){

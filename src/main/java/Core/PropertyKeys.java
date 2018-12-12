@@ -15,4 +15,6 @@ public class PropertyKeys {
     public static String JDBC_USER_KEY = "JDBC_USER";
     public static String JDBC_PASS_KEY = "JDBC_PASS";
     public static String JDBC_DB_NAME_KEY = "JDBC_DB_NAME";
+
+    public static String IPC_CLASS_PATH_KEY = "IPC_CLASS_PATH";
 }
