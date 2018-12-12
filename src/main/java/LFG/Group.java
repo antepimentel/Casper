@@ -125,10 +125,18 @@ public class Group {
     }
 
     public void removePlayer(Member m) throws MemberNotFoundException, GroupIsEmptyException {
-        if(subs.contains(m)){
+        if(subs.contains(m)) {
             subs.remove(m);
-        } else if(players.contains(m)){
+        } else if(players.contains(m)) {
             players.remove(m);
+
+            if(subs.size() > 0) {
+                //shift first sub to last player
+                Member topSub = subs.get(0);
+                subs.remove(topSub);
+                players.add(topSub);
+            }
+
         } else {
             throw new MemberNotFoundException(ID, m);
         }

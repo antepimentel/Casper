@@ -109,6 +109,8 @@ public class LFGHandler {
     public static void join(Group g, Member m) throws GroupNotFoundException, NoAvailableSpotsException {
         g.join(m);
         GroupSQL.updatePlayers(g);
+        if(g.getEmpty()) g.setEmpty(false);
+
     }
 
     public static void joinAsSub(String serverID, int ID, Member m) throws GroupNotFoundException, NoAvailableSpotsException {
