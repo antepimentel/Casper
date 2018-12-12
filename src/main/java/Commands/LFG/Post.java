@@ -19,7 +19,7 @@ public class Post extends AbstractCommand {
 
     private static String command = "post";
     private static String desc = "Post a group";
-    private static String[] inputs = {"name", "date(MM/dd)", "time", "timezone", "platform"};
+    private static String[] inputs = {"name", "platform", "date(MM/dd)", "time", "timezone", "year (optional)"};
 
     @Override
     public String[] getInputs() {
@@ -73,20 +73,34 @@ public class Post extends AbstractCommand {
                 args = super.getInputArgs(msg);
             }
 
+            // Declare variables here from args in case we need to change ordering later
+            String name = args[0];
+            String platform = args[1];
+            String date = args[2];
+            String time = args[3];
+            String timezone = args[4];
+            String year = null;
+
+            if(args.length >= 6){
+                year = args[5];
+            }
+
+
             //Check platform
             int platformIndex = -1;
             for(int i = 0; i < Group.PLATFORMS.size(); i++){
-                if(Group.PLATFORMS.get(i).getName().equals(args[4])) {
+                if(Group.PLATFORMS.get(i).getName().equals(platform)) {
                     platformIndex = i;
                     break;
                 }
             }
 
             if(platformIndex != -1) {
-                Group g = LFGHandler.post(msg.getGuild().getId(), args[0], args[1], args[2], args[3], msg.getMember(), args[4]);
-                response = msg.getMember().getAsMention() + ", your group: *" + args[0] + "* has been created, you can view it in " + EventBoardSQL.getEventBoard(msg.getGuild().getId(), args[4]).getAsMention();
+                //Group g = LFGHandler.post(msg.getGuild().getId(), args[0], args[1], args[2], args[3], msg.getMember(), args[4]);
+                Group g = LFGHandler.post(msg.getGuild().getId(), name, date, time, timezone, msg.getMember(), platform, year);
+                response = msg.getMember().getAsMention() + ", your group: *" + name + "* has been created, you can view it in " + EventBoardSQL.getEventBoard(msg.getGuild().getId(), platform).getAsMention();
             } else {
-                response = "No platform exists for: " + args[4];
+                response = "No platform exists for: " + platform;
             }
 
         } catch (ParseException e){

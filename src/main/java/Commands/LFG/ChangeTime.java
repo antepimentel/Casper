@@ -15,7 +15,7 @@ public class ChangeTime extends AbstractCommand {
 
     private static String command = "changetime";
     private static String desc = "temp";
-    private static String[] inputs = {"ID", "date", "time", "timezone"};
+    private static String[] inputs = {"ID", "date", "time", "timezone", "year (optional)"};
 
     @Override
     public String[] getInputs() {
@@ -44,12 +44,18 @@ public class ChangeTime extends AbstractCommand {
         String date = args[1];
         String time = args[2];
         String timezone = args[3];
+        String year = null;
+
+        if(args.length >= 5){
+            year = args[5];
+        }
+
 
         try {
             Group g = LFGHandler.findGroupByID(msg.getGuild().getId(), ID);
 
             if(PermissionHandler.isLeaderOrMod(msg.getMember(), g)){
-                g.setDate(date, time, timezone);
+                g.setDate(date, time, timezone, year);
                 GroupSQL.updateTime(g);
                 LFGHandler.refreshGroup(msg.getGuild().getId(), g);
                 response =  "Changed " + g.getName() + "'s time to: "+g.getDate();

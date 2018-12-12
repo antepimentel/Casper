@@ -58,13 +58,19 @@ public class Group {
      * @param m
      * @throws ParseException
      */
-    public Group(String serverID, int id, String name, String date, String time, String timezone, Member m, String platform) throws ParseException {
+    public Group(String serverID, int id, String name, String date, String time, String timezone, Member m, String platform, String yearIn) throws ParseException {
         ID = id;
         this.name = name;
         this.serverID = serverID;
-        int year = Calendar.getInstance().get(Calendar.YEAR);
+        int yearOut;
+        if(yearIn == null){
+            yearOut = Calendar.getInstance().get(Calendar.YEAR);
+        } else {
+            yearOut = Integer.parseInt(yearIn);
+        }
+        //int year = Calendar.getInstance().get(Calendar.YEAR);
         this.df.setTimeZone(TimeZone.getTimeZone(timezone));
-        this.date = df.parse(date +" "+ time +" "+ timezone + " " + year);
+        this.date = df.parse(date +" "+ time +" "+ timezone + " " + yearOut);
         this.dateCreated = new Date();
         this.owner = m;
         //this.time = time;
@@ -273,10 +279,15 @@ public class Group {
     public boolean getEmpty() { return empty; }
     public void setEmpty(boolean empty ) { this.empty = empty; }
 
-    public void setDate(String date, String time, String timezone) throws ParseException {
-        int year = Calendar.getInstance().get(Calendar.YEAR);
+    public void setDate(String date, String time, String timezone, String yearIn) throws ParseException {
+        int yearOut;
+        if(yearIn == null){
+            yearOut = Calendar.getInstance().get(Calendar.YEAR);
+        } else {
+            yearOut = Integer.parseInt(yearIn);
+        }
         this.df.setTimeZone(TimeZone.getTimeZone(timezone));
-        this.date = df.parse(date + " " + time + " " + timezone + " " + year);
+        this.date = df.parse(date + " " + time + " " + timezone + " " + yearOut);
     }
 
     public String getTime() {
