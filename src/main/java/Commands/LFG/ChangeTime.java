@@ -47,7 +47,7 @@ public class ChangeTime extends AbstractCommand {
         String year = null;
 
         if(args.length >= 5){
-            year = args[5];
+            year = args[4];
         }
 
 
