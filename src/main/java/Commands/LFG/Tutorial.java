@@ -20,8 +20,8 @@ public class Tutorial extends AbstractCommand {
             "\n" +
             "**Creating Groups:**\n" +
             "1. Post a group using the r!post command:\n" +
-            "\tUsage: r!post Name Date Time Timezone Platform\n" +
-            "\tExample: \\`r!post \"Example Group\" 11/9 1:00PM NSZT pc\\`\n" +
+            "\tUsage: r!post Name Platform Date Time Timezone \n" +
+            "\tExample: \\`r!post pc \"Example Group\" 11/9 1:00PM NSZT\\`\n" +
             "\n" +
             "\tIf your group's name is more than one word, surround it with quotes. Dates and times must follow the mm/dd hh:mmAM/PM format.\n" +
             "\t\t\t\t\t\n" +

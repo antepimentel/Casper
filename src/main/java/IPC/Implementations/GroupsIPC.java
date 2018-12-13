@@ -25,7 +25,6 @@ public interface GroupsIPC extends Remote {
             }
         }
 
-        @Override
         public void load() throws RemoteException, AlreadyBoundException {
             GroupsIPCImpl self = new GroupsIPCImpl();
             GroupsIPC stub = (GroupsIPC) UnicastRemoteObject.exportObject(self, 0);

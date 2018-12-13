@@ -30,7 +30,6 @@ public interface CoreIPC extends Remote {
             return reg.list();
         }
 
-        @Override
         public void load() throws RemoteException, AlreadyBoundException {
             CoreIPCImpl self = new CoreIPCImpl();
             CoreIPC stub = (CoreIPC) UnicastRemoteObject.exportObject(self, 0);

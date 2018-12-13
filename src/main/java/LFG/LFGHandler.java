@@ -22,17 +22,39 @@ import java.util.concurrent.TimeUnit;
  * Model should be modified by only this class if possible
  */
 public class LFGHandler {
-    private final static ScheduledExecutorService lfgScheduler = Executors.newScheduledThreadPool(1);
+    private final static ScheduledExecutorService lfgPingScheduler = Executors.newScheduledThreadPool(1);
+    private final static ScheduledExecutorService lfgDelcheduler = Executors.newScheduledThreadPool(1);
     private static ArrayList<Group> deletionQueue = new ArrayList<Group>();
     private static Date lastCheck = new Date();
-    private static Runnable checkGroups = new Runnable() {
+    private static int minutesPassed = 0; //in tens
+
+    //runnable for automatic group pings
+    private  static Runnable checkGroupsForPing = new Runnable() {
         @Override
         public void run() {
             List<Guild> guilds = Bot.jda.getGuilds();
             for(Guild guild : guilds) {
+                List<Group> groups = GroupSQL.getGroupsByServer(guild.getId());
+                for (Group g : groups) {
+                    long diff = LFGHandler.getDateDiff(new Date(), g.getDate(), TimeUnit.MINUTES);
+
+                    if(diff >= 0 && diff < 20) {
+                        pingPlayers(g);
+                    }
+                }
+            }
+        }
+    };
+
+    //runnable for automatic group deletion
+    private static Runnable checkGroups = new Runnable() {
+        @Override
+        public void run() {
+            List<Guild> guilds = Bot.jda.getGuilds();
+
+            for(Guild guild : guilds) {
                 for(Group g : deletionQueue) {
                     try {
-
                         // Putting the if statement avoids confusing output to console about boards not existing
                         if(guild.getId().equals(g.getServerID())){
                             TextChannel board = EventBoardSQL.getEventBoard(guild.getId(), g.getType());
@@ -51,13 +73,10 @@ public class LFGHandler {
                 List<Group> groups = GroupSQL.getGroupsByServer(guild.getId());
                 for(Group g : groups) {
                     long diff = LFGHandler.getDateDiff(new Date(), g.getDate(), TimeUnit.MINUTES);
-
-                    if(diff >= 0 && diff < 20) {
-                        pingPlayers(g);
-                    } else if (diff < 0) {
+                    if (diff < 0) {
                         System.out.println("Adding Group "+g.getID()+" to the deletion queue.");
                         PrivateChannel dmChannel = g.getOwner().getUser().openPrivateChannel().complete();
-                        dmChannel.sendMessage("Your Group "+g.getName() + " has started and so has been flagged for deletion in the next ten minutes! To keep your group around for longer, type "+Bot.props.getProperty(PropertyKeys.DELIMITER_KEY)+"keepgroup "+g.getID() + " in #rasputin-commands").queue();
+                        dmChannel.sendMessage("Your Group "+g.getName() + " has started and so has been flagged for deletion in the next 12 hours! To keep your group around for longer, type "+Bot.props.getProperty(PropertyKeys.DELIMITER_KEY)+"keepgroup "+g.getID() + " in #rasputin-commands").queue();
                         deletionQueue.add(g);
                     }
                 }
@@ -71,7 +90,8 @@ public class LFGHandler {
         Group.setGroupTypes();
         Group.setPlatforms();
 
-        lfgScheduler.scheduleAtFixedRate(checkGroups, 0, 10, TimeUnit.MINUTES); // PROD
+        lfgPingScheduler.scheduleAtFixedRate(checkGroups, 0, 12, TimeUnit.HOURS);
+        lfgPingScheduler.scheduleAtFixedRate(checkGroupsForPing, 0, 10, TimeUnit.MINUTES);// PROD
         //lfgScheduler.scheduleAtFixedRate(checkGroups, 0, 20, TimeUnit.SECONDS); // DEBUG
     }
 

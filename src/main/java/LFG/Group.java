@@ -232,7 +232,7 @@ public class Group {
         footerText += "Rollcalls remaining: " + ( 3 - rollcallCount);
 
         eb.setFooter(footerText, owner.getUser().getAvatarUrl());
-        eb.setAuthor("⠀", null, platform.getEmbedIconUrl()); // uses U+2800 for name.   //TODO: This is causing a bug with auto posting groups, nullPointerException
+        //eb.setAuthor("⠀", null, platform.getEmbedIconUrl()); // uses U+2800 for name.   //TODO: This is causing a bug with auto posting groups, nullPointerException
         eb.setColor(platform.getEmbedColor());
 
         if(groupActivityType != null) {
