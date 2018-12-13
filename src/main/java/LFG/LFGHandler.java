@@ -90,7 +90,7 @@ public class LFGHandler {
         Group.setGroupTypes();
         Group.setPlatforms();
 
-        lfgPingScheduler.scheduleAtFixedRate(checkGroups, 0, 12, TimeUnit.HOURS);
+        lfgDelScheduler.scheduleAtFixedRate(checkGroups, 0, 12, TimeUnit.HOURS);// PROD
         lfgPingScheduler.scheduleAtFixedRate(checkGroupsForPing, 0, 10, TimeUnit.MINUTES);// PROD
         //lfgScheduler.scheduleAtFixedRate(checkGroups, 0, 20, TimeUnit.SECONDS); // DEBUG
     }
