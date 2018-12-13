@@ -4,7 +4,6 @@ import Core.Bot;
 import Exceptions.NoAvailableSpotsException;
 import LFG.Group;
 
-import java.lang.reflect.Member;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,7 +33,7 @@ public class GroupSQL {
             stmtObj.setString(1, g.getServerID()); // Server ID
             stmtObj.setString(2, Integer.toString(g.getID())); // Group ID
             stmtObj.setString(3, g.getName()); // Name
-            stmtObj.setString(4, Group.df.format(g.getDate())); // Date
+            stmtObj.setString(4, Group.df_na.format(g.getDate())); // Date
             stmtObj.setString(5, players); // Players
             stmtObj.setString(6, subs); // Subs
             stmtObj.setString(7, g.getType()); // Platform
@@ -99,7 +98,7 @@ public class GroupSQL {
         String query = "update " + SQLSchema.TABLE_POST + " set " + SQLSchema.POST_COL_GROUPDATE + " = ? where " + SQLSchema.POST_COL_SERVERID + " = ? and " + SQLSchema.POST_COL_GROUPID + " = ?";
         try {
             PreparedStatement stmtObj = connObj.prepareStatement(query);
-            stmtObj.setString(1, Group.df.format(g.getDate())); // Date
+            stmtObj.setString(1, Group.df_na.format(g.getDate())); // Date
             stmtObj.setString(2, g.getServerID()); // Server ID
             stmtObj.setString(3, Integer.toString(g.getID())); // Group ID
             stmtObj.executeUpdate();
@@ -205,7 +204,7 @@ public class GroupSQL {
             String serverID = rs.getString(SQLSchema.POST_COL_SERVERID);
             int groupID = Integer.parseInt(rs.getString(SQLSchema.POST_COL_GROUPID));
             String name = rs.getString(SQLSchema.POST_COL_NAME);
-            Date date = Group.df.parse(rs.getString(SQLSchema.POST_COL_GROUPDATE));
+            Date date = Group.df_na.parse(rs.getString(SQLSchema.POST_COL_GROUPDATE));
             String players = rs.getString(SQLSchema.POST_COL_PLAYERS);
             String subs = rs.getString(SQLSchema.POST_COL_SUBS);
             String platform = rs.getString(SQLSchema.POST_COL_TYPE);

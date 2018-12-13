@@ -3,13 +3,12 @@ package LFG;
 import Core.Bot;
 import Exceptions.GroupIsEmptyException;
 import Exceptions.MemberNotFoundException;
+import Exceptions.NameTooLongException;
 import Exceptions.NoAvailableSpotsException;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 
-import java.awt.*;
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,7 +25,8 @@ public class Group {
     public static ArrayList<GroupActivityType> GROUPTYPES = new ArrayList<GroupActivityType>();
 
     private static final int MAX_GROUP_SIZE = 6;
-    private static final int MAX_SUBS = 2;
+    private static final int MAX_SUBS = 4;
+    private static final int MAX_NAME_LENGTH = 150;
 
     private String serverID;
     private int ID;
@@ -41,7 +41,8 @@ public class Group {
     private boolean empty;
     private GroupActivityType groupActivityType;
     private int rollcallCount;
-    public static DateFormat df = new SimpleDateFormat("MM/dd hh:mmaa zzz yyyy");
+    public static DateFormat df_na = new SimpleDateFormat("MM/dd hh:mmaa zzz yyyy");
+    public static DateFormat df_eu = new SimpleDateFormat("MMM-dd hh:mmaa zzz yyyy");
 
     private ArrayList<Member> players = new ArrayList<Member>();
     private ArrayList<Member> subs = new ArrayList<Member>();
@@ -58,9 +59,15 @@ public class Group {
      * @param m
      * @throws ParseException
      */
-    public Group(String serverID, int id, String name, String date, String time, String timezone, Member m, String platform, String yearIn) throws ParseException {
+    public Group(String serverID, int id, String name, String date, String time, String timezone, Member m, String platform, String yearIn) throws ParseException, NameTooLongException {
         ID = id;
-        this.name = name;
+
+        if(name.length() <= MAX_NAME_LENGTH){
+            this.name = name;
+        } else {
+            throw new NameTooLongException();
+        }
+
         this.serverID = serverID;
         int yearOut;
         if(yearIn == null){
@@ -69,8 +76,8 @@ public class Group {
             yearOut = Integer.parseInt(yearIn);
         }
         //int year = Calendar.getInstance().get(Calendar.YEAR);
-        this.df.setTimeZone(TimeZone.getTimeZone(timezone));
-        this.date = df.parse(date +" "+ time +" "+ timezone + " " + yearOut);
+        //this.df_na.setTimeZone(TimeZone.getTimeZone(timezone));
+        this.date = parseDate(date, time, timezone, yearIn);
         this.dateCreated = new Date();
         this.owner = m;
         //this.time = time;
@@ -155,7 +162,7 @@ public class Group {
     public String toString(){
         String result = "**"+ ID + " - " + name + "**\n"
                 + "Joined: **" + players.size() + "** : Subs: **" + subs.size() + "**\n"
-                + "Date: **" + df.format(date) + "**";
+                + "Date: **" + df_eu.format(date) + "**";
 
         return result;
     }
@@ -165,7 +172,7 @@ public class Group {
         String temp = line
                 + ID + " : " + name
                 + "\n" + line
-                + df.format(date)
+                + df_na.format(date)
                 + "\n" + line + "Players:\n";
 
         for(int i = 0; i < players.size(); i++){
@@ -196,7 +203,7 @@ public class Group {
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle(name);
         eb.addField("ID", Integer.toString(ID), false);
-        eb.addField("Start Date & Time", df.format(date), false);
+        eb.addField("Start Date & Time", df_eu.format(date), false);
 
         Platform platform = null;
         for(Platform p : PLATFORMS) {
@@ -254,8 +261,12 @@ public class Group {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String name) throws NameTooLongException {
+        if(name.length() <= MAX_NAME_LENGTH){
+            this.name = name;
+        } else {
+            throw new NameTooLongException();
+        }
     }
 
     public Date getDateCreated() {
@@ -280,14 +291,26 @@ public class Group {
     public void setEmpty(boolean empty ) { this.empty = empty; }
 
     public void setDate(String date, String time, String timezone, String yearIn) throws ParseException {
+        this.date = parseDate(date, time, timezone, yearIn);
+    }
+
+    private static Date parseDate(String date, String time, String timezone, String yearIn) throws ParseException {
+        Date result;
         int yearOut;
         if(yearIn == null){
             yearOut = Calendar.getInstance().get(Calendar.YEAR);
         } else {
             yearOut = Integer.parseInt(yearIn);
         }
-        this.df.setTimeZone(TimeZone.getTimeZone(timezone));
-        this.date = df.parse(date + " " + time + " " + timezone + " " + yearOut);
+        df_na.setTimeZone(TimeZone.getTimeZone(timezone));
+        df_eu.setTimeZone(TimeZone.getTimeZone(timezone));
+
+        try {
+            result = df_na.parse(date + " " + time + " " + timezone + " " + yearOut);
+        } catch (ParseException e) {
+            result = df_eu.parse(date + " " + time + " " + timezone + " " + yearOut);
+        }
+        return result;
     }
 
     public String getTime() {

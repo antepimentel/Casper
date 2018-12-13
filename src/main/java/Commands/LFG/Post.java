@@ -4,6 +4,7 @@ import Commands.CommandCategory;
 import Core.Bot;
 import Core.PropertyKeys;
 import Commands.AbstractCommand;
+import Exceptions.NameTooLongException;
 import Exceptions.NoArgumentsGivenException;
 import Exceptions.NoBoardForPlatformException;
 import JDBC.EventBoardSQL;
@@ -75,7 +76,7 @@ public class Post extends AbstractCommand {
 
             // Declare variables here from args in case we need to change ordering later
             String name = args[0];
-            String platform = args[1];
+            String platform = args[1].toLowerCase();
             String date = args[2];
             String time = args[3];
             String timezone = args[4];
@@ -113,6 +114,8 @@ public class Post extends AbstractCommand {
                     + "m - Minute\n"
                     + "a - AM/PM\n"
                     + "z - Timezone\n";
+        } catch (NameTooLongException e) {
+            response = e.getMessage();
         }
         msg.getChannel().sendMessage(response).queue();
     }

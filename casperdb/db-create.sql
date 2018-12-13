@@ -37,10 +37,10 @@ create table eventboard (
 create table post (
 	serverid varchar(20) not null,
 	groupid varchar(15) not null, 
-	name varchar(50) not null,
+	name varchar(150) not null,
 	groupdate varchar(30) not null,
 	players varchar(120),
-	subs varchar(40),
+	subs varchar(80),
 	sys_type varchar(4) not null,
 	msg_id varchar(20) not null,
     owner_id varchar(20) not null,

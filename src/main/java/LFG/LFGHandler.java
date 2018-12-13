@@ -95,7 +95,7 @@ public class LFGHandler {
         //lfgScheduler.scheduleAtFixedRate(checkGroups, 0, 20, TimeUnit.SECONDS); // DEBUG
     }
 
-    public static Group post(String serverID, String name, String date, String time, String timezone, Member poster, String platform, String year) throws ParseException, NoBoardForPlatformException {
+    public static Group post(String serverID, String name, String date, String time, String timezone, Member poster, String platform, String year) throws ParseException, NoBoardForPlatformException, NameTooLongException {
         Group g = new Group(
                 serverID,
           getFreeGroupID(serverID),
