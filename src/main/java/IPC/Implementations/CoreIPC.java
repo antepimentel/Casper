@@ -1,8 +1,10 @@
 package IPC.Implementations;
 
+import Core.Bot;
 import Exceptions.GroupNotFoundException;
 import IPC.AbstractIPCImpl;
 import LFG.LFGHandler;
+import net.dv8tion.jda.core.JDA;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.Remote;
@@ -14,7 +16,6 @@ import java.util.ArrayList;
 
 public interface CoreIPC extends Remote {
     public int ping() throws RemoteException;
-    public String[] getStubs() throws RemoteException;
 
     class CoreIPCImpl extends AbstractIPCImpl implements CoreIPC
     {
@@ -24,11 +25,6 @@ public interface CoreIPC extends Remote {
             return 0;
         }
 
-        @Override
-        public String[] getStubs() throws RemoteException {
-            Registry reg = LocateRegistry.getRegistry();
-            return reg.list();
-        }
 
         public void load() throws RemoteException, AlreadyBoundException {
             CoreIPCImpl self = new CoreIPCImpl();

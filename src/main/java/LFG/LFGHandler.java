@@ -26,7 +26,6 @@ public class LFGHandler {
     private final static ScheduledExecutorService lfgDelScheduler = Executors.newScheduledThreadPool(1);
     private static ArrayList<Group> deletionQueue = new ArrayList<Group>();
     private static Date lastCheck = new Date();
-    private static int minutesPassed = 0; //in tens
 
     //runnable for automatic group pings
     private  static Runnable checkGroupsForPing = new Runnable() {
