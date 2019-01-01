@@ -25,6 +25,7 @@ public class LFGHandler {
     private final static ScheduledExecutorService lfgPingScheduler = Executors.newScheduledThreadPool(1);
     private final static ScheduledExecutorService lfgDelScheduler = Executors.newScheduledThreadPool(1);
     private static ArrayList<Group> deletionQueue = new ArrayList<Group>();
+    private static ArrayList<Integer> pingedIds = new ArrayList<Integer>();
     private static Date lastCheck = new Date();
 
     //runnable for automatic group pings
@@ -90,8 +91,9 @@ public class LFGHandler {
         Group.setPlatforms();
 
         lfgDelScheduler.scheduleAtFixedRate(checkGroups, 0, 12, TimeUnit.HOURS);// PROD
-        lfgPingScheduler.scheduleAtFixedRate(checkGroupsForPing, 0, 10, TimeUnit.MINUTES);// PROD
+        lfgPingScheduler.scheduleAtFixedRate(checkGroupsForPing, 0, 1, TimeUnit.MINUTES);// PROD
         //lfgScheduler.scheduleAtFixedRate(checkGroups, 0, 20, TimeUnit.SECONDS); // DEBUG
+
     }
 
     public static Group post(String serverID, String name, String date, String time, String timezone, Member poster, String platform, String year) throws ParseException, NoBoardForPlatformException, NameTooLongException {

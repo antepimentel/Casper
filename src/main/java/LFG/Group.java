@@ -97,7 +97,7 @@ public class Group {
      * @param date
      * @throws ParseException
      */
-    public Group(String serverID, int id, String name, Date date, String platform, Member owner, String msgID, int rollcallCount) throws ParseException {
+    public Group(String serverID, int id, String name, Date date, String timezone, String platform, Member owner, String msgID, int rollcallCount) throws ParseException {
         ID = id;
         this.name = name;
         this.serverID = serverID;
@@ -107,6 +107,7 @@ public class Group {
         this.msgID = msgID;
         this.owner = owner;
         this.rollcallCount = rollcallCount;
+        this.timezone = timezone;
     }
 
     public void join(Member m) throws NoAvailableSpotsException {
@@ -203,7 +204,15 @@ public class Group {
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle(name);
         eb.addField("ID", Integer.toString(ID), false);
-        eb.addField("Start Date & Time", df_eu.format(date), false);
+
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM-dd hh:mmaa zzz yyyy");
+        String id = getCorrectTimezoneID(timezone);
+        dateFormat.setTimeZone(TimeZone.getTimeZone(id));
+
+        eb.addField("Start Date & Time", dateFormat.format(cal.getTime()), false);
 
         Platform platform = null;
         for(Platform p : PLATFORMS) {
@@ -311,6 +320,12 @@ public class Group {
             result = df_eu.parse(date + " " + time + " " + timezone + " " + yearOut);
         }
         return result;
+    }
+
+    //Returns a valid timezoneId from a timezone, so far I think NZST / NZDT are the only ones missing
+    public static String getCorrectTimezoneID(String in) {
+        if(in.equals("NZST") || in.equals("NZDT")) return "Pacific/Auckland";
+        return in;
     }
 
     public String getTime() {

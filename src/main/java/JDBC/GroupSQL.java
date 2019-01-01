@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.StringTokenizer;
+import java.util.TimeZone;
 
 public class GroupSQL {
 
@@ -22,10 +23,11 @@ public class GroupSQL {
     }
 
     public static void save(Group g){
+        System.out.println(g.getTimezone());
         String players = g.getPlayerIDString();
         String subs = g.getSubIDString();
 
-        String query = "insert into " + SQLSchema.TABLE_POST + " values (?,?,?,?,?,?,?,?,?,?,?)";
+        String query = "insert into " + SQLSchema.TABLE_POST + " values (?,?,?,?,?,?,?,?,?,?,?,?)";
 
         //noinspection MagicConstant
         try {
@@ -41,6 +43,7 @@ public class GroupSQL {
             stmtObj.setString(9, g.getOwnerID()); // Group Owner
             stmtObj.setString(10, g.getGroupActivityType() == null ? "" : g.getGroupActivityType().getCode());
             stmtObj.setInt(11, g.getRollcallCount());
+            stmtObj.setString(12, g.getTimezone());
             stmtObj.executeUpdate();
             connObj.commit();
             connObj.rollback();
@@ -212,9 +215,12 @@ public class GroupSQL {
             String ownerID = rs.getString(SQLSchema.POST_COL_OWNER_ID);
             String typeCode = rs.getString(SQLSchema.POST_COL_TYPE_CODE);
             int rollcallCount = rs.getInt(SQLSchema.POST_COL_ROLLCALL_COUNT);
+            String timezone = rs.getString(SQLSchema.POST_COL_TIMEZONE);
+
 
             net.dv8tion.jda.core.entities.Member owner = Bot.jda.getGuildById(serverID).getMemberById(ownerID);
-            Group g = new Group(serverID, groupID, name, date, platform, owner, msgID, rollcallCount);
+
+            Group g = new Group(serverID, groupID, name, date, timezone, platform, owner, msgID, rollcallCount);
 
             StringTokenizer st = new StringTokenizer(players, "#");
             while(st.hasMoreTokens()){

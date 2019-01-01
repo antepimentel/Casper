@@ -46,6 +46,7 @@ create table post (
     owner_id varchar(20) not null,
     type_code varchar(6),
     rollcall_count varchar(2),
+    timezone varchar(4),
 	constraint server_post_fk
 		foreign key (serverid) references server (id)
 );

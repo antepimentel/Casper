@@ -35,6 +35,7 @@ public class SQLSchema {
     public static String POST_COL_OWNER_ID = "owner_id";
     public static String POST_COL_TYPE_CODE = "type_code";
     public static String POST_COL_ROLLCALL_COUNT = "rollcall_count";
+    public static String POST_COL_TIMEZONE = "timezone";
 
     // AutoChannel
     public static String TABLE_AC = "autochannel";

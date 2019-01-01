@@ -86,7 +86,6 @@ public class Post extends AbstractCommand {
                 year = args[5];
             }
 
-
             //Check platform
             int platformIndex = -1;
             for(int i = 0; i < Group.PLATFORMS.size(); i++){
