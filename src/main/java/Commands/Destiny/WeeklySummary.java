@@ -2,10 +2,10 @@ package Commands.Destiny;
 
 import Commands.AbstractCommand;
 import Commands.CommandCategory;
-import Destiny.Activity;
+import Destiny.Responses.Activity;
 import Destiny.DestinyAPIWrapper;
 import Destiny.DestinyProperties;
-import Destiny.Milestone;
+import Destiny.Responses.Milestone;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;

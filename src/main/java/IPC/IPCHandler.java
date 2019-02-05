@@ -7,27 +7,22 @@ import org.reflections.Reflections;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.rmi.AlreadyBoundException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Map;
 import java.util.Set;
 
 public class IPCHandler {
     final static String HANDLERS_PATH = "IPC";
-    public static void init() {
-        //Start Registry
-        try {
-            ProcessBuilder processBuilder = new ProcessBuilder();
-            Map<String, String> env = processBuilder.environment();
-            env.put("CLASSPATH", Bot.props.getProperty(PropertyKeys.IPC_CLASS_PATH_KEY)); // TELL rmiregistry where to load classes from.
+    static Registry r; //store in static variable to prevent garbage collection
+    public static void init(){
 
-            processBuilder.command("rmiregistry");
-            processBuilder.start();
-        } catch (IOException ex) {
-            System.out.println("Failed while starting rmiregistry: "+ex.getMessage());
-        }
 
         //Load IPC Impls
         try {
+            r = LocateRegistry.createRegistry(1099);
             Reflections reflections = new Reflections(HANDLERS_PATH);
             Set<Class<? extends AbstractIPCImpl>> types = reflections.getSubTypesOf(AbstractIPCImpl.class);
             for(Class<? extends AbstractIPCImpl> a : types) {

@@ -1,9 +1,8 @@
 package Radio;
 
 import Exceptions.RadioAPIException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.util.Pair;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

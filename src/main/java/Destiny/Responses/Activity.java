@@ -1,4 +1,4 @@
-package Destiny;
+package Destiny.Responses;
 
 import com.google.gson.JsonObject;
 

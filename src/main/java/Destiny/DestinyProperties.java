@@ -15,4 +15,5 @@ public class DestinyProperties {
     public static int PLAT_PS4 = 2;
     public static int PLAT_XBOX = 1;
     public static int PLAT_PC = 4;
+    public static int PLAT_ALL = -1;
 }

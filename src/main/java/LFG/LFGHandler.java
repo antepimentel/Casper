@@ -38,8 +38,9 @@ public class LFGHandler {
                 for (Group g : groups) {
                     long diff = LFGHandler.getDateDiff(new Date(), g.getDate(), TimeUnit.MINUTES);
 
-                    if(diff >= 0 && diff < 20) {
+                    if(diff >= 0 && diff < 5 && pingedIds.indexOf(g.getID()) == -1) {
                         pingPlayers(g);
+                        pingedIds.add(g.getID());
                     }
                 }
             }
@@ -238,6 +239,8 @@ public class LFGHandler {
 //        return ans;
 //    }
 
+
+
     public static String parseDiff(long totalMinutes){
 
         if(totalMinutes < 0){
@@ -293,7 +296,6 @@ public class LFGHandler {
     public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
         long diffInMillies = date2.getTime() - date1.getTime();
         long result = timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
-        System.out.println("Diff: " + result);
         return result;
     }
 
@@ -315,11 +317,18 @@ public class LFGHandler {
             Group dg = deletionQueue.get(i);
             if(dg.getID() == g.getID()) {
                 deletionQueue.remove(i);
-                System.out.println(deletionQueue.indexOf(dg));
             }
         }
     }
 
+    public static void removeIdFromPinged(int id) {
+        if(pingedIds.indexOf(id) != -1) pingedIds.remove(id);
+    }
+
+    //Not sure this is needed but adding it just incase
+    public static void addIdToPinged(int id) {
+        if(pingedIds.indexOf(id) != -1) pingedIds.add(id);
+    }
     public static Date getLastCheck() { return lastCheck; }
 
     public static ArrayList<Group> getGroupsByMember(Member m) throws GroupNotFoundException {

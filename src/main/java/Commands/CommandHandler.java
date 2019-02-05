@@ -43,6 +43,7 @@ public class CommandHandler extends ListenerAdapter {
 
                         CommandCategory category = com.getCategory();
                         if(category.canRun(e.getMember(), e.getMessage())) {
+                            e.getMessage().getChannel().sendTyping().complete();
                             com.run(e.getMessage());
                         }
                     } else {

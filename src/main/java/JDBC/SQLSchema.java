@@ -55,4 +55,10 @@ public class SQLSchema {
     public static String EB_COL_SERVERID = "serverid";
     public static String EB_COL_CHANNELID = "channelid";
     public static String EB_COL_TYPE = "sys_type";
+
+    // Destiny <-> Discord Links
+    public static String TABLE_LINK = "link";
+    public static String LINK_COL_DISCORDID = "discordid";
+    public static String LINK_COL_DESTINYID = "destinyid";
+    public static String LINK_COL_PLATFORM = "platform";
 }

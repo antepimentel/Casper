@@ -1,5 +1,8 @@
-package Destiny;
+package Destiny.Responses;
 
+import Destiny.DestinyAPIWrapper;
+import Destiny.DestinyProperties;
+import Destiny.Responses.Activity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 

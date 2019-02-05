@@ -1,6 +1,7 @@
 package JDBC;
 
 import Core.Bot;
+import Core.Linker;
 import Core.PropertyKeys;
 import org.omg.CORBA.PUBLIC_MEMBER;
 
@@ -39,6 +40,63 @@ public class MainSQLHandler {
         }
     }
 
+
+    //===========================================
+    // DISCORD <-> DESTINY LINK
+    //===========================================
+
+    public static void addLinker(String discordId, String destinyMembershipId, int platform) {
+        String query = "insert into " + SQLSchema.TABLE_LINK + " values (?, ?, ?)";
+        try {
+            PreparedStatement stmtObj = connObj.prepareStatement(query);
+            stmtObj.setString(1, discordId);
+            stmtObj.setString(2, destinyMembershipId);
+            stmtObj.setInt(3, platform);
+
+            executeUpdate(stmtObj);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void dropLinker(String discordId) {
+        String query = "delete from " + SQLSchema.TABLE_LINK + " where " + SQLSchema.LINK_COL_DISCORDID + " = ?";
+        try {
+            PreparedStatement stmtObj = connObj.prepareStatement(query);
+            stmtObj.setString(1, discordId);
+            executeUpdate(stmtObj);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static Linker queryLinker(String discordId) {
+        System.out.println(discordId);
+        String query = "select * from " + SQLSchema.TABLE_LINK + " where "+SQLSchema.LINK_COL_DISCORDID + " = ?";
+        try {
+            PreparedStatement stmtObj = connObj.prepareStatement(query);
+            stmtObj.setString(1, discordId);
+
+            ResultSet resultSet = stmtObj.executeQuery();
+            if(resultSet.next()) {
+                return getLinkerFromSQLResult(resultSet);
+            } else {
+                return null;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    private static Linker getLinkerFromSQLResult(ResultSet resultSet) throws SQLException{
+        String discordId = resultSet.getString(SQLSchema.LINK_COL_DISCORDID);
+        String destinyId = resultSet.getString(SQLSchema.LINK_COL_DESTINYID);
+        int platform = resultSet.getInt(SQLSchema.LINK_COL_PLATFORM);
+
+        Linker linker = new Linker(discordId, destinyId, platform);
+        return linker;
+    }
     //===========================================
     // GENERIC SERVER COMMAND
     //===========================================

@@ -29,6 +29,7 @@ public class Bot extends ListenerAdapter {
     public static String SELF_USER_ID = "";
     public static JDA jda;
     public static Version VERSION = getBuildVersion();
+
     public static void main(String[] args) {
         System.out.println("Bot Version: "+VERSION);
         JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT);

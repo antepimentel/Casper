@@ -54,10 +54,20 @@ public class MessageReactionEventHandler implements net.dv8tion.jda.core.hooks.E
         } catch (Exception err){
             System.out.println(err.toString());
             err.printStackTrace();
+
         }
     }
 
     public void onMessageReactionAddEvent(MessageReactionAddEvent e){
+        if(e.getReactionEmote().getName() != JOIN_REACTION.getName() &&
+                e.getReactionEmote().getName() != LEAVE_REACTION.getName() &&
+                e.getReactionEmote().getName() != LEAVE_REACTION.getName() &&
+                e.getReactionEmote().getName() != ROLLCALL_REACTION.getName() &&
+                e.getReactionEmote().getName() != DELETE_REACTION.getName())
+        {
+            return;
+        }
+
         handleAutoRoleAddEvent(e);
         try {
             handleEventBoardAddEvent(e);
@@ -124,6 +134,7 @@ public class MessageReactionEventHandler implements net.dv8tion.jda.core.hooks.E
                 // Check permissions
                PermissionHandler.isLeaderOrMod(e.getMember(), g);
                GroupSQL.delete(g);
+               LFGHandler.removeIdFromPinged(g.getID());
                e.getTextChannel().deleteMessageById(e.getMessageId()).complete();
            } else {
                System.out.println("Unknown Emote: "+reaction.toString());

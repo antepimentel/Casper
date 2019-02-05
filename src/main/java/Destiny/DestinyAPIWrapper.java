@@ -1,6 +1,6 @@
 package Destiny;
 
-import com.google.gson.JsonArray;
+import Destiny.Responses.Milestone;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -14,12 +14,24 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class DestinyAPIWrapper {
-
     private static HashMap<String, Integer> platform = new HashMap<String, Integer>();
     private static JsonParser parser = new JsonParser();
 
+    public static JsonObject getDestinyProfile(int platform, String destinyMembershipId, String comp) throws IOException {
+        String req =  "/Destiny2/"+platform+"/Profile/"+destinyMembershipId+"/";
+        JsonObject resp = sendRequest(req, comp);
+        return resp;
+    }
+
+    public static JsonObject searchDestinyPlayer(int platform, String searchTerm) throws IOException{
+         String req = "/Destiny2/SearchDestinyPlayer/"+platform+"/"+searchTerm+"/";
+        JsonObject resp = sendRequest(req, "");
+
+        return resp;
+    }
+
     public static ArrayList<Milestone> getPublicMilestones() throws IOException{
-        JsonObject resp = sendRequest("/Destiny2/Milestones/");
+        JsonObject resp = sendRequest("/Destiny2/Milestones/", "");
         ArrayList<Milestone> milestones = new ArrayList<Milestone>();
 
         for(Iterator key=resp.keySet().iterator(); key.hasNext();){
@@ -43,9 +55,9 @@ public class DestinyAPIWrapper {
      * @return
      * @throws IOException
      */
-    private static JsonObject sendRequest(String url) throws IOException{
+    private static JsonObject sendRequest(String url, String components) throws IOException{
         URL obj;
-        obj = new URL(DestinyProperties.API_PATH + url);
+        obj = new URL(DestinyProperties.API_PATH + url + ((components == " ") ? " " : "?components="+components));
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
 
@@ -65,11 +77,17 @@ public class DestinyAPIWrapper {
         }
 
         in.close();
+        try {
+            JsonObject json = (JsonObject) parser.parse(response);
+            System.out.println("Full Response : " + json);
 
-        JsonObject json = (JsonObject) parser.parse(response);
-        System.out.println("Full Response : " + json);
+            return json.getAsJsonObject("Response");
+        } catch (ClassCastException ex) {
+            JsonObject json = (JsonObject) parser.parse(response);
+            System.out.println("Full Response : " + json);
 
-        return json.getAsJsonObject("Response");
+            return json;
+        }
     }
 
     /**
@@ -80,20 +98,15 @@ public class DestinyAPIWrapper {
      * @throws IOException
      */
     public static JsonObject getDestinyEntityDefinition(String type, String hashID) throws IOException{
-        JsonObject resp = sendRequest("/Destiny2/Manifest/" + type + "/" + hashID + "/");
+        JsonObject resp = sendRequest("/Destiny2/Manifest/" + type + "/" + hashID + "/", "");
 
         return resp;
     }
 
-    public static void getClanInfo() throws IOException {
-        String req = "/Destiny2/Stats/Leaderboards/Clans/1905682/";
+    public static void getClanInfo(String id) throws IOException {
+        String req = "/Destiny2/Stats/Leaderboards/Clans/" + id + "/";
 
-        JsonObject resp = sendRequest(req);
+        JsonObject resp = sendRequest(req, "");
         System.out.println(resp.toString());
-    }
-
-    public static void main(String[] args) throws IOException {
-        //getPublicMilestones();
-        getClanInfo();
     }
 }
