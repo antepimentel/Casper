@@ -5,4 +5,5 @@ drop table eventboard;
 drop table disabledcommand;
 drop table customcommand;
 drop table server;
+drop table link;
 

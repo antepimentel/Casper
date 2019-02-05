@@ -72,4 +72,12 @@ create table autorole (
 		foreign key (serverid) references server (id)
 );
 
+create table link (
+    discordid varchar(20) not null,
+    destinyid varchar(20) not null,
+    platform int not null,
+    constraint links_pk
+		primary key(discordid)
+)
+
 
