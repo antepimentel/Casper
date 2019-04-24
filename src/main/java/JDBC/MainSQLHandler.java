@@ -17,7 +17,7 @@ import java.util.StringTokenizer;
 public class MainSQLHandler {
 
     // JDBC Driver Name & Database URL
-    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+    //static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String JDBC_DB_URL = "jdbc:mysql://localhost:3306/" + Bot.props.getProperty(PropertyKeys.JDBC_DB_NAME_KEY) + "?allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true";
 
     static final String JDBC_USER = Bot.props.getProperty(PropertyKeys.JDBC_USER_KEY);
@@ -116,7 +116,7 @@ public class MainSQLHandler {
         }
     }
 
-    public static void deleteAllServerData(String serverID){
+    public static void deleteAllServerData(String serverID) throws SQLException {
 
         AutoAssignmentSQL.deleteAllServerData(serverID);
         GroupSQL.deleteAllGroupsForServer(serverID);

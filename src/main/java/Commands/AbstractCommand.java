@@ -7,6 +7,7 @@ import Exceptions.NoArgumentsGivenException;
 import net.dv8tion.jda.core.entities.Message;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Arrays;
 
 public abstract class AbstractCommand {
@@ -42,7 +43,7 @@ public abstract class AbstractCommand {
         this.isEnabled = enabled;
     }
 
-    public abstract void run(Message msg) throws CustomAbstractException, IOException;
+    public abstract void run(Message msg) throws CustomAbstractException, IOException, SQLException;
 
     /**
      * Gets the input arguments from a Message object

@@ -13,6 +13,7 @@ import LFG.Group;
 import LFG.LFGHandler;
 import net.dv8tion.jda.core.entities.Message;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -62,7 +63,7 @@ public class Post extends AbstractCommand {
     }
 
     @Override
-    public void run(Message msg) throws NoArgumentsGivenException, NoBoardForPlatformException {
+    public void run(Message msg) throws NoArgumentsGivenException, NoBoardForPlatformException, SQLException {
         String response = "";
         try {
             String[] args;

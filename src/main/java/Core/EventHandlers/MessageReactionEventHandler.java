@@ -16,6 +16,8 @@ import net.dv8tion.jda.core.events.message.react.GenericMessageReactionEvent;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.core.events.message.react.MessageReactionRemoveEvent;
 
+import java.sql.SQLException;
+
 
 public class MessageReactionEventHandler implements net.dv8tion.jda.core.hooks.EventListener {
 
@@ -72,17 +74,24 @@ public class MessageReactionEventHandler implements net.dv8tion.jda.core.hooks.E
         try {
             handleEventBoardAddEvent(e);
         } catch (GroupNotFoundException e1) {
-            e1.printStackTrace();
+            //e1.printStackTrace();
+            System.out.println(e1.getMessage());
         } catch (NoAvailableSpotsException e1) {
-            e1.printStackTrace();
+            //e1.printStackTrace();
+            System.out.println(e1.getMessage());
         } catch (MemberNotFoundException e1) {
-            e1.printStackTrace();
+            //e1.printStackTrace();
+            System.out.println(e1.getMessage());
         } catch (InvalidPermissionsException e1) {
-            e1.printStackTrace();
+            //e1.printStackTrace();
+            System.out.println(e1.getMessage());
+        } catch (SQLException e1) {
+            //e1.printStackTrace();
+            System.out.println("Database error in Msg Reaction Event Handler");
         }
     }
 
-    public void onMessageReactionRemoveEvent(MessageReactionRemoveEvent e){
+    public void onMessageReactionRemoveEvent(MessageReactionRemoveEvent e) throws SQLException {
         handleAutoRoleRemoveEvent(e);
         handleEventBoardRemoveEvent(e);
     }
@@ -109,7 +118,7 @@ public class MessageReactionEventHandler implements net.dv8tion.jda.core.hooks.E
     //============================================
     // EVENT BOARD METHODS
     //============================================
-    private void handleEventBoardAddEvent(MessageReactionAddEvent e) throws GroupNotFoundException, NoAvailableSpotsException, MemberNotFoundException, InvalidPermissionsException {
+    private void handleEventBoardAddEvent(MessageReactionAddEvent e) throws GroupNotFoundException, NoAvailableSpotsException, MemberNotFoundException, InvalidPermissionsException, SQLException {
         Group g = GroupSQL.queryGroupFromMsgID(e.getGuild().getId(), e.getMessageId());
 
         if(g != null){
@@ -144,7 +153,7 @@ public class MessageReactionEventHandler implements net.dv8tion.jda.core.hooks.E
         }
     }
 
-    private void handleEventBoardRemoveEvent(MessageReactionRemoveEvent e){
+    private void handleEventBoardRemoveEvent(MessageReactionRemoveEvent e) throws SQLException {
         Group g = GroupSQL.queryGroupFromMsgID(e.getGuild().getId(), e.getMessageId());
         if(g != null){
             // Don't really need this but I'll leave it as a place holder

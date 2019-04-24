@@ -16,6 +16,7 @@ import net.dv8tion.jda.core.managers.GuildController;
 import net.dv8tion.jda.core.managers.GuildManager;
 import sun.applet.Main;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class GuildUpdateEventHandler implements EventListener {
@@ -128,7 +129,12 @@ public class GuildUpdateEventHandler implements EventListener {
     public void onGuildLeaveEvent(GuildLeaveEvent e){
         String guildID = e.getGuild().getId();
 
-        MainSQLHandler.deleteAllServerData(guildID);
+        try {
+            MainSQLHandler.deleteAllServerData(guildID);
+        } catch (SQLException e1) {
+            //e1.printStackTrace();
+            System.out.println("Issue removing all server data");
+        }
     }
 
     /**

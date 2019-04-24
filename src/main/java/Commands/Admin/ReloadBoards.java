@@ -13,6 +13,7 @@ import LFG.LFGHandler;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +44,7 @@ public class ReloadBoards extends AbstractCommand {
         return CommandCategory.ADMIN;
     }
 
-    public void run(Message msg) throws InvalidPermissionsException, NoBoardForPlatformException {
+    public void run(Message msg) throws InvalidPermissionsException, NoBoardForPlatformException, SQLException {
         String response = "";
 
         HashMap<String, TextChannel> channels = EventBoardSQL.getAllEventBoardsForServer(msg.getGuild().getId());

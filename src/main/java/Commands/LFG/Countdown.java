@@ -7,6 +7,7 @@ import LFG.Group;
 import LFG.LFGHandler;
 import net.dv8tion.jda.core.entities.Message;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -36,7 +37,7 @@ public class Countdown extends AbstractCommand {
         return CommandCategory.LFG;
     }
 
-    public void run(Message msg) throws CustomAbstractException {
+    public void run(Message msg) throws CustomAbstractException, SQLException {
         String[] args = getInputArgs(msg);
         String response = "";
         int id = Integer.parseInt(args[0]);

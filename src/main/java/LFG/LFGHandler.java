@@ -11,6 +11,7 @@ import net.dv8tion.jda.core.entities.*;
 import org.omg.CORBA.TIMEOUT;
 
 import javax.xml.soap.Text;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -34,12 +35,21 @@ public class LFGHandler {
         public void run() {
             List<Guild> guilds = Bot.jda.getGuilds();
             for(Guild guild : guilds) {
-                List<Group> groups = GroupSQL.getGroupsByServer(guild.getId());
+                List<Group> groups = null;
+                try {
+                    groups = GroupSQL.getGroupsByServer(guild.getId());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 for (Group g : groups) {
                     long diff = LFGHandler.getDateDiff(new Date(), g.getDate(), TimeUnit.MINUTES);
 
                     if(diff >= 0 && diff < 5 && pingedIds.indexOf(g.getID()) == -1) {
-                        pingPlayers(g);
+                        try {
+                            pingPlayers(g);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                         pingedIds.add(g.getID());
                     }
                 }
@@ -66,12 +76,17 @@ public class LFGHandler {
                             GroupSQL.delete(g);
                         }
 
-                    } catch (NoBoardForPlatformException ex){
+                    } catch (NoBoardForPlatformException | SQLException ex){
                         System.out.println(ex.getMessage());
                     }
                 }
 
-                List<Group> groups = GroupSQL.getGroupsByServer(guild.getId());
+                List<Group> groups = null;
+                try {
+                    groups = GroupSQL.getGroupsByServer(guild.getId());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 for(Group g : groups) {
                     long diff = LFGHandler.getDateDiff(new Date(), g.getDate(), TimeUnit.MINUTES);
                     if (diff < 0) {
@@ -97,7 +112,7 @@ public class LFGHandler {
 
     }
 
-    public static Group post(String serverID, String name, String date, String time, String timezone, Member poster, String platform, String year) throws ParseException, NoBoardForPlatformException, NameTooLongException {
+    public static Group post(String serverID, String name, String date, String time, String timezone, Member poster, String platform, String year) throws ParseException, NoBoardForPlatformException, NameTooLongException, SQLException {
         Group g = new Group(
                 serverID,
           getFreeGroupID(serverID),
@@ -122,27 +137,27 @@ public class LFGHandler {
         GroupSQL.updateMessageID(g);
     }
 
-    public static void join(String serverID, int ID, Member m) throws GroupNotFoundException, NoAvailableSpotsException {
+    public static void join(String serverID, int ID, Member m) throws GroupNotFoundException, NoAvailableSpotsException, SQLException {
         Group g = findGroupByID(serverID, ID);
         g.join(m);
         GroupSQL.updatePlayers(g);
         if(g.getEmpty()) g.setEmpty(false);
     }
 
-    public static void join(Group g, Member m) throws GroupNotFoundException, NoAvailableSpotsException {
+    public static void join(Group g, Member m) throws GroupNotFoundException, NoAvailableSpotsException, SQLException {
         g.join(m);
         GroupSQL.updatePlayers(g);
         if(g.getEmpty()) g.setEmpty(false);
 
     }
 
-    public static void joinAsSub(String serverID, int ID, Member m) throws GroupNotFoundException, NoAvailableSpotsException {
+    public static void joinAsSub(String serverID, int ID, Member m) throws GroupNotFoundException, NoAvailableSpotsException, SQLException {
         Group g = findGroupByID(serverID, ID);
         g.joinAsSub(m);
         GroupSQL.updatePlayers(g);
     }
 
-    public static void leave(String serverID, int ID, Member m) throws GroupNotFoundException, MemberNotFoundException {
+    public static void leave(String serverID, int ID, Member m) throws GroupNotFoundException, MemberNotFoundException, SQLException {
         Group g = findGroupByID(serverID, ID);
         try{
             g.removePlayer(m);
@@ -154,10 +169,12 @@ public class LFGHandler {
                 GroupSQL.updatePlayers(g);
                 g.setEmpty(true);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    public static void leave(Group g, Member m) throws GroupNotFoundException, MemberNotFoundException {
+    public static void leave(Group g, Member m) throws GroupNotFoundException, MemberNotFoundException, SQLException {
         try{
             g.removePlayer(m);
             GroupSQL.updatePlayers(g);
@@ -168,6 +185,8 @@ public class LFGHandler {
                 GroupSQL.updatePlayers(g);
                 g.setEmpty(true);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -189,7 +208,7 @@ public class LFGHandler {
     }
 
     //TODO: Only ping each user once
-    public static void pingPlayers(Group g){
+    public static void pingPlayers(Group g) throws SQLException {
         String message = "Roll call for: " + g.getName();
         ArrayList<Member> toPing = g.getPlayers();
         toPing.addAll(g.getSubs());
@@ -214,7 +233,7 @@ public class LFGHandler {
      * @return
      * @throws GroupNotFoundException
      */
-    public static Group findGroupByID(String serverID, int ID) throws GroupNotFoundException {
+    public static Group findGroupByID(String serverID, int ID) throws GroupNotFoundException, SQLException {
         Group ans = null;
         ArrayList<Group> groups = GroupSQL.getGroupsByServer(serverID);
         for(int i = 0; i < groups.size(); i++){
@@ -299,7 +318,7 @@ public class LFGHandler {
         return result;
     }
 
-    public static ArrayList<Group> getGroupsByServer(String serverID){
+    public static ArrayList<Group> getGroupsByServer(String serverID) throws SQLException {
 //        ArrayList<Group> result = new ArrayList<Group>();
 //        for(int i = 0; i < groups.size(); i++){
 //            if(groups.get(i).getServerID().equals(serverID)){
@@ -331,7 +350,7 @@ public class LFGHandler {
     }
     public static Date getLastCheck() { return lastCheck; }
 
-    public static ArrayList<Group> getGroupsByMember(Member m) throws GroupNotFoundException {
+    public static ArrayList<Group> getGroupsByMember(Member m) throws GroupNotFoundException, SQLException {
         ArrayList<Group> result = new ArrayList<Group>();
         ArrayList<Group> serverGroups = getGroupsByServer(m.getGuild().getId());
         for(int i = 0; i < serverGroups.size(); i++){
@@ -347,7 +366,7 @@ public class LFGHandler {
         return result;
     }
 
-    private static int getFreeGroupID(String serverID){
+    private static int getFreeGroupID(String serverID) throws SQLException {
         int ans = -1;
 
         ArrayList<Group> serverGroups = getGroupsByServer(serverID);

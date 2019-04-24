@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Exceptions.GroupNotFoundException;
@@ -26,7 +27,11 @@ public interface GroupsIPC extends Remote {
         @Override
         public void refreshGroup(String serverId, int id) throws RemoteException {
             try {
-                LFGHandler.refreshGroup(serverId, LFGHandler.findGroupByID(serverId, id));
+                try {
+                    LFGHandler.refreshGroup(serverId, LFGHandler.findGroupByID(serverId, id));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             } catch (GroupNotFoundException ex) {
                 throw new RemoteException(ex.getMessage());
             }
@@ -34,7 +39,12 @@ public interface GroupsIPC extends Remote {
 
         @Override
         public String getGroups(String serverId) {
-            ArrayList<Group> groups = GroupSQL.getGroupsByServer(serverId);
+            ArrayList<Group> groups = null;
+            try {
+                groups = GroupSQL.getGroupsByServer(serverId);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             ArrayList<SendableGroup> groupsToSend = new ArrayList<>();
 
             for(Group group : groups) {

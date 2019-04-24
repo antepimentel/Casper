@@ -13,6 +13,7 @@ import LFG.Group;
 import LFG.LFGHandler;
 import net.dv8tion.jda.core.entities.Message;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -43,7 +44,7 @@ public class KeepGroup extends AbstractCommand {
     }
 
     @Override
-    public void run(Message msg) throws NoArgumentsGivenException, GroupNotFoundException, InvalidPermissionsException {
+    public void run(Message msg) throws NoArgumentsGivenException, GroupNotFoundException, InvalidPermissionsException, SQLException {
 
         String[] args = getInputArgs(msg);
        int ID = Integer.parseInt(args[0]);

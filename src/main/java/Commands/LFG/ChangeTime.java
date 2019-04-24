@@ -9,6 +9,7 @@ import LFG.Group;
 import LFG.LFGHandler;
 import net.dv8tion.jda.core.entities.Message;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 
 public class ChangeTime extends AbstractCommand {
@@ -37,7 +38,7 @@ public class ChangeTime extends AbstractCommand {
         return CommandCategory.LFG;
     }
 
-    public void run(Message msg) throws CustomAbstractException {
+    public void run(Message msg) throws CustomAbstractException, SQLException {
         String[] args = getInputArgs(msg);
         String response = "";
         int ID = Integer.parseInt(args[0]);
@@ -61,7 +62,6 @@ public class ChangeTime extends AbstractCommand {
                 response =  "Changed " + g.getName() + "'s time to: "+g.getDate();
             }
         } catch (ParseException e) {
-            e.printStackTrace();
             response = "Unable to parse date/time. Required format:"
                     + "```MM/dd hh:mmaa zzz```"
                     + "M - Month\n"

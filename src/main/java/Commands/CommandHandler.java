@@ -14,6 +14,7 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -49,9 +50,13 @@ public class CommandHandler extends ListenerAdapter {
                     } else {
                         System.out.println("DISABLED");
                     }
-                } catch (CustomAbstractException exp){
+                } catch (CustomAbstractException exp) {
                     exp.printStackTrace();
                     e.getMessage().getChannel().sendMessage(exp.getMessage()).queue();
+                } catch (SQLException exp) {
+                    System.out.println(exp.getMessage());
+                    exp.printStackTrace();
+                    e.getMessage().getChannel().sendMessage("Whoops, there was a backend issue with that command. Please notify an adult.").queue();
                 } catch (Exception exp) {
                     System.out.println(exp.getMessage());
                     exp.printStackTrace();

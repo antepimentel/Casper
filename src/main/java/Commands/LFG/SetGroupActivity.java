@@ -9,6 +9,8 @@ import LFG.Group;
 import LFG.LFGHandler;
 import net.dv8tion.jda.core.entities.Message;
 
+import java.sql.SQLException;
+
 public class SetGroupActivity extends AbstractCommand {
 
     private static String command = "setactivity";
@@ -35,7 +37,7 @@ public class SetGroupActivity extends AbstractCommand {
         return CommandCategory.LFG;
     }
 
-    public void run(Message msg) throws CustomAbstractException {
+    public void run(Message msg) throws CustomAbstractException, SQLException {
         String[] args = getInputArgs(msg);
         String name = "";
         String response = "";

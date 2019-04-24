@@ -10,6 +10,7 @@ import LFG.LFGHandler;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class AddToGroup extends AbstractCommand {
@@ -38,7 +39,7 @@ public class AddToGroup extends AbstractCommand {
         return CommandCategory.LFG;
     }
 
-    public void run(Message msg) throws CustomAbstractException {
+    public void run(Message msg) throws CustomAbstractException, SQLException {
         String response = "";
         String[] args = getInputArgs(msg);
         int ID = Integer.parseInt(args[0]);

@@ -12,6 +12,7 @@ import LFG.LFGHandler;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -42,7 +43,7 @@ public class RemoveOldGroups extends AbstractCommand {
         return CommandCategory.LFG;
     }
 
-    public void run(Message msg) throws InvalidPermissionsException, NoBoardForPlatformException {
+    public void run(Message msg) throws InvalidPermissionsException, NoBoardForPlatformException, SQLException {
 
         PermissionHandler.checkModPermissions(msg.getMember());
 

@@ -24,7 +24,7 @@ public class EventBoardSQL {
 
     private static Connection connObj = MainSQLHandler.connObj;
 
-    public static void init(){
+    public static void init() throws SQLException {
         printAllMessages();
     }
 
@@ -163,7 +163,7 @@ public class EventBoardSQL {
         }
     }
 
-    private static void printAllMessages(){
+    private static void printAllMessages() throws SQLException {
 
         ArrayList<String> servers = getServersWithEventBoards();
         ArrayList<TextChannel> channels = EventBoardSQL.getAllEventBoards();
