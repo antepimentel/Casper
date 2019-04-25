@@ -9,6 +9,8 @@ import Exceptions.NoArgumentsGivenException;
 import JDBC.MainSQLHandler;
 import net.dv8tion.jda.core.entities.Message;
 
+import java.sql.SQLException;
+
 public class RemoveCustomCommand extends AbstractCommand {
 
     private static String command = "removecustomcommand";
@@ -36,7 +38,7 @@ public class RemoveCustomCommand extends AbstractCommand {
     }
 
     @Override
-    public void run(Message msg) throws InvalidPermissionsException, NoArgumentsGivenException {
+    public void run(Message msg) throws InvalidPermissionsException, NoArgumentsGivenException, SQLException {
         String[] args = getInputArgs(msg);
         String response = "";
 

@@ -6,6 +6,8 @@ import Core.Bot;
 import JDBC.MainSQLHandler;
 import net.dv8tion.jda.core.entities.Message;
 
+import java.sql.SQLException;
+
 public class Initialize extends AbstractCommand {
     private static String command = "initialize";
     private static String desc = "Initialize a server";
@@ -32,7 +34,7 @@ public class Initialize extends AbstractCommand {
     }
 
     @Override
-    public void run(Message msg) {
+    public void run(Message msg) throws SQLException {
         msg.getChannel().sendMessage("Initializing "+msg.getGuild().getName()).queue();
         MainSQLHandler.addServer(msg.getGuild().getId(), msg.getGuild().getName());
         msg.getChannel().sendMessage(msg.getGuild().getName() + " initialized!").queue();

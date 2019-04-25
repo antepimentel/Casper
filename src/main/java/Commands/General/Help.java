@@ -12,6 +12,7 @@ import net.dv8tion.jda.core.entities.PrivateChannel;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -43,7 +44,7 @@ public class Help extends AbstractCommand {
         return CommandCategory.GENERAL;
     }
 
-    public void run(Message msg) {
+    public void run(Message msg) throws SQLException {
         PrivateChannel dmChannel = msg.getMember().getUser().openPrivateChannel().complete();
         //Existing commands:
         HashMap<String, AbstractCommand> commands = CommandHandler.getCommands();

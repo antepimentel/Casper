@@ -45,17 +45,23 @@ public class MainSQLHandler {
     // DISCORD <-> DESTINY LINK
     //===========================================
 
-    public static void addLinker(String discordId, String destinyMembershipId, int platform) {
+    public static void addLinker(String discordId, String destinyMembershipId, int platform){
         String query = "insert into " + SQLSchema.TABLE_LINK + " values (?, ?, ?)";
-        try {
-            PreparedStatement stmtObj = connObj.prepareStatement(query);
-            stmtObj.setString(1, discordId);
-            stmtObj.setString(2, destinyMembershipId);
-            stmtObj.setInt(3, platform);
 
-            executeUpdate(stmtObj);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        PreparedStatement stmtObj = null;
+        try {
+            stmtObj = connObj.prepareStatement(query);
+
+        stmtObj.setString(1, discordId);
+        stmtObj.setString(2, destinyMembershipId);
+        stmtObj.setInt(3, platform);
+
+        System.out.println("SQL: " + stmtObj.toString());
+        executeUpdate(stmtObj);
+        stmtObj.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -64,7 +70,10 @@ public class MainSQLHandler {
         try {
             PreparedStatement stmtObj = connObj.prepareStatement(query);
             stmtObj.setString(1, discordId);
+
+            System.out.println("SQL: " + stmtObj.toString());
             executeUpdate(stmtObj);
+            stmtObj.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -73,18 +82,25 @@ public class MainSQLHandler {
     public static Linker queryLinker(String discordId) {
         System.out.println(discordId);
         String query = "select * from " + SQLSchema.TABLE_LINK + " where "+SQLSchema.LINK_COL_DISCORDID + " = ?";
+
+
         try {
             PreparedStatement stmtObj = connObj.prepareStatement(query);
             stmtObj.setString(1, discordId);
 
-            ResultSet resultSet = stmtObj.executeQuery();
-            if(resultSet.next()) {
-                return getLinkerFromSQLResult(resultSet);
-            } else {
-                return null;
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+
+        System.out.println("SQL: " + stmtObj.toString());
+        ResultSet resultSet = stmtObj.executeQuery();
+        if(resultSet.next()) {
+            stmtObj.close();
+            return getLinkerFromSQLResult(resultSet);
+        } else {
+            stmtObj.close();
+            return null;
+        }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -101,17 +117,22 @@ public class MainSQLHandler {
     // GENERIC SERVER COMMAND
     //===========================================
 
-    public static void addServer(String serverID, String name){
+    public static void addServer(String serverID, String name) {
 
         String query = "insert into " + SQLSchema.TABLE_SERVER + " values (?,?)";
+
+        PreparedStatement stmtObj = null;
         try {
-            PreparedStatement stmtObj = connObj.prepareStatement(query);
+            stmtObj = connObj.prepareStatement(query);
 
-            stmtObj.setString(1, serverID);
-            stmtObj.setString(2, name);
+        stmtObj.setString(1, serverID);
+        stmtObj.setString(2, name);
 
-            executeUpdate(stmtObj);
-        } catch (Exception e) {
+        System.out.println("SQL: " + stmtObj.toString());
+        executeUpdate(stmtObj);
+        stmtObj.close();
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -125,16 +146,16 @@ public class MainSQLHandler {
         dropServer(serverID);
     }
 
-    public static void dropServer(String serverID){
+    public static void dropServer(String serverID) throws SQLException {
         String query = "delete from " + SQLSchema.TABLE_SERVER + " where " + SQLSchema.SERVER_COL_ID + " = ?";
-        try {
-            PreparedStatement stmtObj = connObj.prepareStatement(query);
-            stmtObj.setString(1, serverID);
 
-            executeUpdate(stmtObj);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        PreparedStatement stmtObj = connObj.prepareStatement(query);
+        stmtObj.setString(1, serverID);
+
+        System.out.println("SQL: " + stmtObj.toString());
+        executeUpdate(stmtObj);
+        stmtObj.close();
+
     }
 
 
@@ -142,81 +163,79 @@ public class MainSQLHandler {
     // DISABLED COMMAND
     //===========================================
 
-    public static boolean checkDisabledCommand(String serverID, String name){
+    public static boolean checkDisabledCommand(String serverID, String name) throws SQLException{
         boolean result = false;
 
         String query = "select * from " + SQLSchema.TABLE_DISABLEDCOMMAND + " where " + SQLSchema.DC_COL_SERVERID + " = ? and " + SQLSchema.DC_COL_NAME + " = ?";
-        try {
-            PreparedStatement stmtObj = connObj.prepareStatement(query);
-            stmtObj.setString(1, serverID);
-            stmtObj.setString(2, name);
 
-            ResultSet rs = stmtObj.executeQuery();
+        PreparedStatement stmtObj = connObj.prepareStatement(query);
+        stmtObj.setString(1, serverID);
+        stmtObj.setString(2, name);
 
-            // rs.next returns false on empty result set
-            if(rs.next()){
-                result = true;
-            } else {
-                result = false;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        System.out.println("SQL: " + stmtObj.toString());
+        ResultSet rs = stmtObj.executeQuery();
+
+        // rs.next returns false on empty result set
+        if(rs.next()){
+            result = true;
+        } else {
+            result = false;
         }
+
+        stmtObj.close();
+        rs.close();
+
         return result;
     }
 
-    public static void addDisabledCommand(String serverID, String name){
+    public static void addDisabledCommand(String serverID, String name) throws SQLException{
 
         PreparedStatement stmtObj = null;
 
         String query = "insert into " + SQLSchema.TABLE_DISABLEDCOMMAND + " values (?,?)";
-        try {
-            stmtObj = connObj.prepareStatement(query);
-            stmtObj.setString(1, serverID);
-            stmtObj.setString(2, name);
 
-            executeUpdate(stmtObj);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        stmtObj = connObj.prepareStatement(query);
+        stmtObj.setString(1, serverID);
+        stmtObj.setString(2, name);
+
+        System.out.println("SQL: " + stmtObj.toString());
+        executeUpdate(stmtObj);
+        stmtObj.close();
+
     }
 
-    public static void dropDisabledCommand(String serverID, String name){
+    public static void dropDisabledCommand(String serverID, String name) throws SQLException{
 
         PreparedStatement stmtObj = null;
 
         String query = "delete from " + SQLSchema.TABLE_DISABLEDCOMMAND + " where " + SQLSchema.DC_COL_SERVERID + " = ? and " + SQLSchema.DC_COL_NAME + " = ?";
-        try {
-            stmtObj = connObj.prepareStatement(query);
-            stmtObj.setString(1, serverID);
-            stmtObj.setString(2, name);
 
-            executeUpdate(stmtObj);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        stmtObj = connObj.prepareStatement(query);
+        stmtObj.setString(1, serverID);
+        stmtObj.setString(2, name);
+
+        System.out.println("SQL: " + stmtObj.toString());
+        executeUpdate(stmtObj);
+        stmtObj.close();
+
     }
 
-    public static void deleteDisabledCommandsForServer(String serverID){
+    public static void deleteDisabledCommandsForServer(String serverID) throws SQLException{
         String query = "delete from " + SQLSchema.TABLE_DISABLEDCOMMAND + " where " + SQLSchema.DC_COL_SERVERID + " = ?";
-        try {
-            PreparedStatement stmtObj = connObj.prepareStatement(query);
-            stmtObj.setString(1, serverID);
 
-            executeUpdate(stmtObj);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        PreparedStatement stmtObj = connObj.prepareStatement(query);
+        stmtObj.setString(1, serverID);
+
+        System.out.println("SQL: " + stmtObj.toString());
+        executeUpdate(stmtObj);
+        stmtObj.close();
+
     }
 
-    private static void executeUpdate(PreparedStatement stmtObj){
-        try {
+    private static void executeUpdate(PreparedStatement stmtObj) throws SQLException{
             stmtObj.executeUpdate();
             connObj.commit();
             connObj.rollback();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
 
@@ -225,83 +244,84 @@ public class MainSQLHandler {
     // CUSTOM COMMAND
     //===========================================
 
-    public static void deleteCustomCommandsForServer(String serverID){
+    public static void deleteCustomCommandsForServer(String serverID) throws SQLException{
         String query = "delete from " + SQLSchema.TABLE_CUSTOMCOMMAND + " where " + SQLSchema.CC_COL_SERVERID + " = ?";
-        try {
-            PreparedStatement stmtObj = connObj.prepareStatement(query);
-            stmtObj.setString(1, serverID);
 
-            executeUpdate(stmtObj);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        PreparedStatement stmtObj = connObj.prepareStatement(query);
+        stmtObj.setString(1, serverID);
+
+        System.out.println("SQL: " + stmtObj.toString());
+        executeUpdate(stmtObj);
+        stmtObj.close();
     }
 
-    public static void addCustomCommand(String serverID, String name, String command){
+    public static void addCustomCommand(String serverID, String name, String command) throws SQLException{
         String query = "insert into " + SQLSchema.TABLE_CUSTOMCOMMAND + " values (?, ?, ?)";
-        try {
-            PreparedStatement stmtObj = connObj.prepareStatement(query);
-            stmtObj.setString(1, serverID);
-            stmtObj.setString(2, name);
-            stmtObj.setString(3, command);
 
-            executeUpdate(stmtObj);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        PreparedStatement stmtObj = connObj.prepareStatement(query);
+        stmtObj.setString(1, serverID);
+        stmtObj.setString(2, name);
+        stmtObj.setString(3, command);
+
+        System.out.println("SQL: " + stmtObj.toString());
+        executeUpdate(stmtObj);
+        stmtObj.close();
     }
 
-    public static void dropCustomCommand(String serverID, String name){
+    public static void dropCustomCommand(String serverID, String name) throws SQLException{
         String query = "delete from " + SQLSchema.TABLE_CUSTOMCOMMAND + " where " + SQLSchema.CC_COL_SERVERID + " = ? and " + SQLSchema.CC_COL_NAME + " =?";
-        try {
-            PreparedStatement stmtObj = connObj.prepareStatement(query);
-            stmtObj.setString(1, serverID);
-            stmtObj.setString(2, name);
 
-            executeUpdate(stmtObj);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        PreparedStatement stmtObj = connObj.prepareStatement(query);
+        stmtObj.setString(1, serverID);
+        stmtObj.setString(2, name);
+
+        System.out.println("SQL: " + stmtObj.toString());
+        executeUpdate(stmtObj);
+        stmtObj.close();
     }
 
     public static String checkCustomCommand(String serverID, String name){
         String query = "select * from " + SQLSchema.TABLE_CUSTOMCOMMAND + " where " + SQLSchema.CC_COL_SERVERID + " = ? and " + SQLSchema.CC_COL_NAME + " =?";
+
+        PreparedStatement stmtObj = null;
         try {
-            PreparedStatement stmtObj = connObj.prepareStatement(query);
-            stmtObj.setString(1, serverID);
-            stmtObj.setString(2, name);
+            stmtObj = connObj.prepareStatement(query);
 
-            ResultSet rs = stmtObj.executeQuery();
+        stmtObj.setString(1, serverID);
+        stmtObj.setString(2, name);
 
-            if(rs.next()){
-               return rs.getString(SQLSchema.CC_COL_COMMAND);
-            }
+        System.out.println("SQL: " + stmtObj.toString());
+        ResultSet rs = stmtObj.executeQuery();
 
-        } catch (Exception e) {
+        if(rs.next()){
+           return rs.getString(SQLSchema.CC_COL_COMMAND);
+        } else {
+            return null;
+        }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public static HashMap<String, String> getAllCustomCommandsForServer(String serverID){
+    public static HashMap<String, String> getAllCustomCommandsForServer(String serverID) throws SQLException{
         String query = "select * from " + SQLSchema.TABLE_CUSTOMCOMMAND + " where " + SQLSchema.CC_COL_SERVERID + " = ?";
-        try {
-            PreparedStatement stmtObj = connObj.prepareStatement(query);
-            stmtObj.setString(1, serverID);
 
-            ResultSet rs = stmtObj.executeQuery();
+        PreparedStatement stmtObj = connObj.prepareStatement(query);
+        stmtObj.setString(1, serverID);
 
-            HashMap<String, String> result = new HashMap<String, String>();
+        System.out.println("SQL: " + stmtObj.toString());
+        ResultSet rs = stmtObj.executeQuery();
 
-            while(rs.next()){
-                result.put(rs.getString(SQLSchema.CC_COL_NAME), rs.getString(SQLSchema.CC_COL_COMMAND));
-            }
+        HashMap<String, String> result = new HashMap<String, String>();
 
-            return result;
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        while(rs.next()){
+            result.put(rs.getString(SQLSchema.CC_COL_NAME), rs.getString(SQLSchema.CC_COL_COMMAND));
         }
-        return null;
+
+        stmtObj.close();
+        rs.close();
+        return result;
+
     }
 }

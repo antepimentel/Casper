@@ -98,8 +98,6 @@ public class Link extends AbstractCommand {
 
                 MainSQLHandler.addLinker(ownerId, membershipId, platformCode);
 
-
-
                 message.getChannel().sendMessage("Linked "+e.getMember().getUser().getName() + " to " + membershipId + "(" + platform+")").queue();
                 message.delete().queue();
                 jda.removeEventListener(this);

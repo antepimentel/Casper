@@ -9,6 +9,8 @@ import JDBC.MainSQLHandler;
 import net.dv8tion.jda.core.entities.Message;
 import sun.applet.Main;
 
+import java.sql.SQLException;
+
 public class RemoveLink extends AbstractCommand {
 
     private static String command = "unlink";
@@ -36,7 +38,7 @@ public class RemoveLink extends AbstractCommand {
     }
 
     @Override
-    public void run(Message msg) {
+    public void run(Message msg) throws SQLException {
         Linker linker = MainSQLHandler.queryLinker(msg.getAuthor().getId());
         if(linker != null) {
             MainSQLHandler.dropLinker(linker.getDiscordId());
