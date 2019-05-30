@@ -4,8 +4,15 @@ plugins {
     id'com.github.johnrengelman.shadow' version '2.0.1'
 }
 
-mainClassName = 'Core.Core'
+mainClassName = 'Core.Bot'
 
+jar {
+    manifest {
+        attributes(
+                'Bot-Version' : "3.0.5"
+        )
+    }
+}
 //noinspection GroovyAssignabilityCheck
 version '1.0'
 def jdaVersion = '3.6.0_355'

@@ -131,7 +131,13 @@ public class LFGHandler {
         return g;
     }
 
-    public static void repostAndUpdateMsgID(Group g) throws NoBoardForPlatformException {
+    public static void repostAndUpdateMsgID(Group g) throws NoBoardForPlatformException, SQLException {
+        boolean check = g.verifyPlayers();
+
+        // Invalid players found, group must be saved again
+        if(check == false){
+            GroupSQL.save(g);
+        }
         String msgID = MessageReactionEventHandler.postEventGroup(g);
         g.setMsgID(msgID);
         GroupSQL.updateMessageID(g);

@@ -5,17 +5,16 @@ import Exceptions.GroupIsEmptyException;
 import Exceptions.MemberNotFoundException;
 import Exceptions.NameTooLongException;
 import Exceptions.NoAvailableSpotsException;
+import JDBC.GroupSQL;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * LFG Group data object
@@ -160,6 +159,36 @@ public class Group {
         }
     }
 
+    /**
+     * Verify member IDs actually exist
+     *
+     * @return false if invalid players are found
+     */
+    public boolean verifyPlayers(){
+
+        boolean result = true;
+        List<Member> playersToRemove = new ArrayList<Member>();
+        List<Member> subsToRemove = new ArrayList<Member>();
+
+        for(Member p: this.players){
+            if(p == null){
+                result = false;
+                playersToRemove.add(p);
+            }
+        }
+        players.removeAll(playersToRemove);
+
+        for(Member p: this.subs){
+            if(p == null){
+                result = false;
+                subsToRemove.add(p);
+            }
+        }
+        subs.removeAll(subsToRemove);
+
+        return result;
+    }
+
     public String toString(){
         String result = "**"+ ID + " - " + name + "**\n"
                 + "Joined: **" + players.size() + "** : Subs: **" + subs.size() + "**\n"
@@ -191,6 +220,8 @@ public class Group {
     }
 
     public MessageEmbed toEmbed() {
+
+        verifyPlayers();
 
         // This IF is messy but it's late, This is called somewhere in MainSQL.init but requires LFGHandler.init is called first,
         // But LFG requires MainSQL first.... this is the work around
