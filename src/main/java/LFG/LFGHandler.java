@@ -136,8 +136,9 @@ public class LFGHandler {
 
         // Invalid players found, group must be saved again
         if(check == false){
-            GroupSQL.save(g);
+            GroupSQL.updatePlayers(g);
         }
+
         String msgID = MessageReactionEventHandler.postEventGroup(g);
         g.setMsgID(msgID);
         GroupSQL.updateMessageID(g);

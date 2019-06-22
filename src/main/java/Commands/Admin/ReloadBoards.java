@@ -44,6 +44,7 @@ public class ReloadBoards extends AbstractCommand {
         return CommandCategory.ADMIN;
     }
 
+
     public void run(Message msg) throws InvalidPermissionsException, NoBoardForPlatformException, SQLException {
         String response = "";
 

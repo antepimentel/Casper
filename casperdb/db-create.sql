@@ -43,12 +43,15 @@ create table post (
 	subs varchar(80),
 	sys_type varchar(4) not null,
 	msg_id varchar(20) not null,
-    owner_id varchar(20) not null,
-    type_code varchar(6),
-    rollcall_count varchar(2),
-    timezone varchar(4),
+    	owner_id varchar(20) not null,
+    	type_code varchar(6),
+    	rollcall_count varchar(2),
+    	timezone varchar(4),
+	constraint groupid_pk 
+		primary key (groupid),
 	constraint server_post_fk
 		foreign key (serverid) references server (id)
+	
 );
 
 create table autochannel (
